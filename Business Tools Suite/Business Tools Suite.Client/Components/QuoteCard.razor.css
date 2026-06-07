@@ -1,0 +1,72 @@
+.quote-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.quote-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+.quote-card-new {
+    border-left: 3px solid var(--brand);
+}
+
+.quote-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+
+.quote-name {
+    margin: 0;
+}
+
+.quote-service {
+    color: var(--brand-dark);
+    font-size: var(--font-sm);
+    font-weight: 600;
+}
+
+.quote-message {
+    margin: 0;
+    color: #444;
+    font-size: var(--font-base);
+}
+
+.quote-card-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    border-top: 1px solid var(--line);
+    padding-top: 0.6rem;
+}
+
+/* ---- Status pill colors ---- */
+.status-new {
+    background-color: #e1f3fa;
+    color: #0c6f96;
+}
+
+.status-contacted {
+    background-color: #fff4e0;
+    color: #a86b00;
+}
+
+.status-quoted {
+    background-color: #ede7ff;
+    color: #5b3fb0;
+}
+
+.status-won {
+    background-color: #e3f7e8;
+    color: #1f8a44;
+}
+
+.status-lost {
+    background-color: #fbe3e3;
+    color: #a32424;
+}

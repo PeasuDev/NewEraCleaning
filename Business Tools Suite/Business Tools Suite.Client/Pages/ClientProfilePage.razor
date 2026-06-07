@@ -1,0 +1,246 @@
+@page "/clients/{Email}"
+@attribute [Authorize]
+@implements IDisposable
+@inject PlaceholderDataService DataService
+@inject NavigationManager Navigation
+
+<PageTitle>@(client?.Name ?? "Client") · New Era Cleaning</PageTitle>
+
+@if (client is null)
+{
+    <div class="page-header">
+        <h1>Client not found</h1>
+        <p class="page-subtitle">We couldn't find a client matching that address.</p>
+    </div>
+    <div class="surface-card empty-state">
+        <p class="muted">The client may have been removed, or the link is out of date.</p>
+        <a class="btn btn-primary" href="clients">
+            <span class="bi bi-arrow-left" aria-hidden="true"></span> Back to Clients
+        </a>
+    </div>
+}
+else
+{
+    <div class="profile-back">
+        <a class="back-link" href="clients">
+            <span class="bi bi-arrow-left" aria-hidden="true"></span> Clients
+        </a>
+    </div>
+
+    <section class="surface-card profile-hero">
+        <span class="profile-avatar">@GetInitials(client.Name)</span>
+        <div class="profile-identity">
+            <h1 class="profile-name">@client.Name</h1>
+            <span class="profile-service">@client.ServiceType</span>
+        </div>
+        <span class="pill source-@client.Source.ToString().ToLowerInvariant()">
+            @(client.Source == ClientSource.QuoteRequest ? "From quote request" : "Added manually")
+        </span>
+    </section>
+
+    <div class="profile-grid">
+        <section class="surface-card profile-details">
+            <h2>Client info</h2>
+            <dl class="detail-list">
+                <div class="detail-row">
+                    <dt><span class="bi bi-envelope" aria-hidden="true"></span> Email</dt>
+                    <dd>@client.Email</dd>
+                </div>
+                <div class="detail-row">
+                    <dt><span class="bi bi-telephone" aria-hidden="true"></span> Phone</dt>
+                    <dd>@client.Phone</dd>
+                </div>
+                <div class="detail-row">
+                    <dt><span class="bi bi-tag" aria-hidden="true"></span> Service type</dt>
+                    <dd>@client.ServiceType</dd>
+                </div>
+                <div class="detail-row">
+                    <dt><span class="bi bi-calendar3" aria-hidden="true"></span> Client since</dt>
+                    <dd>@client.CreatedOn.ToString("MMMM d, yyyy")</dd>
+                </div>
+            </dl>
+            @if (!string.IsNullOrWhiteSpace(client.Notes))
+            {
+                <div class="profile-notes">
+                    <h3>Notes</h3>
+                    <p>@client.Notes</p>
+                </div>
+            }
+        </section>
+
+        <section class="surface-card profile-contact">
+            <h2>Contact @client.Name.Split(' ')[0]</h2>
+            <p class="muted contact-intro">Reach out directly using the options below.</p>
+            <div class="contact-actions">
+                <a class="btn btn-primary contact-btn" href="mailto:@client.Email">
+                    <span class="bi bi-envelope" aria-hidden="true"></span> Send email
+                </a>
+                <a class="btn btn-outline contact-btn" href="tel:@PhoneDigits(client.Phone)">
+                    <span class="bi bi-telephone" aria-hidden="true"></span> Call @client.Phone
+                </a>
+                <a class="btn btn-outline contact-btn" href="sms:@PhoneDigits(client.Phone)">
+                    <span class="bi bi-chat-dots" aria-hidden="true"></span> Send text
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <section class="profile-reviews">
+        <div class="reviews-heading">
+            <h2>Reviews from @client.Name</h2>
+            @if (reviews.Count > 0)
+            {
+                <span class="pill">@reviews.Count review@(reviews.Count == 1 ? "" : "s")</span>
+            }
+        </div>
+
+        @if (reviews.Count == 0)
+        {
+            <div class="surface-card empty-state">
+                <p class="muted">@client.Name hasn't posted any reviews yet.</p>
+            </div>
+        }
+        else
+        {
+            <div class="review-list">
+                @foreach (var review in reviews)
+                {
+                    <ReviewCard Review="review" />
+                }
+            </div>
+        }
+    </section>
+
+    <section class="profile-quotes">
+        <div class="reviews-heading">
+            <h2>Outstanding quote requests</h2>
+            @if (outstandingQuotes.Count > 0)
+            {
+                <span class="pill">@outstandingQuotes.Count open</span>
+            }
+        </div>
+
+        @if (outstandingQuotes.Count == 0)
+        {
+            <div class="surface-card empty-state">
+                <p class="muted">@client.Name has no outstanding quote requests.</p>
+            </div>
+        }
+        else
+        {
+            <div class="card-grid quote-grid">
+                @foreach (var quote in outstandingQuotes)
+                {
+                    <QuoteCard Quote="quote" />
+                }
+            </div>
+        }
+    </section>
+
+    <section class="surface-card danger-zone">
+        <div class="danger-zone-text">
+            <h2>Delete client</h2>
+            <p class="muted">
+                Permanently remove @client.Name from your client list. This can't be undone.
+            </p>
+        </div>
+        @if (!confirmingDelete)
+        {
+            <button type="button" class="btn btn-danger" @onclick="() => confirmingDelete = true">
+                <span class="bi bi-trash" aria-hidden="true"></span> Delete client
+            </button>
+        }
+        else
+        {
+            <div class="delete-confirm" role="alertdialog" aria-labelledby="delete-warning">
+                <p id="delete-warning" class="delete-warning">
+                    <span class="bi bi-exclamation-triangle-fill" aria-hidden="true"></span>
+                    Are you sure you want to delete <strong>@client.Name</strong>? This action
+                    is permanent.
+                </p>
+                <div class="delete-confirm-actions">
+                    <button type="button" class="btn btn-danger" @onclick="DeleteClient">
+                        Yes, delete client
+                    </button>
+                    <button type="button" class="btn btn-link" @onclick="() => confirmingDelete = false">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        }
+    </section>
+}
+
+@code {
+    /// <summary>
+    /// The client's email address, used as the unique key and supplied through
+    /// the route (URL-encoded by the linking card, decoded by the router).
+    /// </summary>
+    [Parameter]
+    public string Email { get; set; } = "";
+
+    private ClientProfile? client;
+    private IReadOnlyList<Review> reviews = Array.Empty<Review>();
+    private IReadOnlyList<QuoteRequest> outstandingQuotes = Array.Empty<QuoteRequest>();
+    private bool confirmingDelete;
+
+    protected override void OnInitialized()
+    {
+        DataService.Changed += OnDataChanged;
+        Load();
+    }
+
+    protected override void OnParametersSet() => Load();
+
+    private void Load()
+    {
+        client = DataService.GetClientByEmail(Email);
+        reviews = client is null
+            ? Array.Empty<Review>()
+            : DataService.GetReviewsForClient(client);
+        outstandingQuotes = client is null
+            ? Array.Empty<QuoteRequest>()
+            : DataService.GetOutstandingQuoteRequestsForClient(client);
+    }
+
+    private void OnDataChanged()
+    {
+        Load();
+        InvokeAsync(StateHasChanged);
+    }
+
+    private void DeleteClient()
+    {
+        if (client is not null)
+        {
+            DataService.DeleteClient(client.Email);
+        }
+
+        Navigation.NavigateTo("clients");
+    }
+
+    private static string PhoneDigits(string phone) =>
+        new string(phone.Where(c => char.IsDigit(c) || c == '+').ToArray());
+
+    private static string GetInitials(string name)
+    {
+        var parts = name.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        if (parts.Length == 0)
+        {
+            return "?";
+        }
+
+        var initials = parts[0][0].ToString();
+        if (parts.Length > 1)
+        {
+            initials += parts[^1][0];
+        }
+
+        return initials.ToUpperInvariant();
+    }
+
+    public void Dispose()
+    {
+        DataService.Changed -= OnDataChanged;
+    }
+}

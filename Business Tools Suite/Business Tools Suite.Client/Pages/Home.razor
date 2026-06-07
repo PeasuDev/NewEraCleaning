@@ -1,0 +1,78 @@
+﻿@page "/"
+@attribute [Authorize]
+@inject PlaceholderDataService DataService
+
+<PageTitle>New Era Cleaning · Admin</PageTitle>
+
+<div class="home-hero">
+    <img src="new-era-logo.png" alt="New Era Cleaning logo" class="home-logo" />
+    <h1>New Era Cleaning</h1>
+    <p class="home-tagline">Business administration dashboard</p>
+</div>
+
+<p class="home-intro">
+    Welcome to your admin portal. Use the tools below to keep a pulse on what customers are saying
+    and how your reputation is trending across the web.
+</p>
+
+<div class="home-cards">
+    <a class="home-card" href="reviews">
+        <span class="bi bi-star-fill home-card-icon" aria-hidden="true"></span>
+        <span class="home-card-title">Reviews</span>
+        <span class="home-card-text">See aggregated customer reviews gathered from across your sources.</span>
+    </a>
+    <a class="home-card" href="analytics">
+        <span class="bi bi-graph-up home-card-icon" aria-hidden="true"></span>
+        <span class="home-card-title">Analytics</span>
+        <span class="home-card-text">Track review rating trends over time by source.</span>
+    </a>
+</div>
+
+<section class="whats-new">
+    <h2 class="whats-new-heading">What's New</h2>
+    <div class="whats-new-grid">
+        <div class="whats-new-panel">
+            <div class="whats-new-panel-header">
+                <span class="bi bi-inbox-fill whats-new-panel-icon" aria-hidden="true"></span>
+                <h3>Recent Quote Requests</h3>
+            </div>
+            <div class="whats-new-cards">
+                @foreach (var request in quoteRequests)
+                {
+                    <QuoteCard Quote="request" />
+                }
+            </div>
+        </div>
+
+        <div class="whats-new-panel">
+            <div class="whats-new-panel-header">
+                <span class="bi bi-star-fill whats-new-panel-icon" aria-hidden="true"></span>
+                <h3>Recent Reviews</h3>
+            </div>
+            <div class="whats-new-cards">
+                @foreach (var review in recentReviews)
+                {
+                    <ReviewCard Review="review" />
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+@code {
+    private IReadOnlyList<QuoteRequest> quoteRequests = Array.Empty<QuoteRequest>();
+    private IReadOnlyList<Review> recentReviews = Array.Empty<Review>();
+
+    protected override void OnInitialized()
+    {
+        quoteRequests = DataService.GetQuoteRequests()
+            .OrderByDescending(q => q.SubmittedOn)
+            .Take(4)
+            .ToList();
+
+        recentReviews = DataService.GetReviews()
+            .OrderByDescending(r => r.Date)
+            .Take(4)
+            .ToList();
+    }
+}

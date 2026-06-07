@@ -1,0 +1,126 @@
+.quote-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+/* ---- New-requests ticker ---- */
+.ticker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.45rem 0.85rem;
+    border-radius: 2rem;
+    border: 1px solid var(--line);
+    background-color: var(--surface);
+    box-shadow: var(--shadow);
+}
+
+.ticker-dot {
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    background-color: #c3c8ce;
+}
+
+.ticker-count {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1;
+}
+
+.ticker-label {
+    font-size: var(--font-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-muted);
+}
+
+.ticker-active {
+    border-color: rgba(16, 144, 192, 0.35);
+    background-color: var(--brand-soft);
+}
+
+.ticker-active .ticker-dot {
+    background-color: var(--brand);
+    box-shadow: 0 0 0 0 rgba(16, 144, 192, 0.6);
+    animation: ticker-pulse 1.6s ease-out infinite;
+}
+
+.ticker-active .ticker-count {
+    color: var(--brand-dark);
+}
+
+@keyframes ticker-pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(16, 144, 192, 0.55);
+    }
+    70% {
+        box-shadow: 0 0 0 0.5rem rgba(16, 144, 192, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(16, 144, 192, 0);
+    }
+}
+
+/* ---- Toolbar + filter chips ---- */
+.quote-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.25rem;
+    padding: 0.85rem 1rem;
+}
+
+.quote-filters {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    border: 1px solid var(--line);
+    background-color: var(--surface);
+    color: var(--ink-muted);
+    border-radius: 2rem;
+    padding: 0.35rem 0.8rem;
+    font-size: var(--font-sm);
+    cursor: pointer;
+    transition: background-color 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+}
+
+.chip:hover {
+    border-color: rgba(16, 144, 192, 0.4);
+    color: var(--brand-dark);
+}
+
+.chip-active {
+    background-color: var(--brand-soft-strong);
+    border-color: rgba(16, 144, 192, 0.4);
+    color: var(--brand-dark);
+    font-weight: 600;
+}
+
+.chip-count {
+    font-size: var(--font-xs);
+    font-weight: 700;
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 1rem;
+    padding: 0.05rem 0.4rem;
+}
+
+.chip-active .chip-count {
+    background-color: rgba(16, 144, 192, 0.18);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 2rem 1rem;
+}

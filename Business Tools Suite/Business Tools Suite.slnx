@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Business Tools Suite.Client/Business Tools Suite.Client.csproj" />
+  <Project Path="Business Tools Suite/Business Tools Suite.csproj" />
+</Solution>

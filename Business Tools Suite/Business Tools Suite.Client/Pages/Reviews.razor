@@ -1,0 +1,121 @@
+@page "/reviews"
+@attribute [Authorize]
+@inject PlaceholderDataService DataService
+
+<PageTitle>Reviews</PageTitle>
+
+<h1>Reviews</h1>
+
+<p>Aggregated customer reviews for <strong>New Era Cleaning</strong>, scraped from across the web.</p>
+
+<div class="review-toolbar">
+    <div class="business-picker">
+        <label for="source-select" class="form-label">Source</label>
+        <select id="source-select" class="form-select" @bind="selectedSource" @bind:after="ReloadAsync">
+            @foreach (var source in sources)
+            {
+                <option value="@source">@source</option>
+            }
+        </select>
+    </div>
+    <button class="btn btn-primary" @onclick="ReloadAsync" disabled="@isLoading">
+        <span class="bi bi-arrow-clockwise" aria-hidden="true"></span>
+        @(isLoading ? "Scanning..." : "Refresh reviews")
+    </button>
+</div>
+
+@if (isLoading)
+{
+    <p><em>Scanning the web for reviews...</em></p>
+}
+else if (reviews is null || reviews.Count == 0)
+{
+    <p><em>No reviews found for @selectedSource.</em></p>
+}
+else
+{
+    <div class="review-summary">
+        <div class="summary-card">
+            <span class="summary-value">@averageRating.ToString("0.0")</span>
+            <span class="summary-stars">@RenderStars(averageRating)</span>
+            <span class="summary-label">Average rating</span>
+        </div>
+        <div class="summary-card">
+            <span class="summary-value">@reviews.Count</span>
+            <span class="summary-label">Total reviews</span>
+        </div>
+        <div class="summary-card">
+            <span class="summary-value">@sourceCount</span>
+            <span class="summary-label">Sources monitored</span>
+        </div>
+        <div class="summary-card">
+            <span class="summary-value">@recommendPercent%</span>
+            <span class="summary-label">4 stars &amp; up</span>
+        </div>
+    </div>
+
+    <div class="review-list">
+        @foreach (var review in reviews)
+        {
+            <ReviewCard Review="review" />
+        }
+    </div>
+}
+
+@code {
+    private const string AllSources = "All Sources";
+
+    private readonly string[] sources =
+    {
+        AllSources,
+        "Google",
+        "Yelp",
+        "Facebook",
+        "Angi"
+    };
+
+    private string selectedSource = AllSources;
+    private List<Review>? reviews;
+    private bool isLoading;
+
+    private double averageRating;
+    private int sourceCount;
+    private int recommendPercent;
+
+    protected override async Task OnInitializedAsync() => await ReloadAsync();
+
+    private async Task ReloadAsync()
+    {
+        isLoading = true;
+        reviews = null;
+
+        // Simulate scraping the web for reviews.
+        await Task.Delay(600);
+
+        var allReviews = DataService.GetReviews();
+        reviews = selectedSource == AllSources
+            ? allReviews.ToList()
+            : allReviews.Where(r => r.Source == selectedSource).ToList();
+
+        if (reviews.Count > 0)
+        {
+            averageRating = reviews.Average(r => r.Rating);
+            sourceCount = reviews.Select(r => r.Source).Distinct().Count();
+            recommendPercent = (int)Math.Round(100.0 * reviews.Count(r => r.Rating >= 4) / reviews.Count);
+        }
+        else
+        {
+            averageRating = 0;
+            sourceCount = 0;
+            recommendPercent = 0;
+        }
+
+        isLoading = false;
+    }
+
+    private static string RenderStars(double rating)
+    {
+        var rounded = (int)Math.Round(rating);
+        return new string('★', rounded) + new string('☆', 5 - rounded);
+    }
+}

@@ -1,0 +1,52 @@
+@*
+    Reusable card that renders a single customer review. Used on the Reviews
+    page and available for the dashboard or anywhere else reviews are shown.
+*@
+
+<div class="surface-card review-card">
+    <div class="review-header">
+        <div class="reviewer">
+            <span class="reviewer-avatar">@GetInitials(Review.Author)</span>
+            <div class="reviewer-meta">
+                <span class="reviewer-name">@Review.Author</span>
+                <span class="review-source">
+                    <span class="source-badge source-@Review.Source.ToLowerInvariant()">@Review.Source</span>
+                    @Review.Date.ToString("MMM d, yyyy")
+                </span>
+            </div>
+        </div>
+        <span class="review-stars" aria-label="@Review.Rating out of 5 stars">@RenderStars(Review.Rating)</span>
+    </div>
+    <p class="review-text">@Review.Text</p>
+</div>
+
+@code {
+    /// <summary>
+    /// The review to display.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public Review Review { get; set; } = default!;
+
+    private static string RenderStars(double rating)
+    {
+        var rounded = (int)Math.Round(rating);
+        return new string('★', rounded) + new string('☆', 5 - rounded);
+    }
+
+    private static string GetInitials(string name)
+    {
+        var parts = name.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        if (parts.Length == 0)
+        {
+            return "?";
+        }
+
+        var initials = parts[0][0].ToString();
+        if (parts.Length > 1)
+        {
+            initials += parts[^1][0];
+        }
+
+        return initials.ToUpperInvariant();
+    }
+}

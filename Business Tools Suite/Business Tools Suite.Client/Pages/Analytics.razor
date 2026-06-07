@@ -1,0 +1,201 @@
+@page "/analytics"
+@attribute [Authorize]
+
+<PageTitle>Analytics</PageTitle>
+
+<h1>Analytics</h1>
+
+<p>Review rating trends for <strong>New Era Cleaning</strong>, gathered from across your monitored sources.</p>
+
+<div class="analytics-toolbar">
+    <div class="range-picker">
+        <label for="range-select" class="form-label">Time range</label>
+        <select id="range-select" class="form-select" @bind="selectedMonths" @bind:after="ReloadAsync">
+            <option value="6">Last 6 months</option>
+            <option value="12">Last 12 months</option>
+        </select>
+    </div>
+    <button class="btn btn-primary" @onclick="ReloadAsync" disabled="@isLoading">
+        <span class="bi bi-arrow-clockwise" aria-hidden="true"></span>
+        @(isLoading ? "Crunching..." : "Refresh")
+    </button>
+</div>
+
+@if (isLoading)
+{
+    <p><em>Aggregating ratings from your sources...</em></p>
+}
+else if (series is null || series.Count == 0)
+{
+    <p><em>No rating data available yet.</em></p>
+}
+else
+{
+    <div class="analytics-summary">
+        <div class="summary-card">
+            <span class="summary-value">@latestOverall.ToString("0.0")</span>
+            <span class="summary-label">Current avg rating</span>
+        </div>
+        <div class="summary-card">
+            <span class="summary-value @(ratingDelta >= 0 ? "trend-up" : "trend-down")">
+                @(ratingDelta >= 0 ? "▲" : "▼") @Math.Abs(ratingDelta).ToString("0.0")
+            </span>
+            <span class="summary-label">Change vs. start</span>
+        </div>
+        <div class="summary-card">
+            <span class="summary-value">@totalReviews</span>
+            <span class="summary-label">Reviews in range</span>
+        </div>
+        <div class="summary-card">
+            <span class="summary-value">@series.Count</span>
+            <span class="summary-label">Sources tracked</span>
+        </div>
+    </div>
+
+    <div class="chart-card">
+        <div class="chart-legend">
+            @foreach (var s in series)
+            {
+                <span class="legend-item">
+                    <span class="legend-swatch" style="background-color:@s.Color"></span>
+                    @s.Source
+                </span>
+            }
+        </div>
+
+        <svg class="rating-chart" viewBox="0 0 @ChartWidth @ChartHeight" role="img"
+             aria-label="Line chart of average review ratings over time by source">
+            @* Horizontal gridlines and Y-axis labels for ratings 1-5 *@
+            @for (int rating = 1; rating <= 5; rating++)
+            {
+                var y = YFor(rating);
+                <line class="grid-line" x1="@PadLeft" y1="@y" x2="@(ChartWidth - PadRight)" y2="@y" />
+                @(SvgText(PadLeft - 10, y + 4, "end", rating.ToString()))
+            }
+
+            @* X-axis month labels *@
+            @for (int i = 0; i < months.Count; i++)
+            {
+                @(SvgText(XFor(i), ChartHeight - PadBottom + 20, "middle", months[i]))
+            }
+
+            @* One line + points per source *@
+            @foreach (var s in series)
+            {
+                <polyline class="series-line" points="@BuildPoints(s.Ratings)" style="stroke:@s.Color" />
+                @for (int i = 0; i < s.Ratings.Count; i++)
+                {
+                    <circle class="series-point" cx="@XFor(i)" cy="@YFor(s.Ratings[i])" r="4" style="fill:@s.Color">
+                        <title>@s.Source · @months[i]: @s.Ratings[i].ToString("0.0")★</title>
+                    </circle>
+                }
+            }
+        </svg>
+    </div>
+}
+
+@code {
+    private const int ChartWidth = 760;
+    private const int ChartHeight = 340;
+    private const int PadLeft = 40;
+    private const int PadRight = 20;
+    private const int PadTop = 20;
+    private const int PadBottom = 40;
+    private const double MinRating = 1.0;
+    private const double MaxRating = 5.0;
+
+    private int selectedMonths = 6;
+    private bool isLoading;
+
+    private List<string> months = new();
+    private List<RatingSeries> series = new();
+
+    private double latestOverall;
+    private double ratingDelta;
+    private int totalReviews;
+
+    protected override async Task OnInitializedAsync() => await ReloadAsync();
+
+    private async Task ReloadAsync()
+    {
+        isLoading = true;
+        series = new();
+
+        // Simulate aggregating ratings gathered from review sources.
+        await Task.Delay(600);
+
+        BuildPlaceholderData(selectedMonths);
+
+        isLoading = false;
+    }
+
+    private void BuildPlaceholderData(int monthCount)
+    {
+        var now = DateTime.Now;
+        months = Enumerable.Range(0, monthCount)
+            .Select(i => now.AddMonths(-(monthCount - 1 - i)).ToString("MMM yy"))
+            .ToList();
+
+        // Deterministic placeholder trends so the chart is stable between refreshes.
+        var sources = new (string Source, string Color, double Start, double Drift)[]
+        {
+            ("Google", "#4285f4", 4.2, 0.10),
+            ("Yelp", "#d32323", 3.9, 0.08),
+            ("Facebook", "#1877f2", 4.4, 0.06),
+            ("Angi", "#ff6153", 4.0, 0.12)
+        };
+
+        series = new();
+        foreach (var src in sources)
+        {
+            var ratings = new List<double>();
+            for (int i = 0; i < monthCount; i++)
+            {
+                // Gentle upward drift with a small wave so lines aren't flat.
+                var wave = Math.Sin(i / 1.7) * 0.15;
+                var value = src.Start + (src.Drift * i) + wave;
+                ratings.Add(Math.Round(Math.Clamp(value, MinRating, MaxRating), 1));
+            }
+            series.Add(new RatingSeries(src.Source, src.Color, ratings));
+        }
+
+        // Overall = average across sources per month.
+        var overall = new List<double>();
+        for (int i = 0; i < monthCount; i++)
+        {
+            overall.Add(Math.Round(series.Average(s => s.Ratings[i]), 1));
+        }
+        series.Insert(0, new RatingSeries("Overall", "#1090c0", overall));
+
+        latestOverall = overall[^1];
+        ratingDelta = Math.Round(overall[^1] - overall[0], 1);
+
+        // Fabricate a plausible review volume for the range.
+        totalReviews = monthCount * 7 + (monthCount / 2);
+    }
+
+    private static double XFor(int index, int count) =>
+        PadLeft + (count <= 1 ? 0 : (double)index / (count - 1) * (ChartWidth - PadLeft - PadRight));
+
+    private double XFor(int index) => XFor(index, months.Count);
+
+    private static double YFor(double rating)
+    {
+        var ratio = (rating - MinRating) / (MaxRating - MinRating);
+        return ChartHeight - PadBottom - ratio * (ChartHeight - PadTop - PadBottom);
+    }
+
+    private string BuildPoints(List<double> ratings) =>
+        string.Join(" ", ratings.Select((r, i) =>
+            $"{XFor(i).ToString(System.Globalization.CultureInfo.InvariantCulture)},{YFor(r).ToString(System.Globalization.CultureInfo.InvariantCulture)}"));
+
+    private static MarkupString SvgText(double x, double y, string anchor, string text)
+    {
+        var ci = System.Globalization.CultureInfo.InvariantCulture;
+        var encoded = System.Net.WebUtility.HtmlEncode(text);
+        return new MarkupString(
+            $"<text class=\"axis-label\" x=\"{x.ToString(ci)}\" y=\"{y.ToString(ci)}\" text-anchor=\"{anchor}\">{encoded}</text>");
+    }
+
+    private record RatingSeries(string Source, string Color, List<double> Ratings);
+}

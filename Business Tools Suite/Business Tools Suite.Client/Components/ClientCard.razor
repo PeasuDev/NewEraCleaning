@@ -1,0 +1,63 @@
+@*
+    Reusable card that renders a single client record. Used on the Clients page
+    and available for the dashboard or anywhere else that lists clients.
+*@
+
+<article class="surface-card client-card">
+    <header class="client-card-header">
+        <span class="client-avatar">@GetInitials(Client.Name)</span>
+        <div class="client-identity">
+            <h3 class="client-name">
+                <a href="@ProfileUrl">@Client.Name</a>
+            </h3>
+            <span class="client-service">@Client.ServiceType</span>
+        </div>
+        <span class="pill source-@Client.Source.ToString().ToLowerInvariant()">
+            @(Client.Source == ClientSource.QuoteRequest ? "Auto" : "Manual")
+        </span>
+    </header>
+    <div class="client-contact">
+        <span class="meta-row"><span class="bi bi-envelope" aria-hidden="true"></span> @Client.Email</span>
+        <span class="meta-row"><span class="bi bi-telephone" aria-hidden="true"></span> @Client.Phone</span>
+    </div>
+    @if (!string.IsNullOrWhiteSpace(Client.Notes))
+    {
+        <p class="client-notes">@Client.Notes</p>
+    }
+    <footer class="client-card-footer">
+        <span class="muted">Client since @Client.CreatedOn.ToString("MMM d, yyyy")</span>
+        <a class="profile-link" href="@ProfileUrl">
+            View profile <span class="bi bi-arrow-right" aria-hidden="true"></span>
+        </a>
+    </footer>
+</article>
+
+@code {
+    /// <summary>
+    /// The client record to display.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public ClientProfile Client { get; set; } = default!;
+
+    /// <summary>
+    /// Route to the client's profile page, keyed by their (URL-encoded) email.
+    /// </summary>
+    private string ProfileUrl => $"clients/{Uri.EscapeDataString(Client.Email)}";
+
+    private static string GetInitials(string name)
+    {
+        var parts = name.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        if (parts.Length == 0)
+        {
+            return "?";
+        }
+
+        var initials = parts[0][0].ToString();
+        if (parts.Length > 1)
+        {
+            initials += parts[^1][0];
+        }
+
+        return initials.ToUpperInvariant();
+    }
+}

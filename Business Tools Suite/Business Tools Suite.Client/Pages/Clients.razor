@@ -1,0 +1,178 @@
+@page "/clients"
+@attribute [Authorize]
+@implements IDisposable
+@inject PlaceholderDataService DataService
+
+<PageTitle>Clients · New Era Cleaning</PageTitle>
+
+<div class="page-header clients-header">
+    <div>
+        <h1>Clients</h1>
+        <p class="page-subtitle">
+            Clients are created automatically when a quote request comes in, or added manually below.
+        </p>
+    </div>
+    <button class="btn btn-primary" @onclick="ToggleForm">
+        <span class="bi @(showForm ? "bi-x-lg" : "bi-plus-lg")" aria-hidden="true"></span>
+        @(showForm ? "Close" : "Create a Client")
+    </button>
+</div>
+
+@if (showForm)
+{
+    <section class="surface-card client-form-card">
+        <h2>Create a Client</h2>
+        <EditForm Model="newClient" OnValidSubmit="CreateClient" FormName="create-client">
+            <DataAnnotationsValidator />
+            <div class="form-grid">
+                <div class="form-field">
+                    <label for="client-name">Name</label>
+                    <InputText id="client-name" class="form-control" @bind-Value="newClient.Name" placeholder="Client or business name" />
+                    <ValidationMessage For="() => newClient.Name" class="field-error" />
+                </div>
+                <div class="form-field">
+                    <label for="client-email">Email</label>
+                    <InputText id="client-email" class="form-control" @bind-Value="newClient.Email" placeholder="name@example.com" />
+                    <ValidationMessage For="() => newClient.Email" class="field-error" />
+                </div>
+                <div class="form-field">
+                    <label for="client-phone">Phone</label>
+                    <InputText id="client-phone" class="form-control" @bind-Value="newClient.Phone" placeholder="(555) 000-0000" />
+                    <ValidationMessage For="() => newClient.Phone" class="field-error" />
+                </div>
+                <div class="form-field">
+                    <label for="client-service">Service type</label>
+                    <InputSelect id="client-service" class="form-select" @bind-Value="newClient.ServiceType">
+                        @foreach (var service in serviceTypes)
+                        {
+                            <option value="@service">@service</option>
+                        }
+                    </InputSelect>
+                </div>
+                <div class="form-field form-field-wide">
+                    <label for="client-notes">Notes</label>
+                    <InputTextArea id="client-notes" class="form-control" rows="2" @bind-Value="newClient.Notes" placeholder="Access details, schedule preferences, etc." />
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Save client</button>
+                <button type="button" class="btn btn-link" @onclick="ToggleForm">Cancel</button>
+            </div>
+        </EditForm>
+    </section>
+}
+
+<div class="clients-summary">
+    <div class="surface-card stat">
+        <span class="stat-value">@clients.Count</span>
+        <span class="stat-label">Total clients</span>
+    </div>
+    <div class="surface-card stat">
+        <span class="stat-value">@autoCount</span>
+        <span class="stat-label">From quote requests</span>
+    </div>
+    <div class="surface-card stat">
+        <span class="stat-value">@manualCount</span>
+        <span class="stat-label">Added manually</span>
+    </div>
+</div>
+
+@if (clients.Count == 0)
+{
+    <div class="surface-card empty-state">
+        <p class="muted">No clients yet. Create one above or wait for a quote request.</p>
+    </div>
+}
+else
+{
+    <div class="card-grid client-grid">
+        @foreach (var client in clients)
+        {
+            <ClientCard Client="client" />
+        }
+    </div>
+}
+
+@code {
+    private readonly string[] serviceTypes =
+    {
+        "Recurring Residential",
+        "Recurring Commercial",
+        "One-Time Deep Clean",
+        "Move-Out Deep Clean",
+        "Move-In Deep Clean",
+        "Post-Construction",
+        "Turnover Cleaning",
+        "Window Cleaning"
+    };
+
+    private IReadOnlyList<ClientProfile> clients = Array.Empty<ClientProfile>();
+    private ClientInput newClient = new();
+    private bool showForm;
+    private int autoCount;
+    private int manualCount;
+
+    protected override void OnInitialized()
+    {
+        DataService.Changed += OnDataChanged;
+        Refresh();
+    }
+
+    private void ToggleForm()
+    {
+        showForm = !showForm;
+        if (showForm)
+        {
+            newClient = new ClientInput { ServiceType = serviceTypes[0] };
+        }
+    }
+
+    private void CreateClient()
+    {
+        DataService.AddClient(new ClientProfile(
+            newClient.Name.Trim(),
+            newClient.Email.Trim(),
+            newClient.Phone.Trim(),
+            newClient.ServiceType,
+            DateTime.Now,
+            ClientSource.Manual,
+            string.IsNullOrWhiteSpace(newClient.Notes) ? null : newClient.Notes.Trim()));
+
+        showForm = false;
+    }
+
+    private void Refresh()
+    {
+        clients = DataService.GetClients();
+        autoCount = clients.Count(c => c.Source == ClientSource.QuoteRequest);
+        manualCount = clients.Count(c => c.Source == ClientSource.Manual);
+    }
+
+    private void OnDataChanged()
+    {
+        Refresh();
+        InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        DataService.Changed -= OnDataChanged;
+    }
+
+    private sealed class ClientInput
+    {
+        [Required]
+        public string Name { get; set; } = "";
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; } = "";
+
+        [Required]
+        public string Phone { get; set; } = "";
+
+        public string ServiceType { get; set; } = "Recurring Residential";
+
+        public string? Notes { get; set; }
+    }
+}

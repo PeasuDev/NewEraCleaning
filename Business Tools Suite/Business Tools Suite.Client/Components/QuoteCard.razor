@@ -1,0 +1,57 @@
+@*
+    Reusable card that renders a single quote request. Used on the Quote
+    Requests page and the dashboard's What's New panel, or anywhere else
+    incoming requests are shown.
+*@
+
+<article class="surface-card quote-card @(Quote.Status == QuoteRequestStatus.New ? "quote-card-new" : "")">
+    <header class="quote-card-header">
+        <div>
+            <h3 class="quote-name">@Quote.Name</h3>
+            <span class="quote-service">@Quote.ServiceType</span>
+        </div>
+        <span class="pill status-@Quote.Status.ToString().ToLowerInvariant()">@Quote.Status</span>
+    </header>
+    <p class="quote-message">@Quote.Message</p>
+    <footer class="quote-card-footer">
+        <span class="meta-row">
+            <span class="bi bi-envelope" aria-hidden="true"></span> @Quote.Email
+        </span>
+        <span class="meta-row">
+            <span class="bi bi-telephone" aria-hidden="true"></span> @Quote.Phone
+            <span class="meta-sep">•</span>
+            <span class="bi bi-clock" aria-hidden="true"></span> @FormatRelative(Quote.SubmittedOn)
+        </span>
+    </footer>
+</article>
+
+@code {
+    /// <summary>
+    /// The quote request to display.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public QuoteRequest Quote { get; set; } = default!;
+
+    private static string FormatRelative(DateTime submittedOn)
+    {
+        var span = DateTime.Now - submittedOn;
+        if (span.TotalMinutes < 1)
+        {
+            return "just now";
+        }
+        if (span.TotalMinutes < 60)
+        {
+            return $"{(int)span.TotalMinutes} min ago";
+        }
+        if (span.TotalHours < 24)
+        {
+            return $"{(int)span.TotalHours} hr ago";
+        }
+        if (span.TotalDays < 7)
+        {
+            return $"{(int)span.TotalDays} day{((int)span.TotalDays == 1 ? "" : "s")} ago";
+        }
+
+        return submittedOn.ToString("MMM d, yyyy");
+    }
+}

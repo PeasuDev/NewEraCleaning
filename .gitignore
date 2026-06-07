@@ -1,0 +1,65 @@
+## .NET / Visual Studio .gitignore
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Visual Studio cache/options directory
+.vs/
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build artifacts
+*.dll
+*.exe
+*.pdb
+*.cache
+
+# .NET publish output
+[Pp]ublish/
+publish/
+PublishScripts/
+
+# NuGet
+*.nupkg
+*.snupkg
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+*.nuget.props
+*.nuget.targets
+
+# MSTest / test results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+TestResults/
+
+# Blazor / WebAssembly
+**/wwwroot/_framework/
+**/wwwroot/_content/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# Rider
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db

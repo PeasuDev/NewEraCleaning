@@ -1,0 +1,124 @@
+@page "/quote-requests"
+@attribute [Authorize]
+@implements IDisposable
+@inject PlaceholderDataService DataService
+
+<PageTitle>Quote Requests · New Era Cleaning</PageTitle>
+
+<div class="page-header quote-header">
+    <div>
+        <h1>Quote Requests</h1>
+        <p class="page-subtitle">Incoming requests submitted through your website's quote form.</p>
+    </div>
+    <div class="ticker @(newCount > 0 ? "ticker-active" : "ticker-idle")" aria-live="polite">
+        <span class="ticker-dot" aria-hidden="true"></span>
+        <span class="ticker-count">@newCount</span>
+        <span class="ticker-label">new</span>
+    </div>
+</div>
+
+<div class="surface-card quote-toolbar">
+    <div class="quote-filters">
+        <button class="chip @(statusFilter is null ? "chip-active" : "")"
+                @onclick="() => SetFilter(null)">
+            All <span class="chip-count">@requests.Count</span>
+        </button>
+        @foreach (var status in statuses)
+        {
+            <button class="chip @(statusFilter == status ? "chip-active" : "")"
+                    @onclick="() => SetFilter(status)">
+                @status <span class="chip-count">@CountFor(status)</span>
+            </button>
+        }
+    </div>
+    <button class="btn btn-primary" @onclick="SimulateIncoming">
+        <span class="bi bi-plus-lg" aria-hidden="true"></span>
+        Simulate incoming request
+    </button>
+</div>
+
+@if (FilteredRequests.Count == 0)
+{
+    <div class="surface-card empty-state">
+        <p class="muted">No quote requests match this filter.</p>
+    </div>
+}
+else
+{
+    <div class="card-grid quote-grid">
+        @foreach (var request in FilteredRequests)
+        {
+            <QuoteCard Quote="request" />
+        }
+    </div>
+}
+
+@code {
+    private readonly QuoteRequestStatus[] statuses =
+    {
+        QuoteRequestStatus.New,
+        QuoteRequestStatus.Contacted,
+        QuoteRequestStatus.Quoted,
+        QuoteRequestStatus.Won,
+        QuoteRequestStatus.Lost
+    };
+
+    private IReadOnlyList<QuoteRequest> requests = Array.Empty<QuoteRequest>();
+    private QuoteRequestStatus? statusFilter;
+    private int newCount;
+    private int sampleIndex;
+
+    protected override void OnInitialized()
+    {
+        DataService.Changed += OnDataChanged;
+        Refresh();
+    }
+
+    private IReadOnlyList<QuoteRequest> FilteredRequests =>
+        statusFilter is null
+            ? requests
+            : requests.Where(r => r.Status == statusFilter).ToList();
+
+    private int CountFor(QuoteRequestStatus status) =>
+        requests.Count(r => r.Status == status);
+
+    private void SetFilter(QuoteRequestStatus? status) => statusFilter = status;
+
+    private void Refresh()
+    {
+        requests = DataService.GetQuoteRequests();
+        newCount = DataService.NewQuoteRequestCount;
+    }
+
+    private void OnDataChanged()
+    {
+        Refresh();
+        InvokeAsync(StateHasChanged);
+    }
+
+    private void SimulateIncoming()
+    {
+        var sample = sampleRequests[sampleIndex % sampleRequests.Length];
+        sampleIndex++;
+
+        DataService.AddQuoteRequest(sample with { SubmittedOn = DateTime.Now });
+    }
+
+    private readonly QuoteRequest[] sampleRequests =
+    {
+        new("Olivia Bennett", "olivia.b@example.com", "(555) 720-3318", "Move-In Deep Clean",
+            "Moving into a 3-bedroom house next week and would love a full deep clean before we unpack.",
+            DateTime.Now, QuoteRequestStatus.New),
+        new("Cedar Street Cafe", "manager@cedarstreet.example", "(555) 410-9982", "Recurring Commercial",
+            "Need nightly closing cleans for a busy cafe — floors, restrooms, and kitchen wipe-down.",
+            DateTime.Now, QuoteRequestStatus.New),
+        new("Raj Patel", "raj.patel@example.com", "(555) 288-6471", "Window Cleaning",
+            "Two-story home, roughly 20 windows inside and out. What's your availability this month?",
+            DateTime.Now, QuoteRequestStatus.New)
+    };
+
+    public void Dispose()
+    {
+        DataService.Changed -= OnDataChanged;
+    }
+}
