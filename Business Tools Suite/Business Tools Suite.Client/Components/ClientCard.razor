@@ -42,7 +42,7 @@
     /// <summary>
     /// Route to the client's profile page, keyed by their (URL-encoded) email.
     /// </summary>
-    private string ProfileUrl => $"clients/{Uri.EscapeDataString(Client.Email)}";
+    private string ProfileUrl => $"admin/clients/{Uri.EscapeDataString(Client.Email)}";
 
     private static string GetInitials(string name)
     {

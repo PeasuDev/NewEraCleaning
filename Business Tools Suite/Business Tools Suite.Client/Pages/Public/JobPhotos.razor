@@ -1,0 +1,61 @@
+@page "/job-photos"
+@layout PublicLayout
+
+@*
+    Public Job Photos page (matches the live site's "Job Photos" section).
+    Showcases the range of work using real project photos served from
+    wwwroot/img.
+*@
+
+<SeoHead Title="Job Photos"
+         Description="See the quality of New Era Cleaning &amp; Restoration's work — carpet, tile, upholstery, and restoration projects across the greater Houston area."
+         RelativePath="job-photos" />
+
+<PageBanner Title="Job Photos"
+            Subtitle="A look at the kind of results we deliver for homes and businesses across Houston." />
+
+<section class="section">
+    <div class="section-inner">
+        <div class="section-head">
+            <span class="section-eyebrow">Our Work</span>
+            <h2 class="section-title">Real Results, Real Care</h2>
+            <p class="section-sub">
+                From tired carpets brought back to life to spotless tile and revived upholstery,
+                here's a snapshot of what we do every day.
+            </p>
+        </div>
+
+        <div class="gallery-grid">
+            @foreach (var tile in tiles)
+            {
+                <figure class="gallery-tile">
+                    <img src="@tile.Image" alt="@tile.Caption" loading="lazy" />
+                    <figcaption class="gallery-tile-caption">@tile.Caption</figcaption>
+                </figure>
+            }
+        </div>
+    </div>
+</section>
+
+<CtaBand Heading="Want results like these?"
+         Subheading="Let's make your space the next success story. Get your free quote today." />
+
+@code {
+    private readonly IReadOnlyList<JobPhoto> tiles = new List<JobPhoto>
+    {
+        new("img/Upholstery-before-and-after.jpg", "Upholstery before & after"),
+        new("img/Pet-Damage-No-Problem.jpg", "Pet stains & odor — no problem"),
+        new("img/Polishing-travertine.jpg", "Travertine polished & restored"),
+        new("img/neweracleaning-img1.jpg", "Carpet brought back to life"),
+        new("img/neweracleaning-img3.jpg", "Tile & grout deep clean"),
+        new("img/neweracleaning-img4.jpg", "Spotless steam-cleaned carpet"),
+        new("img/neweracleaning-img6.jpg", "Fresh, revived flooring"),
+        new("img/neweracleaning-img7.jpg", "Detailed upholstery care"),
+        new("img/neweracleaning-img9.jpg", "High-traffic lanes restored"),
+        new("img/neweracleaning-img13.jpg", "Commercial floor care"),
+        new("img/neweracleaning-img16.jpg", "Stone & tile cleaning"),
+        new("img/Our-Work.jpg", "Quality results across Houston"),
+    };
+
+    private sealed record JobPhoto(string Image, string Caption);
+}

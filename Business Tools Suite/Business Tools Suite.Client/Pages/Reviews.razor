@@ -1,6 +1,7 @@
-@page "/reviews"
+@page "/admin/reviews"
 @attribute [Authorize]
 @inject PlaceholderDataService DataService
+@inject IReviewProvider ReviewProvider
 
 <PageTitle>Reviews</PageTitle>
 
@@ -68,9 +69,7 @@ else
     private readonly string[] sources =
     {
         AllSources,
-        "Google",
         "Yelp",
-        "Facebook",
         "Angi"
     };
 
@@ -89,10 +88,18 @@ else
         isLoading = true;
         reviews = null;
 
-        // Simulate scraping the web for reviews.
-        await Task.Delay(600);
+        // Pull live reviews (Yelp) from the server, then merge with placeholder
+        // reviews from the other sources so the dashboard shows everything.
+        var liveReviews = await ReviewProvider.GetLiveReviewsAsync();
+        var placeholders = DataService.GetReviews();
 
-        var allReviews = DataService.GetReviews();
+        var allReviews = liveReviews.Count > 0
+            ? liveReviews
+                .Concat(placeholders.Where(r => r.Source != "Yelp"))
+                .OrderByDescending(r => r.Date)
+                .ToList()
+            : placeholders.ToList();
+
         reviews = selectedSource == AllSources
             ? allReviews.ToList()
             : allReviews.Where(r => r.Source == selectedSource).ToList();

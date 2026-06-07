@@ -1,0 +1,38 @@
+@*
+    Recurring call-to-action band used near the bottom of public pages to
+    drive visitors toward a quote or a phone call.
+*@
+
+<section class="cta-band">
+    <div class="cta-band-inner">
+        <div class="cta-band-copy">
+            <h2>@Heading</h2>
+            <p>@Subheading</p>
+        </div>
+        <div class="cta-band-actions">
+            <a class="btn-ghost-lg" href="@QuoteHref">
+                @QuoteLabel
+                <span class="bi bi-arrow-right" aria-hidden="true"></span>
+            </a>
+            <a class="btn-primary-lg" href="tel:+17139060918">
+                <span class="bi bi-telephone-fill" aria-hidden="true"></span>
+                (713) 906-0918
+            </a>
+        </div>
+    </div>
+</section>
+
+@code {
+    /// <summary>Main headline for the band.</summary>
+    [Parameter] public string Heading { get; set; } = "Ready for a cleaner space?";
+
+    /// <summary>Supporting line under the headline.</summary>
+    [Parameter] public string Subheading { get; set; } =
+        "Get a free, no-obligation quote today — or call and talk to a real person.";
+
+    /// <summary>Where the primary CTA points (defaults to the quote page).</summary>
+    [Parameter] public string QuoteHref { get; set; } = "quote";
+
+    /// <summary>Label for the primary CTA.</summary>
+    [Parameter] public string QuoteLabel { get; set; } = "Get a Free Quote";
+}

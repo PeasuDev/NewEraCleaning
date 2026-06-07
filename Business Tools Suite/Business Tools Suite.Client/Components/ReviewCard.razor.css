@@ -92,3 +92,22 @@
     color: #333;
     line-height: 1.5;
 }
+
+.review-link {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #1090c0;
+    text-decoration: none;
+}
+
+.review-link:hover {
+    text-decoration: underline;
+}
+
+.review-link .bi {
+    font-size: 0.75rem;
+}

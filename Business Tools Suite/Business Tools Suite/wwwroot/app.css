@@ -27,6 +27,19 @@ html, body {
     --radius: 0.75rem;
     --shadow: 0 1px 3px rgba(16, 24, 40, 0.06);
     --shadow-hover: 0 6px 18px rgba(16, 24, 40, 0.10);
+
+    /* Public marketing site tokens (used by PublicLayout + public pages) */
+    --accent-green: #2faa6a;
+    --accent-green-dark: #228a54;
+    --accent-green-soft: rgba(47, 170, 106, 0.12);
+    --ink-on-brand: #ffffff;
+    --canvas-warm: #f3f7f9;
+    --hero-ink: #0a2a38;
+    --radius-lg: 1.25rem;
+    --shadow-brand: 0 18px 40px rgba(12, 111, 150, 0.18);
+    --max-width: 1180px;
+    --font-display: 2.85rem;
+    --font-display-sm: 2.1rem;
 }
 
 html, body {

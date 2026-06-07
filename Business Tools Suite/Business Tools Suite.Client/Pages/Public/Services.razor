@@ -1,0 +1,49 @@
+@page "/services"
+@layout PublicLayout
+
+@*
+    Public Services index. Lists every service from the shared ServiceCatalog,
+    each linking to its detail page.
+*@
+
+<SeoHead Title="Cleaning Services in Houston"
+         Description="Explore New Era Cleaning &amp; Restoration's services: carpet cleaning, carpet repairs, commercial carpet cleaning, pet odor removal, tile/stone/grout, upholstery cleaning, and water damage restoration across the greater Houston area."
+         RelativePath="services" />
+
+<PageBanner Title="Our Cleaning &amp; Restoration Services"
+            Subtitle="Professional, family-owned steam cleaning for homes and businesses. No job is too large or too small." />
+
+<section class="section">
+    <div class="section-inner">
+        <div class="section-head">
+            <span class="section-eyebrow">What We Do</span>
+            <h2 class="section-title">Our Most Requested Services</h2>
+            <p class="section-sub">
+                We're excited to offer a wide range of services to meet your residential and
+                commercial cleaning needs. Our most commonly requested services are listed below
+                &mdash; select any service for more information.
+            </p>
+        </div>
+
+        <div class="services-grid">
+            @foreach (var service in ServiceCatalog.All)
+            {
+                <article class="service-card">
+                    <span class="service-icon"><span class="bi @service.Icon" aria-hidden="true"></span></span>
+                    <h3 class="service-name">@service.Name</h3>
+                    <p class="service-text">@service.Summary</p>
+                    <a class="service-link" href="services/@service.Slug">Learn more <span class="bi bi-arrow-right" aria-hidden="true"></span></a>
+                </article>
+            }
+        </div>
+
+        <p class="price-note">
+            <span class="bi bi-telephone-fill" aria-hidden="true"></span>
+            Need a service that's not listed? Just give us a call &mdash; we'll be happy to discuss
+            your specific needs. Organic, all-natural green options are available on request.
+        </p>
+    </div>
+</section>
+
+<CtaBand Heading="Not sure which service you need?"
+         Subheading="Tell us about your space and we'll recommend the right solution — free of charge." />

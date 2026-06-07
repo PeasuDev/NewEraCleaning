@@ -1,4 +1,4 @@
-@page "/quote-requests"
+@page "/admin/quote-requests"
 @attribute [Authorize]
 @implements IDisposable
 @inject PlaceholderDataService DataService
@@ -48,7 +48,7 @@ else
     <div class="card-grid quote-grid">
         @foreach (var request in FilteredRequests)
         {
-            <QuoteCard Quote="request" />
+            <QuoteCard Quote="request" ShowProfileLink="true" />
         }
     </div>
 }

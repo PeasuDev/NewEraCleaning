@@ -1,4 +1,4 @@
-﻿@page "/"
+﻿@page "/admin"
 @attribute [Authorize]
 @inject PlaceholderDataService DataService
 
@@ -16,12 +16,12 @@
 </p>
 
 <div class="home-cards">
-    <a class="home-card" href="reviews">
+    <a class="home-card" href="admin/reviews">
         <span class="bi bi-star-fill home-card-icon" aria-hidden="true"></span>
         <span class="home-card-title">Reviews</span>
         <span class="home-card-text">See aggregated customer reviews gathered from across your sources.</span>
     </a>
-    <a class="home-card" href="analytics">
+    <a class="home-card" href="admin/analytics">
         <span class="bi bi-graph-up home-card-icon" aria-hidden="true"></span>
         <span class="home-card-title">Analytics</span>
         <span class="home-card-text">Track review rating trends over time by source.</span>
@@ -60,6 +60,11 @@
 </section>
 
 @code {
+    // Longer reviews make the compact dashboard card too tall, so the "Recent
+    // Reviews" panel only surfaces concise ones. Full reviews remain on the
+    // Reviews page.
+    private const int MaxDashboardReviewLength = 500;
+
     private IReadOnlyList<QuoteRequest> quoteRequests = Array.Empty<QuoteRequest>();
     private IReadOnlyList<Review> recentReviews = Array.Empty<Review>();
 
@@ -71,6 +76,7 @@
             .ToList();
 
         recentReviews = DataService.GetReviews()
+            .Where(r => r.Text.Length <= MaxDashboardReviewLength)
             .OrderByDescending(r => r.Date)
             .Take(4)
             .ToList();

@@ -1,0 +1,141 @@
+@*
+    Reusable public quote-request form. Submissions flow into the shared
+    PlaceholderDataService, which surfaces them in the admin Quote Requests
+    queue. Used on the Home page and the dedicated Get a Quote page.
+*@
+@inject PlaceholderDataService DataService
+
+<div class="quote-form-wrap">
+    @if (submitted)
+    {
+        <div class="quote-success" role="status">
+            <span class="bi bi-check-circle-fill" aria-hidden="true"></span>
+            <h3>Thank you, @submittedName!</h3>
+            <p>Your request has been received. A member of our team will reach out shortly to confirm your free quote.</p>
+            <button class="btn-primary-lg" type="button" @onclick="ResetForm">Submit another request</button>
+        </div>
+    }
+    else
+    {
+        <EditForm Model="form" OnValidSubmit="HandleSubmit" class="quote-form" FormName="@FormName">
+            <DataAnnotationsValidator />
+            <h3 class="quote-form-title">@Title</h3>
+
+            <div class="field">
+                <label for="@($"{FormName}-name")">Name <span class="req">*</span></label>
+                <InputText id="@($"{FormName}-name")" @bind-Value="form.Name" class="input" placeholder="Your full name" />
+                <ValidationMessage For="() => form.Name" />
+            </div>
+
+            <div class="field-row">
+                <div class="field">
+                    <label for="@($"{FormName}-phone")">Phone <span class="req">*</span></label>
+                    <InputText id="@($"{FormName}-phone")" @bind-Value="form.Phone" class="input" placeholder="(713) 555-0123" />
+                    <ValidationMessage For="() => form.Phone" />
+                </div>
+                <div class="field">
+                    <label for="@($"{FormName}-email")">Email <span class="req">*</span></label>
+                    <InputText id="@($"{FormName}-email")" @bind-Value="form.Email" class="input" placeholder="you@example.com" />
+                    <ValidationMessage For="() => form.Email" />
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="@($"{FormName}-service")">Service Needed <span class="req">*</span></label>
+                <InputSelect id="@($"{FormName}-service")" @bind-Value="form.ServiceType" class="input">
+                    <option value="">Select a service&hellip;</option>
+                    @foreach (var name in ServiceCatalog.Names)
+                    {
+                        <option value="@name">@name</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="() => form.ServiceType" />
+            </div>
+
+            <div class="field">
+                <label for="@($"{FormName}-message")">How can we help? <span class="req">*</span></label>
+                <InputTextArea id="@($"{FormName}-message")" @bind-Value="form.Message" class="input textarea" rows="4" placeholder="Tell us about the space, square footage, timing, pets, etc." />
+                <ValidationMessage For="() => form.Message" />
+            </div>
+
+            <button class="btn-primary-lg btn-block" type="submit">
+                Send My Request
+                <span class="bi bi-send-fill" aria-hidden="true"></span>
+            </button>
+            <p class="quote-form-note">We'll never share your information. No obligation.</p>
+        </EditForm>
+    }
+</div>
+
+@code {
+    /// <summary>Heading shown above the form fields.</summary>
+    [Parameter] public string Title { get; set; } = "Request a Free Quote";
+
+    /// <summary>Unique form name (also used to namespace field ids on the page).</summary>
+    [Parameter] public string FormName { get; set; } = "quote-request";
+
+    /// <summary>Optional service to preselect (e.g., from a service detail page).</summary>
+    [Parameter] public string? PreselectedService { get; set; }
+
+    private QuoteFormModel form = new();
+    private bool submitted;
+    private string submittedName = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        if (!string.IsNullOrWhiteSpace(PreselectedService) &&
+            ServiceCatalog.Names.Contains(PreselectedService))
+        {
+            form.ServiceType = PreselectedService;
+        }
+    }
+
+    private void HandleSubmit()
+    {
+        var request = new QuoteRequest(
+            form.Name.Trim(),
+            form.Email.Trim(),
+            form.Phone.Trim(),
+            form.ServiceType,
+            form.Message.Trim(),
+            DateTime.Now,
+            QuoteRequestStatus.New);
+
+        DataService.AddQuoteRequest(request);
+
+        submittedName = form.Name.Trim();
+        submitted = true;
+        form = new QuoteFormModel { ServiceType = PreselectedService ?? string.Empty };
+    }
+
+    private void ResetForm()
+    {
+        submitted = false;
+        submittedName = string.Empty;
+    }
+
+    /// <summary>
+    /// Backing model for the public quote form, with validation that mirrors the
+    /// required fields on the original site (Name, Phone, Email, Message) plus a
+    /// service selector that maps to <see cref="QuoteRequest.ServiceType"/>.
+    /// </summary>
+    private sealed class QuoteFormModel
+    {
+        [Required(ErrorMessage = "Please enter your name.")]
+        public string Name { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Please enter a phone number.")]
+        [Phone(ErrorMessage = "Please enter a valid phone number.")]
+        public string Phone { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Please enter your email.")]
+        [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
+        public string Email { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Please choose a service.")]
+        public string ServiceType { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Please tell us a little about the job.")]
+        public string Message { get; set; } = string.Empty;
+    }
+}

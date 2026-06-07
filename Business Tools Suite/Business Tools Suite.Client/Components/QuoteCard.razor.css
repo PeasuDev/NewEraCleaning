@@ -45,6 +45,22 @@
     padding-top: 0.6rem;
 }
 
+.quote-card-footer .profile-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-top: 0.15rem;
+    font-weight: 600;
+    font-size: var(--font-sm);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.quote-card-footer .profile-link:hover,
+.quote-card-footer .profile-link:focus {
+    text-decoration: underline;
+}
+
 /* ---- Status pill colors ---- */
 .status-new {
     background-color: #e1f3fa;

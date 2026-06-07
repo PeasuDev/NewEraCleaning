@@ -1,0 +1,101 @@
+﻿{
+    "source":  "Yelp review screenshots â€” New Era Steam Cleaning \u0026 Restoration",
+    "extractedOn":  "2026-06-07",
+    "extractionMethod":  "Offline Windows.Media.Ocr over PNG screenshots",
+    "notes":  [
+                  "Star ratings on Yelp are rendered as images, not text, so OCR cannot read them. All 10 ratings were confirmed as 5 stars by the business owner on 2026-06-07 and set accordingly.",
+                  "The Ashton S. and Nicole W. reviews were re-exported with corrected color (images 160344 and 160347) and OCR\u0027d cleanly; their text, location, and date are now captured."
+              ],
+    "reviews":  [
+                    {
+                        "sourceImage":  "Screenshot 2026-06-07 160344.png",
+                        "name":  "Ashton S.",
+                        "location":  "Westbury, Houston, TX",
+                        "rating":  5,
+                        "date":  "Jan 16, 2026",
+                        "reviewText":  "Charles was the utmost in professionalism. My home has 25yo carpets that have seen better days. I had very low expectations on the outcome and Charles used his expertise to give me what I needed. One room was so soiled, he recommended that the carpet be replaced and he didn\u0027t charge me for it. I appreciate the clear communication and trustworthiness of his business practices. I\u0027d definitely recommend Charles in the future.",
+                        "needsVerification":  false
+                    },
+                    {
+                        "sourceImage":  "Screenshot 2026-06-07 160347.png",
+                        "name":  "Nicole W.",
+                        "location":  "Houston, TX",
+                        "rating":  5,
+                        "date":  "Apr 30, 2026",
+                        "reviewText":  "I needed light colored dining room chairs that had become dingy and a few rugs cleaned, but I was needing to be careful because most of the chairs were a performance crypton fabric with special instructions that only water could be used to clean and it couldn\u0027t be too hot. The owner went above and beyond to understand the cleaning code, get the best products to use, and forming the best strategy to balance risk management but improving the state of the chairs. I understood he couldn\u0027t guarantee results, but felt that he worked hard and long to ensure the best outcome possible. In the end, we did see a big improvement in the chairs, and while they don\u0027t look brand new, it\u0027s much better. Communication was also easy throughout the process, and price was very reasonable after I checked with other companies as well. I\u0027d recommend and use him again.",
+                        "needsVerification":  false
+                    },
+                    {
+                        "sourceImage":  "Screenshot 2026-06-07 155322.png",
+                        "name":  "Amy N.",
+                        "location":  "Houston, TX",
+                        "rating":  5,
+                        "date":  "Jul 26, 2025",
+                        "reviewText":  "Easy communication. Job well done. Would highly recommend! Shower floor now looks much better!",
+                        "needsVerification":  false
+                    },
+                    {
+                        "sourceImage":  "Screenshot 2026-06-07 155325.png",
+                        "name":  "Willie M.",
+                        "location":  "Richmond, TX",
+                        "rating":  5,
+                        "date":  "Nov 28, 2025",
+                        "reviewText":  "We\u0027ve been using New Era Steam Cleaning \u0026 Restoration for years, and Charles never disappoints! With a child and pets, our carpets see plenty of accidents, but every time he comes, they look brand new and smell amazing. Reliable, professional, and always friendlyâ€”highly recommend!",
+                        "needsVerification":  false
+                    },
+                    {
+                        "sourceImage":  "Screenshot 2026-06-07 155327.png",
+                        "name":  "Nicole B.",
+                        "location":  "Houston, TX",
+                        "rating":  5,
+                        "date":  "Jun 13, 2025",
+                        "reviewText":  "Forget the rest. CALL NEW ERA STEAM. He will address all your questions. Clear communication. Competitive prices. Made everything I needed easy and fast. Thank you so very much. I wasn\u0027t sure what I needed for moving out of my house and it came out better than expected. Everyone was happy.",
+                        "needsVerification":  false
+                    },
+                    {
+                        "sourceImage":  "Screenshot 2026-06-07 155330.png",
+                        "name":  "M P.",
+                        "location":  "Perth, Australia",
+                        "rating":  5,
+                        "date":  "Oct 25, 2025",
+                        "reviewText":  "New Era was professional and efficient. They showed up during the agreed arrival window, and did the job thoroughly and quickly. At the end of the job, the owner walked me through the job, and pointed out areas where he had to use extra effort to clean the carpet. I am very happy with the job!",
+                        "needsVerification":  false
+                    },
+                    {
+                        "sourceImage":  "Screenshot 2026-06-07 155332.png",
+                        "name":  "Hookem H.",
+                        "location":  "Houston, TX",
+                        "rating":  5,
+                        "date":  "Jan 6, 2025",
+                        "reviewText":  "Selected Charles based on his large number of 5-star reviews. He communicated quickly and easily and came precisely at the scheduled time. He was quick and efficient and it is easy to see why he has so many 5-star reviews. He made our 33+ year old carpet look great and our house feels fresh and clean. He has our recommendation and we will use him again.",
+                        "needsVerification":  false
+                    },
+                    {
+                        "sourceImage":  "Screenshot 2026-06-07 155335.png",
+                        "name":  "Daneille T.",
+                        "location":  "Houston, TX",
+                        "rating":  5,
+                        "date":  "Oct 28, 2024",
+                        "reviewText":  "New era was quick to respond to my request. I\u0027m so grateful he was able to get our grout cleaned and carpets shampooed before the movers came. The before and after visually was a world of difference but the smell was even better. The previous owners had pets, so there was a heavy smell of dander in our home. I\u0027m very happy with this service and would recommend him to anyone who needs cleaning and restoration. Lastly he was very nice and educated us on cleaning materials we use that may have been causing more wear on our tile.",
+                        "needsVerification":  false
+                    },
+                    {
+                        "sourceImage":  "Screenshot 2026-06-07 155338.png",
+                        "name":  "Richard W.",
+                        "location":  "Round Rock, TX",
+                        "rating":  5,
+                        "date":  "May 10, 2024",
+                        "reviewText":  "Great job, honest and communicative throughout the project. We felt like we got what we wanted and a fair price. Highly recommend this company.",
+                        "needsVerification":  false
+                    },
+                    {
+                        "sourceImage":  "Screenshot 2026-06-07 155341.png",
+                        "name":  "Brenda W.",
+                        "location":  "Houston, TX",
+                        "rating":  5,
+                        "date":  "May 6, 2025",
+                        "reviewText":  "Charles did an excellent job! He was on time and got the job done fast. We will use his service again! The carpet looked and smelled great.",
+                        "needsVerification":  false
+                    }
+                ]
+}

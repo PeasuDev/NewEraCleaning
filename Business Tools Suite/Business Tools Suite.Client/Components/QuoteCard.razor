@@ -22,6 +22,12 @@
             <span class="meta-sep">•</span>
             <span class="bi bi-clock" aria-hidden="true"></span> @FormatRelative(Quote.SubmittedOn)
         </span>
+        @if (ShowProfileLink)
+        {
+            <a class="profile-link" href="@ProfileUrl">
+                View profile <span class="bi bi-arrow-right" aria-hidden="true"></span>
+            </a>
+        }
     </footer>
 </article>
 
@@ -31,6 +37,19 @@
     /// </summary>
     [Parameter, EditorRequired]
     public QuoteRequest Quote { get; set; } = default!;
+
+    /// <summary>
+    /// When true, shows a link to the requester's client profile. Off by default
+    /// so the card stays compact where a profile link isn't useful.
+    /// </summary>
+    [Parameter]
+    public bool ShowProfileLink { get; set; }
+
+    /// <summary>
+    /// Route to the requester's client profile, keyed by their (URL-encoded)
+    /// email. Clients share the same email key as their quote requests.
+    /// </summary>
+    private string ProfileUrl => $"admin/clients/{Uri.EscapeDataString(Quote.Email)}";
 
     private static string FormatRelative(DateTime submittedOn)
     {

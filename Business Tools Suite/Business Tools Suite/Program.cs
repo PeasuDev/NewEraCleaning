@@ -16,7 +16,11 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityRedirectManager>();
-builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
+
+// TEMPORARY: Authentication bypassed so the admin portal is accessible without login.
+// To re-enable auth, remove the bypass line and restore the IdentityRevalidatingAuthenticationStateProvider registration.
+//builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
+builder.Services.AddScoped<AuthenticationStateProvider, Business_Tools_Suite.Client.Services.BypassAuthenticationStateProvider>();
 
 var authenticationBuilder = builder.Services.AddAuthentication(options =>
     {
@@ -62,6 +66,19 @@ builder.Services.Configure<Business_Tools_Suite.LoginAllowListOptions>(
 // Shared placeholder data service for dashboard pages (also used during prerendering).
 builder.Services.AddSingleton<Business_Tools_Suite.Client.Services.PlaceholderDataService>();
 
+// Server-side Yelp Fusion review integration. The API key is read from
+// configuration/user-secrets and never reaches the browser. Set the values via:
+//   Yelp:ApiKey / Yelp:BusinessId
+builder.Services.Configure<Business_Tools_Suite.Services.YelpReviewOptions>(
+    builder.Configuration.GetSection(Business_Tools_Suite.Services.YelpReviewOptions.SectionName));
+builder.Services.AddHttpClient("Yelp", client =>
+{
+    client.BaseAddress = new Uri("https://api.yelp.com/");
+});
+builder.Services.AddSingleton<Business_Tools_Suite.Services.ServerYelpReviewProvider>();
+builder.Services.AddSingleton<Business_Tools_Suite.Client.Services.IReviewProvider>(sp =>
+    sp.GetRequiredService<Business_Tools_Suite.Services.ServerYelpReviewProvider>());
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -89,5 +106,15 @@ app.MapRazorComponents<App>()
 
 // Add additional endpoints required by the Identity /Account Razor components.
 app.MapAdditionalIdentityEndpoints();
+
+// Live reviews endpoint consumed by the WebAssembly client. Runs the
+// authenticated Yelp Fusion request server-side so the API key stays private.
+app.MapGet("/api/reviews/live", async (
+    Business_Tools_Suite.Client.Services.IReviewProvider reviewProvider,
+    CancellationToken cancellationToken) =>
+{
+    var reviews = await reviewProvider.GetLiveReviewsAsync(cancellationToken);
+    return Results.Ok(reviews);
+});
 
 app.Run();

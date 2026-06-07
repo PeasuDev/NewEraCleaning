@@ -1,0 +1,47 @@
+@*
+    Centralizes the per-page SEO head tags (title, description, canonical,
+    Open Graph, Twitter card) so every public page stays consistent. Page
+    titles are suffixed with the business name automatically.
+*@
+
+<PageTitle>@FullTitle</PageTitle>
+
+<HeadContent>
+    <meta name="description" content="@Description" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="@CanonicalUrl" />
+
+    <meta property="og:type" content="@OgType" />
+    <meta property="og:site_name" content="New Era Cleaning & Restoration" />
+    <meta property="og:title" content="@Title" />
+    <meta property="og:description" content="@Description" />
+    <meta property="og:url" content="@CanonicalUrl" />
+    <meta property="og:image" content="https://neweracleaning.com/new-era-logo.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="@Title" />
+    <meta name="twitter:description" content="@Description" />
+    <meta name="twitter:image" content="https://neweracleaning.com/new-era-logo.png" />
+</HeadContent>
+
+@code {
+    private const string SiteName = "New Era Cleaning & Restoration";
+    private const string BaseUrl = "https://neweracleaning.com/";
+
+    /// <summary>Page-specific title (without the business-name suffix).</summary>
+    [Parameter, EditorRequired] public string Title { get; set; } = string.Empty;
+
+    /// <summary>Meta description for search and social previews.</summary>
+    [Parameter, EditorRequired] public string Description { get; set; } = string.Empty;
+
+    /// <summary>Relative path for this page (e.g., "about"). Empty = home.</summary>
+    [Parameter] public string RelativePath { get; set; } = string.Empty;
+
+    /// <summary>Open Graph type; "website" for most pages.</summary>
+    [Parameter] public string OgType { get; set; } = "website";
+
+    private string FullTitle => $"{Title} | {SiteName}";
+
+    private string CanonicalUrl =>
+        BaseUrl + RelativePath.TrimStart('/');
+}

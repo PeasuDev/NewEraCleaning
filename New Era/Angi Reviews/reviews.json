@@ -1,0 +1,138 @@
+﻿{
+    "source":  "Angi review page â€” New Era Steam Cleaning \u0026 Restoration",
+    "extractedOn":  "2026-06-07",
+    "extractionMethod":  "Parsed schema.org JSON-LD from saved Angi reviews HTML",
+    "notes":  [
+                  "Ratings, dates, names, and review text were parsed directly from the page\u0027s JSON-LD structured data, so they are exact (no OCR). Ratings include non-5 values (e.g. a 4-star), confirming they are the real submitted ratings.",
+                  "Angi\u0027s structured data does not include a per-reviewer location, so \u0027location\u0027 is null. It can be backfilled from the screenshots if needed."
+              ],
+    "reviewCount":  14,
+    "reviews":  [
+                    {
+                        "sourcePage":  "angi.com review page (JSON-LD)",
+                        "name":  "Paul T.",
+                        "location":  null,
+                        "rating":  5,
+                        "date":  "Mar 17, 2024",
+                        "reviewText":  "Charles was excellent!  He came, worked hard all day, and left me with a very clean house.  The price was good and I am very pleased with the results.",
+                        "needsVerification":  false
+                    },
+                    {
+                        "sourcePage":  "angi.com review page (JSON-LD)",
+                        "name":  "Kedar K.",
+                        "location":  null,
+                        "rating":  4,
+                        "date":  "Aug 16, 2019",
+                        "reviewText":  "The service overall with them was good. Scheduling was easy.",
+                        "needsVerification":  false
+                    },
+                    {
+                        "sourcePage":  "angi.com review page (JSON-LD)",
+                        "name":  "Susan C.",
+                        "location":  null,
+                        "rating":  5,
+                        "date":  "Sep 15, 2017",
+                        "reviewText":  "great - loved them",
+                        "needsVerification":  false
+                    },
+                    {
+                        "sourcePage":  "angi.com review page (JSON-LD)",
+                        "name":  "Kyle P.",
+                        "location":  null,
+                        "rating":  5,
+                        "date":  "Jun 6, 2017",
+                        "reviewText":  "Charles came out and did an AMAZING job, he was early to the appointment and was very informative on ways to clean and maintain my carpets. Overall a fantastic job done by New Era and wouldn\u0027t recommend any company for the job other than them. Thanks, and we will be seeing you again!",
+                        "needsVerification":  false
+                    },
+                    {
+                        "sourcePage":  "angi.com review page (JSON-LD)",
+                        "name":  "Samantha H.",
+                        "location":  null,
+                        "rating":  5,
+                        "date":  "Mar 20, 2017",
+                        "reviewText":  "It went great.  My previously gray carpet is now white.  They were able to get stains out that I wasn\u0027t able to.  I would highly recommend them.",
+                        "needsVerification":  false
+                    },
+                    {
+                        "sourcePage":  "angi.com review page (JSON-LD)",
+                        "name":  "Toby P.",
+                        "location":  null,
+                        "rating":  5,
+                        "date":  "Mar 7, 2017",
+                        "reviewText":  "The technician, Charles, was pretty knowledgeable about cleaning the carpet and removing scratches on the wood trim. He was also a nice guy and did a great job.",
+                        "needsVerification":  false
+                    },
+                    {
+                        "sourcePage":  "angi.com review page (JSON-LD)",
+                        "name":  "Courtney B.",
+                        "location":  null,
+                        "rating":  5,
+                        "date":  "Mar 4, 2017",
+                        "reviewText":  "unknown",
+                        "needsVerification":  false
+                    },
+                    {
+                        "sourcePage":  "angi.com review page (JSON-LD)",
+                        "name":  "Daniel M.",
+                        "location":  null,
+                        "rating":  5,
+                        "date":  "Mar 2, 2017",
+                        "reviewText":  "it went splendid! He was really prompt and respectful.",
+                        "needsVerification":  false
+                    },
+                    {
+                        "sourcePage":  "angi.com review page (JSON-LD)",
+                        "name":  "Jake Z.",
+                        "location":  null,
+                        "rating":  5,
+                        "date":  "Mar 1, 2017",
+                        "reviewText":  "It went awesome. They got a bunch of stains up I didn\u0027t think would come up.",
+                        "needsVerification":  false
+                    },
+                    {
+                        "sourcePage":  "angi.com review page (JSON-LD)",
+                        "name":  "Brian J.",
+                        "location":  null,
+                        "rating":  5,
+                        "date":  "Mar 1, 2017",
+                        "reviewText":  "He was very professional. She showed up right on time and was able to the job done promptly, he even finished a few minutes early. I would definitely use him again.",
+                        "needsVerification":  false
+                    },
+                    {
+                        "sourcePage":  "angi.com review page (JSON-LD)",
+                        "name":  "Melissa D.",
+                        "location":  null,
+                        "rating":  5,
+                        "date":  "Mar 1, 2017",
+                        "reviewText":  "They did a great job. He pre-treated the carpet then clean the carpet very well.",
+                        "needsVerification":  false
+                    },
+                    {
+                        "sourcePage":  "angi.com review page (JSON-LD)",
+                        "name":  "Ryan B.",
+                        "location":  null,
+                        "rating":  5,
+                        "date":  "Feb 22, 2017",
+                        "reviewText":  "I called New Era to clean our carpet and tile. He was extremely courteous and knowledge walking me through the process. The owner, Charles, came out (on time) to give me an estimate, honored his coupon prices and got straight to work. I couldn\u0027t be happier with the work that Charles provided. My carpets look and smell fresh and the tile looks just as good as the day it was installed! He earned my repeat business with his effort and attention to detail. I definitely recommend New Era steam cleaning!",
+                        "needsVerification":  false
+                    },
+                    {
+                        "sourcePage":  "angi.com review page (JSON-LD)",
+                        "name":  "Brooke E.",
+                        "location":  null,
+                        "rating":  5,
+                        "date":  "Feb 20, 2017",
+                        "reviewText":  "Charles was here within 2 hours of calling at 2am on a Sunday night. We had water throughout 3 rooms of our house. He was able to give use a very detailed estimate and exact game plan for the drying process. He was very detailed in explaining what he was doing and exactly why he was doing it. He even gave us a link to a company called IICRC, who generate the guidelines for water restoration so we could double check and make sure what he was stating was true. He explained the drying could take 3-5 days to be complete, he was done in 3! He was very reasonable on pricing since we decided to pay out of pocket instead of using our insurance. All around great guy, professional and honest. We\u0027ve used him for years for carpet and tile cleaning, hopefully we won\u0027t have to call for water damage again, but he will be the guy we call if it happens!",
+                        "needsVerification":  false
+                    },
+                    {
+                        "sourcePage":  "angi.com review page (JSON-LD)",
+                        "name":  "Diane C.",
+                        "location":  null,
+                        "rating":  5,
+                        "date":  "Nov 16, 2016",
+                        "reviewText":  "unknown",
+                        "needsVerification":  false
+                    }
+                ]
+}

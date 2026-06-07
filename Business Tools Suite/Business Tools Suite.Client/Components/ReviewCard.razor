@@ -18,6 +18,10 @@
         <span class="review-stars" aria-label="@Review.Rating out of 5 stars">@RenderStars(Review.Rating)</span>
     </div>
     <p class="review-text">@Review.Text</p>
+    <a class="review-link" href="@PlatformUrl(Review.Source)" target="_blank" rel="noopener noreferrer">
+        View on @Review.Source
+        <span class="bi bi-box-arrow-up-right" aria-hidden="true"></span>
+    </a>
 </div>
 
 @code {
@@ -26,6 +30,19 @@
     /// </summary>
     [Parameter, EditorRequired]
     public Review Review { get; set; } = default!;
+
+    /// <summary>
+    /// Maps a review source to the public platform page where the business's
+    /// reviews can be viewed. Falls back to a search for the source name.
+    /// </summary>
+    private static string PlatformUrl(string source) => source switch
+    {
+        "Google" => "https://www.google.com/search?q=New+Era+Cleaning+reviews",
+        "Yelp" => "https://www.yelp.com/biz/new-era-steam-cleaning-and-restoration-sugar-land",
+        "Facebook" => "https://www.facebook.com/newerasteamclean",
+        "Angi" => "https://www.angi.com/companylist/us/tx/austin/new-era-steam-cleaning-and-restoration-reviews-8435486.htm",
+        _ => $"https://www.google.com/search?q=New+Era+Cleaning+{Uri.EscapeDataString(source)}+reviews"
+    };
 
     private static string RenderStars(double rating)
     {

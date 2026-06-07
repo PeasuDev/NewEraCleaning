@@ -1,0 +1,39 @@
+@page "/quote"
+@layout PublicLayout
+
+@*
+    Dedicated Get a Quote page. Reuses the shared QuoteForm component, which
+    feeds submissions into the admin Quote Requests queue.
+*@
+
+<SeoHead Title="Get a Free Quote"
+         Description="Request a free, no-obligation quote from New Era Cleaning &amp; Restoration for carpet, tile, upholstery, pet odor, or restoration services across the greater Houston area. Call (713) 906-0918."
+         RelativePath="quote" />
+
+<PageBanner Title="Get a Free Quote"
+            Subtitle="You're seconds away from a cleaner space. Tell us what you need and we'll be in touch." />
+
+<section class="section quote-section">
+    <div class="section-inner quote-grid">
+        <div class="quote-intro">
+            <span class="section-eyebrow section-eyebrow-light">Get Started</span>
+            <h2 class="quote-title">Let's Make Your Space Shine</h2>
+            <p class="quote-lead">
+                Tell us a little about the job and we'll get back to you with a free, no-obligation
+                quote. Prefer to talk? Call us directly &mdash; we're happy to help.
+            </p>
+            <ul class="quote-contact">
+                <li><span class="bi bi-telephone-fill" aria-hidden="true"></span> <a href="tel:+17139060918">(713) 906-0918</a></li>
+                <li><span class="bi bi-clock-fill" aria-hidden="true"></span> Mon&ndash;Sun: 7:30 AM &ndash; 7:30 PM</li>
+                <li><span class="bi bi-geo-alt-fill" aria-hidden="true"></span> Serving Harris &amp; Fort Bend County</li>
+                <li><span class="bi bi-flower1" aria-hidden="true"></span> Ask about organic, green cleaning</li>
+            </ul>
+            <div class="quote-trust">
+                <span><span class="bi bi-shield-check" aria-hidden="true"></span> Guaranteed, Bonded &amp; Insured</span>
+                <span><span class="bi bi-people-fill" aria-hidden="true"></span> Family-Owned Since 2014</span>
+            </div>
+        </div>
+
+        <QuoteForm FormName="quote-page" Title="Request Your Free Quote" />
+    </div>
+</section>

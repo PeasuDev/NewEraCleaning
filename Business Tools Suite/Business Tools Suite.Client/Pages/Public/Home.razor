@@ -1,0 +1,372 @@
+@page "/"
+@layout PublicLayout
+@inject PlaceholderDataService DataService
+@inject IReviewProvider ReviewProvider
+
+@*
+    Public marketing home page for New Era Cleaning & Restoration. Anonymous,
+    SEO-optimized (prerendered HTML, meta tags, Open Graph, and LocalBusiness
+    JSON-LD). The quote form feeds the admin Quote Requests via the shared
+    PlaceholderDataService.
+*@
+
+<PageTitle>Houston Carpet Cleaning &amp; Steam Cleaning | New Era Cleaning &amp; Restoration</PageTitle>
+
+<HeadContent>
+    <meta name="description" content="New Era Cleaning &amp; Restoration offers home and commercial steam cleaning for carpets, tile, stone, and upholstery in Sugar Land, Houston, Katy, Richmond, Missouri City, and Fulshear. Family-owned, bonded &amp; insured. Call (713) 906-0918 for a free quote." />
+    <meta name="keywords" content="carpet cleaning Houston, steam cleaning Sugar Land, tile and grout cleaning Katy, upholstery cleaning Richmond, pet odor removal, water damage restoration, commercial carpet cleaning" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://neweracleaning.com/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="New Era Cleaning &amp; Restoration" />
+    <meta property="og:title" content="Houston Carpet &amp; Steam Cleaning | New Era Cleaning &amp; Restoration" />
+    <meta property="og:description" content="Family-owned steam cleaning for carpets, tile, stone &amp; upholstery across the greater Houston area. Organic green options available. Get a free quote today." />
+    <meta property="og:url" content="https://neweracleaning.com/" />
+    <meta property="og:image" content="https://neweracleaning.com/new-era-logo.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Houston Carpet &amp; Steam Cleaning | New Era Cleaning &amp; Restoration" />
+    <meta name="twitter:description" content="Family-owned steam cleaning for carpets, tile, stone &amp; upholstery across the greater Houston area. Get a free quote today." />
+    <meta name="twitter:image" content="https://neweracleaning.com/new-era-logo.png" />
+
+    <script type="application/ld+json">
+    {
+        "@@context": "https://schema.org",
+        "@@type": "HousePainter",
+        "@@id": "https://neweracleaning.com/#business",
+        "name": "New Era Cleaning & Restoration",
+        "image": "https://neweracleaning.com/new-era-logo.png",
+        "description": "Local, family-owned steam cleaning company serving residential and commercial customers across the greater Houston area since 2014.",
+        "url": "https://neweracleaning.com/",
+        "telephone": "+1-713-906-0918",
+        "foundingDate": "2014",
+        "priceRange": "$$",
+        "areaServed": ["Sugar Land", "Houston", "Katy", "Richmond", "Missouri City", "Fulshear"],
+        "address": {
+            "@@type": "PostalAddress",
+            "addressRegion": "TX",
+            "addressCountry": "US"
+        },
+        "openingHoursSpecification": {
+            "@@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+            "opens": "07:30",
+            "closes": "19:30"
+        }
+    }
+    </script>
+</HeadContent>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero">
+    <div class="hero-inner">
+        <div class="hero-copy">
+            <span class="hero-eyebrow">
+                <span class="bi bi-patch-check-fill" aria-hidden="true"></span>
+                Sugar Land &middot; Houston &middot; Katy &amp; surrounding areas
+            </span>
+            <h1 class="hero-title">
+                Houston's Trusted <span class="hero-accent">Steam&nbsp;Cleaning</span> &amp; Restoration Experts
+            </h1>
+            <p class="hero-lead">
+                Recapture your carpet's youth. New Era Cleaning &amp; Restoration is a local,
+                family-owned company delivering deep, hospital-grade steam cleaning for
+                carpets, tile, stone, and upholstery &mdash; backed by 16+ years of experience.
+            </p>
+            <div class="hero-actions">
+                <a class="btn-primary-lg" href="#contact">
+                    Get a Free Quote
+                    <span class="bi bi-arrow-right" aria-hidden="true"></span>
+                </a>
+                <a class="btn-ghost-lg" href="tel:+17139060918">
+                    <span class="bi bi-telephone-fill" aria-hidden="true"></span>
+                    (713) 906-0918
+                </a>
+            </div>
+            <ul class="hero-trust">
+                <li><span class="bi bi-shield-check" aria-hidden="true"></span> Guaranteed, Bonded &amp; Insured</li>
+                <li><span class="bi bi-flower1" aria-hidden="true"></span> Organic Green Options</li>
+                <li><span class="bi bi-people-fill" aria-hidden="true"></span> Family-Owned Since 2014</li>
+            </ul>
+        </div>
+        <div class="hero-card" aria-hidden="false">
+            <div class="hero-card-rating">
+                <div class="hero-stars">
+                    <span class="bi bi-star-fill"></span><span class="bi bi-star-fill"></span><span class="bi bi-star-fill"></span><span class="bi bi-star-fill"></span><span class="bi bi-star-fill"></span>
+                </div>
+                <strong>@averageRating.ToString("0.0")</strong>
+                <span class="hero-card-rating-label">from @reviewCount reviews</span>
+            </div>
+            <p class="hero-card-quote">
+                &ldquo;@featuredReview?.Text&rdquo;
+            </p>
+            <span class="hero-card-author">&mdash; @(featuredReview?.Author ?? "Verified Customer"), @(featuredReview?.Source ?? "Google")</span>
+            <a class="hero-card-cta" href="#contact">Schedule your cleaning &rarr;</a>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== CAROUSEL ===================== -->
+<section class="section carousel-section" aria-label="Our work in action">
+    <div class="section-inner">
+        <div class="carousel" role="group" aria-roledescription="carousel">
+            @for (var i = 0; i < carouselSlides.Count; i++)
+            {
+                <input type="radio" name="home-carousel" id="@($"carousel-{i}")"
+                       class="carousel-radio" checked="@(i == 0)" />
+            }
+
+            <div class="carousel-track">
+                @foreach (var slide in carouselSlides)
+                {
+                    <figure class="carousel-slide">
+                        <img src="@slide.Image" alt="@slide.Caption" loading="lazy" />
+                        <figcaption class="carousel-caption">@slide.Caption</figcaption>
+                    </figure>
+                }
+            </div>
+
+            <div class="carousel-arrows" aria-hidden="true">
+                @for (var i = 0; i < carouselSlides.Count; i++)
+                {
+                    var prev = (i - 1 + carouselSlides.Count) % carouselSlides.Count;
+                    var next = (i + 1) % carouselSlides.Count;
+                    <div class="carousel-arrow-pair" id="@($"carousel-arrows-{i}")">
+                        <label class="carousel-arrow carousel-arrow-prev" for="@($"carousel-{prev}")">
+                            <span class="bi bi-chevron-left"></span>
+                        </label>
+                        <label class="carousel-arrow carousel-arrow-next" for="@($"carousel-{next}")">
+                            <span class="bi bi-chevron-right"></span>
+                        </label>
+                    </div>
+                }
+            </div>
+
+            <div class="carousel-dots">
+                @for (var i = 0; i < carouselSlides.Count; i++)
+                {
+                    <label class="carousel-dot" id="@($"carousel-dot-{i}")"
+                           for="@($"carousel-{i}")" aria-label="Show slide @(i + 1)"></label>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== BRAND LOGO ===================== -->
+<section class="section brand-logo-feature" aria-label="New Era Cleaning & Restoration">
+    <img src="new-era-logo.png" alt="New Era Cleaning &amp; Restoration logo" loading="lazy" />
+</section>
+
+<!-- ===================== TRUST BAR ===================== -->
+<section class="trust-bar">
+    <div class="trust-bar-inner">
+        <div class="trust-item"><span class="bi bi-clock-history" aria-hidden="true"></span> Open 7 Days &middot; 7:30 AM&ndash;7:30 PM</div>
+        <div class="trust-item"><span class="bi bi-droplet-half" aria-hidden="true"></span> Truck-Mounted Steam Cleaning</div>
+        <div class="trust-item"><span class="bi bi-hand-thumbs-up-fill" aria-hidden="true"></span> Satisfaction Guaranteed</div>
+        <div class="trust-item"><span class="bi bi-geo-alt-fill" aria-hidden="true"></span> Harris &amp; Fort Bend County</div>
+    </div>
+</section>
+
+<!-- ===================== SERVICES ===================== -->
+<section class="section" id="services">
+    <div class="section-inner">
+        <div class="section-head">
+            <span class="section-eyebrow">What We Do</span>
+            <h2 class="section-title">Professional Cleaning Services</h2>
+            <p class="section-sub">
+                From everyday refreshes to post-construction deep cleans, no job is too large or
+                too small. Our skilled technicians bring the best cleaning technology to every visit.
+            </p>
+        </div>
+
+        <div class="services-grid">
+            @foreach (var service in ServiceCatalog.All)
+            {
+                <article class="service-card">
+                    <span class="service-icon"><span class="bi @service.Icon" aria-hidden="true"></span></span>
+                    <h3 class="service-name">@service.Name</h3>
+                    <p class="service-text">@service.Summary</p>
+                    <a class="service-link" href="services/@service.Slug">Learn more <span class="bi bi-arrow-right" aria-hidden="true"></span></a>
+                </article>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- ===================== ABOUT / WHY US ===================== -->
+<section class="section section-alt" id="about">
+    <div class="section-inner about-grid">
+        <div class="about-copy">
+            <span class="section-eyebrow">About New Era</span>
+            <h2 class="section-title">Family-Owned &amp; Houston Proud</h2>
+            <p>
+                New Era Cleaning &amp; Restoration was founded in 2014 by Charles Hegler to breathe
+                new life into the Sugar Land, Houston, Katy, Richmond, Missouri City, and Fulshear
+                steam cleaning scene. With a beautiful young family to support and over 16 years of
+                industry experience, Charles set out to fulfill every Houstonian's dream &mdash;
+                becoming part of the local community and starting his own business.
+            </p>
+            <p>
+                We combine that experience with the best cleaning technologies to deliver an
+                outstanding floor-care experience. As Houston natives, we're dedicated to growing
+                our business the right way &mdash; through superior service and exceptional customer
+                care. Your recommendation is our greatest compliment.
+            </p>
+            <div class="about-points">
+                <div class="about-point"><span class="bi bi-check-circle-fill" aria-hidden="true"></span> Residential &amp; commercial cleaning</div>
+                <div class="about-point"><span class="bi bi-check-circle-fill" aria-hidden="true"></span> All work guaranteed, bonded &amp; insured</div>
+                <div class="about-point"><span class="bi bi-check-circle-fill" aria-hidden="true"></span> Zero-contact service options available</div>
+                <div class="about-point"><span class="bi bi-check-circle-fill" aria-hidden="true"></span> Natural, organic green cleaning on request</div>
+            </div>
+        </div>
+        <div class="about-stats">
+            <div class="stat-card">
+                <strong>16+</strong>
+                <span>Years of Experience</span>
+            </div>
+            <div class="stat-card">
+                <strong>2014</strong>
+                <span>Locally Founded</span>
+            </div>
+            <div class="stat-card">
+                <strong>7</strong>
+                <span>Specialized Services</span>
+            </div>
+            <div class="stat-card stat-card-brand">
+                <strong>100%</strong>
+                <span>Satisfaction Guaranteed</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== TESTIMONIALS ===================== -->
+<section class="section" id="reviews">
+    <div class="section-inner">
+        <div class="section-head">
+            <span class="section-eyebrow">Customer Reviews</span>
+            <h2 class="section-title">What Houston Says About Us</h2>
+            <p class="section-sub">Real feedback from homeowners and businesses across the area.</p>
+        </div>
+        <div class="testimonial-grid">
+            @foreach (var review in testimonials)
+            {
+                <figure class="testimonial-card">
+                    <div class="testimonial-stars">
+                        @for (var i = 0; i < review.Rating; i++)
+                        {
+                            <span class="bi bi-star-fill" aria-hidden="true"></span>
+                        }
+                    </div>
+                    <blockquote>&ldquo;@review.Text&rdquo;</blockquote>
+                    <figcaption>
+                        <span class="testimonial-author">@review.Author</span>
+                        <span class="testimonial-source">via @review.Source</span>
+                    </figcaption>
+                </figure>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- ===================== SERVICE AREA ===================== -->
+<section class="section section-alt" id="service-area">
+    <div class="section-inner">
+        <div class="section-head">
+            <span class="section-eyebrow">Where We Work</span>
+            <h2 class="section-title">Proudly Serving the Greater Houston Area</h2>
+            <p class="section-sub">
+                New Era proudly serves homes and businesses in Harris &amp; Fort Bend County and
+                surrounding areas.
+            </p>
+        </div>
+        <div class="area-chips">
+            @foreach (var area in serviceAreas)
+            {
+                <span class="area-chip"><span class="bi bi-geo-alt-fill" aria-hidden="true"></span> @area</span>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- ===================== QUOTE FORM / CONTACT ===================== -->
+<section class="section quote-section" id="contact">
+    <div class="section-inner quote-grid">
+        <div class="quote-intro">
+            <span class="section-eyebrow section-eyebrow-light">Get Started</span>
+            <h2 class="quote-title">You're Seconds Away From a Cleaner Space</h2>
+            <p class="quote-lead">
+                Tell us what you need and we'll get back to you with a free, no-obligation quote.
+                Prefer to talk? Call us directly &mdash; we're happy to help.
+            </p>
+            <ul class="quote-contact">
+                <li><span class="bi bi-telephone-fill" aria-hidden="true"></span> <a href="tel:+17139060918">(713) 906-0918</a></li>
+                <li><span class="bi bi-clock-fill" aria-hidden="true"></span> Mon&ndash;Sun: 7:30 AM &ndash; 7:30 PM</li>
+                <li><span class="bi bi-flower1" aria-hidden="true"></span> Ask about organic, green cleaning</li>
+            </ul>
+        </div>
+
+        <QuoteForm FormName="home-quote" />
+    </div>
+</section>
+
+@code {
+    private IReadOnlyList<Review> testimonials = Array.Empty<Review>();
+    private Review? featuredReview;
+    private int reviewCount;
+    private double averageRating;
+
+    private readonly IReadOnlyList<string> serviceAreas = new List<string>
+    {
+        "Sugar Land", "Houston", "Katy", "Richmond", "Missouri City", "Fulshear"
+    };
+
+    private readonly IReadOnlyList<CarouselSlide> carouselSlides = new List<CarouselSlide>
+    {
+        new("img/carpet-carousel.jpg", "Deep steam-cleaned carpets, restored to like-new"),
+        new("img/tile-floor-carousel.jpg", "Tile & grout brought back to a brilliant shine"),
+        new("img/commercial-carousel.jpg", "Dependable commercial floor care for Houston businesses"),
+    };
+
+    private sealed record CarouselSlide(string Image, string Caption);
+
+    protected override async Task OnInitializedAsync()
+    {
+        var reviews = await GetMergedReviewsAsync();
+        reviewCount = reviews.Count;
+        averageRating = reviews.Count > 0 ? reviews.Average(r => r.Rating) : 5.0;
+
+        testimonials = reviews
+            .Where(r => r.Rating >= 4)
+            .OrderByDescending(r => r.Rating)
+            .ThenByDescending(r => r.Date)
+            .Take(3)
+            .ToList();
+
+        featuredReview = reviews
+            .Where(r => r.Rating == 5)
+            .OrderByDescending(r => r.Date)
+            .FirstOrDefault() ?? reviews.FirstOrDefault();
+    }
+
+    // Prefer live Yelp reviews; merge them with placeholder reviews from other
+    // sources. If Yelp is not configured or returns nothing, fall back to the
+    // full placeholder set so the page always shows testimonials.
+    private async Task<IReadOnlyList<Review>> GetMergedReviewsAsync()
+    {
+        var placeholders = DataService.GetReviews();
+        var liveReviews = await ReviewProvider.GetLiveReviewsAsync();
+
+        if (liveReviews.Count == 0)
+        {
+            return placeholders;
+        }
+
+        return liveReviews
+            .Concat(placeholders.Where(r => r.Source != "Yelp"))
+            .OrderByDescending(r => r.Date)
+            .ToList();
+    }
+}

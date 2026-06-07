@@ -1,17 +1,21 @@
-@page "/analytics"
+@page "/admin/analytics"
 @attribute [Authorize]
+@inject PlaceholderDataService DataService
+@inject IReviewProvider ReviewProvider
 
 <PageTitle>Analytics</PageTitle>
 
 <h1>Analytics</h1>
 
-<p>Review rating trends for <strong>New Era Cleaning</strong>, gathered from across your monitored sources.</p>
+<p>Individual review ratings for <strong>New Era Cleaning</strong> over time, gathered from across your monitored sources and plotted in chronological order.</p>
 
 <div class="analytics-toolbar">
     <div class="range-picker">
         <label for="range-select" class="form-label">Time range</label>
         <select id="range-select" class="form-select" @bind="selectedMonths" @bind:after="ReloadAsync">
-            <option value="6">Last 6 months</option>
+            <option value="0">All time</option>
+            <option value="60">Last 5 years</option>
+            <option value="24">Last 2 years</option>
             <option value="12">Last 12 months</option>
         </select>
     </div>
@@ -33,86 +37,122 @@ else
 {
     <div class="analytics-summary">
         <div class="summary-card">
-            <span class="summary-value">@latestOverall.ToString("0.0")</span>
-            <span class="summary-label">Current avg rating</span>
+            <span class="summary-value">@averageRating.ToString("0.0")</span>
+            <span class="summary-label">Average rating</span>
         </div>
         <div class="summary-card">
             <span class="summary-value @(ratingDelta >= 0 ? "trend-up" : "trend-down")">
                 @(ratingDelta >= 0 ? "▲" : "▼") @Math.Abs(ratingDelta).ToString("0.0")
             </span>
-            <span class="summary-label">Change vs. start</span>
+            <span class="summary-label">Recent vs. earlier</span>
         </div>
         <div class="summary-card">
             <span class="summary-value">@totalReviews</span>
             <span class="summary-label">Reviews in range</span>
         </div>
         <div class="summary-card">
-            <span class="summary-value">@series.Count</span>
+            <span class="summary-value">@distinctSources</span>
             <span class="summary-label">Sources tracked</span>
         </div>
     </div>
 
+    @if (selectedReview is not null)
+    {
+        <div class="selected-review">
+            <button type="button" class="selected-review-close" @onclick="ClearSelection" aria-label="Close review">
+                <span class="bi bi-x-lg" aria-hidden="true"></span>
+            </button>
+            <ReviewCard Review="selectedReview" />
+        </div>
+    }
+
     <div class="chart-card">
+        <p class="chart-hint">Each point is a real review — tap or click one to read it and open it on the platform.</p>
         <div class="chart-legend">
             @foreach (var s in series)
             {
-                <span class="legend-item">
+                var hidden = hiddenSources.Contains(s.Source);
+                <button type="button"
+                        class="legend-item @(hidden ? "legend-hidden" : null)"
+                        @onclick="() => ToggleSource(s.Source)"
+                        aria-pressed="@(!hidden)"
+                        title="@(hidden ? $"Show {s.Source}" : $"Hide {s.Source}")">
                     <span class="legend-swatch" style="background-color:@s.Color"></span>
                     @s.Source
-                </span>
+                </button>
             }
         </div>
 
-        <svg class="rating-chart" viewBox="0 0 @ChartWidth @ChartHeight" role="img"
-             aria-label="Line chart of average review ratings over time by source">
-            @* Horizontal gridlines and Y-axis labels for ratings 1-5 *@
-            @for (int rating = 1; rating <= 5; rating++)
-            {
-                var y = YFor(rating);
-                <line class="grid-line" x1="@PadLeft" y1="@y" x2="@(ChartWidth - PadRight)" y2="@y" />
-                @(SvgText(PadLeft - 10, y + 4, "end", rating.ToString()))
-            }
-
-            @* X-axis month labels *@
-            @for (int i = 0; i < months.Count; i++)
-            {
-                @(SvgText(XFor(i), ChartHeight - PadBottom + 20, "middle", months[i]))
-            }
-
-            @* One line + points per source *@
-            @foreach (var s in series)
-            {
-                <polyline class="series-line" points="@BuildPoints(s.Ratings)" style="stroke:@s.Color" />
-                @for (int i = 0; i < s.Ratings.Count; i++)
+        <div class="chart-plot">
+            <svg class="rating-chart" viewBox="0 0 @ChartWidth @ChartHeight" role="img"
+                 aria-label="Chart of individual review ratings over time by source">
+                @* Horizontal gridlines and Y-axis labels for ratings 1-5 *@
+                @for (int rating = 1; rating <= 5; rating++)
                 {
-                    <circle class="series-point" cx="@XFor(i)" cy="@YFor(s.Ratings[i])" r="4" style="fill:@s.Color">
-                        <title>@s.Source · @months[i]: @s.Ratings[i].ToString("0.0")★</title>
-                    </circle>
+                    var y = YFor(rating);
+                    <line class="grid-line" x1="@PadLeft" y1="@y" x2="@(ChartWidth - PadRight)" y2="@y" />
+                    @(SvgText(PadLeft - 8, y + 3, "end", rating.ToString()))
                 }
-            }
-        </svg>
+
+                @* X-axis date labels *@
+                @foreach (var tick in axisTicks)
+                {
+                    @(SvgText(tick.X, ChartHeight - PadBottom + 14, "middle", tick.Label))
+                }
+
+                @* One line + a node per real review, per visible source *@
+                @foreach (var s in series.Where(s => !hiddenSources.Contains(s.Source)))
+                {
+                    <polyline class="series-line" points="@BuildPoints(s.Points)" style="stroke:@s.Color" />
+                    @foreach (var p in s.Points)
+                    {
+                        var point = p;
+                        var isSelected = ReferenceEquals(selectedReview, point.Review);
+                        <circle class="series-point @(isSelected ? "series-point-selected" : null)"
+                                cx="@Fmt(point.X)" cy="@Fmt(point.Y)" r="@(isSelected ? 6 : 4)"
+                                style="fill:@s.Color" tabindex="0" role="button"
+                                aria-label="@NodeLabel(s.Source, point.Review)"
+                                @onclick="() => SelectReview(point.Review)"
+                                @onkeydown="e => OnNodeKey(e, point.Review)">
+                            <title>@s.Source · @point.Review.Date.ToString("MMM d, yyyy"): @point.Review.Rating★</title>
+                        </circle>
+                    }
+                }
+            </svg>
+        </div>
     </div>
 }
 
 @code {
     private const int ChartWidth = 760;
-    private const int ChartHeight = 340;
-    private const int PadLeft = 40;
+    private const int ChartHeight = 220;
+    private const int PadLeft = 30;
     private const int PadRight = 20;
-    private const int PadTop = 20;
-    private const int PadBottom = 40;
+    private const int PadTop = 14;
+    private const int PadBottom = 26;
     private const double MinRating = 1.0;
     private const double MaxRating = 5.0;
 
-    private int selectedMonths = 6;
+    private static readonly System.Globalization.CultureInfo Ci = System.Globalization.CultureInfo.InvariantCulture;
+
+    // 0 = all time; otherwise the number of months back from today to include.
+    private int selectedMonths;
     private bool isLoading;
 
-    private List<string> months = new();
     private List<RatingSeries> series = new();
+    private readonly HashSet<string> hiddenSources = new();
+    private List<AxisTick> axisTicks = new();
 
-    private double latestOverall;
+    private Review? selectedReview;
+
+    private double averageRating;
     private double ratingDelta;
     private int totalReviews;
+    private int distinctSources;
+
+    // Chronological domain for the X-axis.
+    private DateOnly minDate;
+    private DateOnly maxDate;
 
     protected override async Task OnInitializedAsync() => await ReloadAsync();
 
@@ -120,64 +160,139 @@ else
     {
         isLoading = true;
         series = new();
+        selectedReview = null;
+        StateHasChanged();
 
-        // Simulate aggregating ratings gathered from review sources.
-        await Task.Delay(600);
-
-        BuildPlaceholderData(selectedMonths);
+        var reviews = await LoadReviewsAsync();
+        BuildChart(reviews);
 
         isLoading = false;
     }
 
-    private void BuildPlaceholderData(int monthCount)
+    /// <summary>
+    /// Pulls live reviews from the server and merges them with the stored reviews
+    /// from the other sources, mirroring the Reviews page so both views agree.
+    /// </summary>
+    private async Task<List<Review>> LoadReviewsAsync()
     {
-        var now = DateTime.Now;
-        months = Enumerable.Range(0, monthCount)
-            .Select(i => now.AddMonths(-(monthCount - 1 - i)).ToString("MMM yy"))
-            .ToList();
+        var liveReviews = await ReviewProvider.GetLiveReviewsAsync();
+        var stored = DataService.GetReviews();
 
-        // Deterministic placeholder trends so the chart is stable between refreshes.
-        var sources = new (string Source, string Color, double Start, double Drift)[]
-        {
-            ("Google", "#4285f4", 4.2, 0.10),
-            ("Yelp", "#d32323", 3.9, 0.08),
-            ("Facebook", "#1877f2", 4.4, 0.06),
-            ("Angi", "#ff6153", 4.0, 0.12)
-        };
-
-        series = new();
-        foreach (var src in sources)
-        {
-            var ratings = new List<double>();
-            for (int i = 0; i < monthCount; i++)
-            {
-                // Gentle upward drift with a small wave so lines aren't flat.
-                var wave = Math.Sin(i / 1.7) * 0.15;
-                var value = src.Start + (src.Drift * i) + wave;
-                ratings.Add(Math.Round(Math.Clamp(value, MinRating, MaxRating), 1));
-            }
-            series.Add(new RatingSeries(src.Source, src.Color, ratings));
-        }
-
-        // Overall = average across sources per month.
-        var overall = new List<double>();
-        for (int i = 0; i < monthCount; i++)
-        {
-            overall.Add(Math.Round(series.Average(s => s.Ratings[i]), 1));
-        }
-        series.Insert(0, new RatingSeries("Overall", "#1090c0", overall));
-
-        latestOverall = overall[^1];
-        ratingDelta = Math.Round(overall[^1] - overall[0], 1);
-
-        // Fabricate a plausible review volume for the range.
-        totalReviews = monthCount * 7 + (monthCount / 2);
+        return liveReviews.Count > 0
+            ? liveReviews
+                .Concat(stored.Where(r => r.Source != "Yelp"))
+                .ToList()
+            : stored.ToList();
     }
 
-    private static double XFor(int index, int count) =>
-        PadLeft + (count <= 1 ? 0 : (double)index / (count - 1) * (ChartWidth - PadLeft - PadRight));
+    private void BuildChart(List<Review> reviews)
+    {
+        // Limit to the selected time window (0 = all time).
+        if (selectedMonths > 0)
+        {
+            var cutoff = DateOnly.FromDateTime(DateTime.Today.AddMonths(-selectedMonths));
+            reviews = reviews.Where(r => r.Date >= cutoff).ToList();
+        }
 
-    private double XFor(int index) => XFor(index, months.Count);
+        totalReviews = reviews.Count;
+        if (reviews.Count == 0)
+        {
+            series = new();
+            axisTicks = new();
+            distinctSources = 0;
+            averageRating = 0;
+            ratingDelta = 0;
+            return;
+        }
+
+        var ordered = reviews.OrderBy(r => r.Date).ToList();
+        minDate = ordered[0].Date;
+        maxDate = ordered[^1].Date;
+
+        averageRating = reviews.Average(r => r.Rating);
+        distinctSources = reviews.Select(r => r.Source).Distinct().Count();
+
+        // Trend = recent half's average vs. the earlier half's average.
+        var half = reviews.Count / 2;
+        ratingDelta = half > 0
+            ? Math.Round(ordered.Skip(reviews.Count - half).Average(r => r.Rating)
+                - ordered.Take(half).Average(r => r.Rating), 1)
+            : 0;
+
+        // One series per source; each point is a real review in chronological order.
+        series = ordered
+            .GroupBy(r => r.Source)
+            .Select(g => new RatingSeries(
+                g.Key,
+                SourceColor(g.Key),
+                g.OrderBy(r => r.Date)
+                    .Select(r => new RatingPoint(XForDate(r.Date), YFor(r.Rating), r))
+                    .ToList()))
+            .OrderBy(s => s.Source)
+            .ToList();
+
+        axisTicks = BuildAxisTicks();
+    }
+
+    private List<AxisTick> BuildAxisTicks()
+    {
+        const int tickCount = 5;
+        var totalDays = Math.Max(1, maxDate.DayNumber - minDate.DayNumber);
+        var ticks = new List<AxisTick>();
+        for (int i = 0; i <= tickCount; i++)
+        {
+            var date = DateOnly.FromDayNumber(
+                minDate.DayNumber + (int)Math.Round((double)totalDays * i / tickCount));
+            ticks.Add(new AxisTick(XForDate(date), date.ToString("MMM yy")));
+        }
+        return ticks;
+    }
+
+    private void ToggleSource(string source)
+    {
+        if (!hiddenSources.Remove(source))
+        {
+            hiddenSources.Add(source);
+        }
+
+        // Drop a pinned review whose source was just hidden.
+        if (selectedReview?.Source == source && hiddenSources.Contains(source))
+        {
+            selectedReview = null;
+        }
+    }
+
+    private void SelectReview(Review review) =>
+        selectedReview = ReferenceEquals(selectedReview, review) ? null : review;
+
+    private void ClearSelection() => selectedReview = null;
+
+    private void OnNodeKey(KeyboardEventArgs e, Review review)
+    {
+        if (e.Key is "Enter" or " ")
+        {
+            SelectReview(review);
+        }
+    }
+
+    private static string SourceColor(string source) => source switch
+    {
+        "Google" => "#4285f4",
+        "Yelp" => "#d32323",
+        "Facebook" => "#1877f2",
+        "Angi" => "#ff6153",
+        _ => "#1090c0"
+    };
+
+    private static string NodeLabel(string source, Review review) =>
+        $"{source} review by {review.Author}, {review.Rating} stars, {review.Date:MMM d, yyyy}";
+
+    private double XForDate(DateOnly date)
+    {
+        var totalDays = maxDate.DayNumber - minDate.DayNumber;
+        var ratio = totalDays <= 0 ? 0.5 : (double)(date.DayNumber - minDate.DayNumber) / totalDays;
+        return PadLeft + ratio * (ChartWidth - PadLeft - PadRight);
+    }
 
     private static double YFor(double rating)
     {
@@ -185,17 +300,19 @@ else
         return ChartHeight - PadBottom - ratio * (ChartHeight - PadTop - PadBottom);
     }
 
-    private string BuildPoints(List<double> ratings) =>
-        string.Join(" ", ratings.Select((r, i) =>
-            $"{XFor(i).ToString(System.Globalization.CultureInfo.InvariantCulture)},{YFor(r).ToString(System.Globalization.CultureInfo.InvariantCulture)}"));
+    private static string Fmt(double value) => value.ToString("0.##", Ci);
+
+    private static string BuildPoints(List<RatingPoint> points) =>
+        string.Join(" ", points.Select(p => $"{Fmt(p.X)},{Fmt(p.Y)}"));
 
     private static MarkupString SvgText(double x, double y, string anchor, string text)
     {
-        var ci = System.Globalization.CultureInfo.InvariantCulture;
         var encoded = System.Net.WebUtility.HtmlEncode(text);
         return new MarkupString(
-            $"<text class=\"axis-label\" x=\"{x.ToString(ci)}\" y=\"{y.ToString(ci)}\" text-anchor=\"{anchor}\">{encoded}</text>");
+            $"<text class=\"axis-label\" x=\"{Fmt(x)}\" y=\"{Fmt(y)}\" text-anchor=\"{anchor}\">{encoded}</text>");
     }
 
-    private record RatingSeries(string Source, string Color, List<double> Ratings);
+    private record RatingSeries(string Source, string Color, List<RatingPoint> Points);
+    private record RatingPoint(double X, double Y, Review Review);
+    private record AxisTick(double X, string Label);
 }

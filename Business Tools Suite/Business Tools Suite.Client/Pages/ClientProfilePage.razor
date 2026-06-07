@@ -1,4 +1,4 @@
-@page "/clients/{Email}"
+@page "/admin/clients/{Email}"
 @attribute [Authorize]
 @implements IDisposable
 @inject PlaceholderDataService DataService
@@ -14,7 +14,7 @@
     </div>
     <div class="surface-card empty-state">
         <p class="muted">The client may have been removed, or the link is out of date.</p>
-        <a class="btn btn-primary" href="clients">
+        <a class="btn btn-primary" href="admin/clients">
             <span class="bi bi-arrow-left" aria-hidden="true"></span> Back to Clients
         </a>
     </div>
@@ -22,7 +22,7 @@
 else
 {
     <div class="profile-back">
-        <a class="back-link" href="clients">
+        <a class="back-link" href="admin/clients">
             <span class="bi bi-arrow-left" aria-hidden="true"></span> Clients
         </a>
     </div>
@@ -59,13 +59,26 @@ else
                     <dd>@client.CreatedOn.ToString("MMMM d, yyyy")</dd>
                 </div>
             </dl>
-            @if (!string.IsNullOrWhiteSpace(client.Notes))
-            {
-                <div class="profile-notes">
-                    <h3>Notes</h3>
-                    <p>@client.Notes</p>
+            <div class="profile-notes">
+                <label class="notes-label" for="client-notes">
+                    Add notes about this client
+                    <span class="notes-privacy">(The client will not see this information)</span>
+                </label>
+                <textarea id="client-notes" class="form-control notes-input" rows="4"
+                          placeholder="Access details, schedule preferences, reminders, etc."
+                          @bind="notesDraft" @bind:event="oninput"></textarea>
+                <div class="notes-actions">
+                    <button type="button" class="btn btn-primary" @onclick="SaveNotes" disabled="@(!NotesChanged)">
+                        <span class="bi bi-save" aria-hidden="true"></span> Save notes
+                    </button>
+                    @if (notesSaved && !NotesChanged)
+                    {
+                        <span class="notes-saved" role="status">
+                            <span class="bi bi-check-circle-fill" aria-hidden="true"></span> Saved
+                        </span>
+                    }
                 </div>
-            }
+            </div>
         </section>
 
         <section class="surface-card profile-contact">
@@ -80,6 +93,9 @@ else
                 </a>
                 <a class="btn btn-outline contact-btn" href="sms:@PhoneDigits(client.Phone)">
                     <span class="bi bi-chat-dots" aria-hidden="true"></span> Send text
+                </a>
+                <a class="btn btn-outline contact-btn" href="@ScheduleUrl" target="_blank" rel="noopener">
+                    <span class="bi bi-calendar-plus" aria-hidden="true"></span> Schedule an Appointment
                 </a>
             </div>
         </section>
@@ -183,6 +199,9 @@ else
     private IReadOnlyList<Review> reviews = Array.Empty<Review>();
     private IReadOnlyList<QuoteRequest> outstandingQuotes = Array.Empty<QuoteRequest>();
     private bool confirmingDelete;
+    private string notesDraft = "";
+    private string? loadedEmail;
+    private bool notesSaved;
 
     protected override void OnInitialized()
     {
@@ -201,6 +220,15 @@ else
         outstandingQuotes = client is null
             ? Array.Empty<QuoteRequest>()
             : DataService.GetOutstandingQuoteRequestsForClient(client);
+
+        // Seed the editable notes draft when first loading a given client so
+        // in-progress typing isn't overwritten by unrelated data refreshes.
+        if (!string.Equals(loadedEmail, client?.Email, StringComparison.OrdinalIgnoreCase))
+        {
+            notesDraft = client?.Notes ?? "";
+            loadedEmail = client?.Email;
+            notesSaved = false;
+        }
     }
 
     private void OnDataChanged()
@@ -216,11 +244,65 @@ else
             DataService.DeleteClient(client.Email);
         }
 
-        Navigation.NavigateTo("clients");
+        Navigation.NavigateTo("admin/clients");
+    }
+
+    /// <summary>
+    /// True when the draft differs from the saved notes, enabling the Save button.
+    /// </summary>
+    private bool NotesChanged =>
+        client is not null &&
+        !string.Equals((notesDraft ?? string.Empty).Trim(), client.Notes ?? string.Empty, StringComparison.Ordinal);
+
+    private void SaveNotes()
+    {
+        if (client is null)
+        {
+            return;
+        }
+
+        var trimmed = string.IsNullOrWhiteSpace(notesDraft) ? null : notesDraft.Trim();
+        DataService.UpdateClientNotes(client.Email, trimmed);
+        notesSaved = true;
     }
 
     private static string PhoneDigits(string phone) =>
         new string(phone.Where(c => char.IsDigit(c) || c == '+').ToArray());
+
+    /// <summary>
+    /// Builds a Google Calendar "create event" link prepopulated with the
+    /// client's details. Opens in a new tab so the owner can confirm and save
+    /// the appointment in their own calendar. Defaults to a 2-hour slot at 9 AM
+    /// the next day, which can be adjusted before saving.
+    /// </summary>
+    private string ScheduleUrl
+    {
+        get
+        {
+            if (client is null)
+            {
+                return "#";
+            }
+
+            var start = DateTime.Today.AddDays(1).AddHours(9);
+            var end = start.AddHours(2);
+            var dates = $"{start:yyyyMMdd'T'HHmmss}/{end:yyyyMMdd'T'HHmmss}";
+
+            var title = $"New Era Cleaning — {client.ServiceType}: {client.Name}";
+
+            var details =
+                $"Service: {client.ServiceType}\n" +
+                $"Client: {client.Name}\n" +
+                $"Phone: {client.Phone}\n" +
+                $"Email: {client.Email}" +
+                (string.IsNullOrWhiteSpace(client.Notes) ? "" : $"\nNotes: {client.Notes}");
+
+            return "https://calendar.google.com/calendar/render?action=TEMPLATE"
+                + $"&text={Uri.EscapeDataString(title)}"
+                + $"&dates={dates}"
+                + $"&details={Uri.EscapeDataString(details)}";
+        }
+    }
 
     private static string GetInitials(string name)
     {

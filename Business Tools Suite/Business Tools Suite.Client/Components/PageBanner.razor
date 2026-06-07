@@ -1,0 +1,38 @@
+@*
+    Interior-page hero banner with breadcrumb. Keeps the gradient background
+    treatment consistent across About, Services, Pricing, Job Photos, etc.
+*@
+
+<section class="page-banner">
+    <div class="page-banner-inner">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="">Home</a>
+            <span aria-hidden="true">/</span>
+            @if (ParentLabel is not null && ParentHref is not null)
+            {
+                <a href="@ParentHref">@ParentLabel</a>
+                <span aria-hidden="true">/</span>
+            }
+            <span>@Title</span>
+        </nav>
+        <h1>@Title</h1>
+        @if (!string.IsNullOrWhiteSpace(Subtitle))
+        {
+            <p>@Subtitle</p>
+        }
+    </div>
+</section>
+
+@code {
+    /// <summary>Page title shown as the banner headline and final breadcrumb.</summary>
+    [Parameter] public string Title { get; set; } = string.Empty;
+
+    /// <summary>Optional supporting line under the title.</summary>
+    [Parameter] public string? Subtitle { get; set; }
+
+    /// <summary>Optional intermediate breadcrumb label (e.g., "Services").</summary>
+    [Parameter] public string? ParentLabel { get; set; }
+
+    /// <summary>Href for the intermediate breadcrumb label.</summary>
+    [Parameter] public string? ParentHref { get; set; }
+}
