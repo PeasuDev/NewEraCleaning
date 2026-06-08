@@ -1,0 +1,123 @@
+.pricing-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.pricing-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.pricing-saved {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.25rem;
+    color: #0c6f96;
+    font-weight: 600;
+}
+
+.pricing-saved .bi {
+    color: #1090C0;
+}
+
+.pricing-table-card {
+    margin-bottom: 1.5rem;
+    padding: 1.25rem;
+}
+
+.pricing-table-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.pricing-title-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    flex: 1 1 auto;
+    max-width: 28rem;
+}
+
+.pricing-title-field label {
+    font-size: var(--font-sm);
+    font-weight: 600;
+    color: var(--ink);
+}
+
+.pricing-title-field input {
+    font-weight: 700;
+}
+
+.pricing-remove-table {
+    color: #b00020;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+.pricing-remove-table:hover {
+    text-decoration: underline;
+}
+
+.pricing-edit-wrap {
+    overflow-x: auto;
+}
+
+.pricing-edit-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.pricing-edit-table thead th {
+    text-align: left;
+    font-size: var(--font-sm);
+    font-weight: 700;
+    color: var(--ink-muted);
+    padding: 0 0.5rem 0.5rem;
+}
+
+.pricing-edit-table tbody td {
+    padding: 0.4rem 0.5rem;
+    vertical-align: top;
+    border-top: 1px solid var(--line);
+}
+
+.pricing-edit-table tbody tr:first-child td {
+    border-top: none;
+}
+
+.pricing-edit-table textarea {
+    resize: vertical;
+    font-size: 0.9rem;
+}
+
+.pricing-row-actions-col {
+    width: 2.5rem;
+}
+
+.pricing-row-actions {
+    text-align: center;
+    white-space: nowrap;
+}
+
+.pricing-remove-row {
+    color: #b00020;
+    padding: 0.25rem 0.4rem;
+}
+
+.pricing-add-row {
+    margin-top: 0.85rem;
+}
+
+.pricing-add-table {
+    margin-top: 0.5rem;
+}
+

@@ -13,12 +13,14 @@ public class PlaceholderDataService
     private readonly List<Review> _reviews;
     private readonly List<QuoteRequest> _quoteRequests;
     private readonly List<ClientProfile> _clients;
+    private List<PriceTable> _priceTables;
 
     public PlaceholderDataService()
     {
         _reviews = SeedReviews();
         _quoteRequests = SeedQuoteRequests();
         _clients = SeedClients(_quoteRequests);
+        _priceTables = SeedPriceTables();
     }
 
     /// <summary>
@@ -178,6 +180,24 @@ public class PlaceholderDataService
         return true;
     }
 
+    /// <summary>
+    /// Coupon price tables shown on the public Pricing page. A deep copy is
+    /// returned so callers (e.g. the admin editor) can modify their working copy
+    /// without affecting the published data until they save.
+    /// </summary>
+    public IReadOnlyList<PriceTable> GetPriceTables() =>
+        _priceTables.Select(t => t.Clone()).ToList();
+
+    /// <summary>
+    /// Replaces the published coupon price tables with the supplied set (stored
+    /// as a deep copy) and notifies listeners so the public page refreshes.
+    /// </summary>
+    public void UpdatePriceTables(IEnumerable<PriceTable> priceTables)
+    {
+        _priceTables = priceTables.Select(t => t.Clone()).ToList();
+        Changed?.Invoke();
+    }
+
     // Real customer reviews extracted from the New Era Yelp and Angi profiles.
     // GetReviews() sorts these newest-first, so seed order is for readability only.
     private static List<Review> SeedReviews() => new()
@@ -279,4 +299,51 @@ public class PlaceholderDataService
 
         return clients;
     }
+
+    // Current published coupon price lists shown on the public Pricing page.
+    // These are the starting values; the owner can edit them from the admin
+    // Pricing page, after which the public page reflects the changes.
+    private static List<PriceTable> SeedPriceTables() => new()
+    {
+        new("Carpet Cleaning", new List<PriceRow>
+        {
+            new("Carpet cleaning minimum includes from 1 room, in room closets included",
+                "Includes pre-treatment/steam cleaning, spot treating, STAIRS ARE NOT PRICED AS A ROOM", "$139.00"),
+            new("Carpet cleaning 2-3 rooms, in room closets included",
+                "Includes pre-treatment/steam cleaning, spot treating, STAIRS ARE NOT PRICED AS A ROOM", "$159.00"),
+            new("4 room clean, in room closets included",
+                "Includes pre-treatment/steam cleaning, spot treating, STAIRS ARE NOT PRICED AS A ROOM", "$199.00"),
+            new("5 room clean, in room closets included",
+                "Includes pre-treatment/steam cleaning, spot treating, STAIRS ARE NOT PRICED AS A ROOM", "$229.00"),
+            new("Rooms over 12×13 can result in an additional charge", "", ""),
+            new("6 Rooms, including hallways and closets",
+                "Includes pre-treatment/steam cleaning, spot treating, STAIRS ARE NOT PRICED AS A ROOM", "$259.00"),
+            new("Whole House (Over 2000 sq ft, up to 3500sf)",
+                "Includes pre-treatment/steam cleaning", "TBD Priced by number of rooms, hallways and stairs"),
+            new("Synthetic rug", "Includes pre-treatment/steam cleaning", "$35-$65 (depending on size)"),
+            new("Wool rugs/specialty cleaning/most natural fiber rugs", "", "$1.50 per square foot"),
+            new("Hallway", "Includes pre-treatment/steam cleaning, spot treating", "$15.00 – $25.00"),
+            new("Stairs", "Includes pre-treatment/steam cleaning, spot treating", "$3 each or $45 up to 16 steps"),
+            new("Commercial Carpet", "Must be during normal business hours",
+                "$0.25 per sq ft, $0.35 after business hours"),
+            new("Power scrub/heavy clean", "Use of floor machine on very soiled areas", "$45.00 minimum"),
+            new("Topical pet treatment", "Includes urine stain treatment and enzyme disinfectant", "$35 per room"),
+            new("Full Pet Treatment for heavily urine saturated carpets and padding",
+                "Two-sided carpet steam clean and disinfectant, pad replacement", "Starts at $250 per room"),
+        }),
+        new("Carpet Repair/Restoration", new List<PriceRow>
+        {
+            new("Patches", "Carpet patches cut and installed", "$75.00 min"),
+            new("Water damage restoration", "Complete dry out of flooring and structure",
+                "$125.00 minimum; priced on site"),
+        }),
+        new("Stone, Tile, Grout", new List<PriceRow>
+        {
+            new("Tile/grout clean — ceramic/porcelain only", "Regular price $1 a square foot.",
+                "Starts at $0.85 per sq ft."),
+            new("Stone restoration/clean", "All stone floors, showers, backsplash and stone countertops",
+                "Priced on site"),
+            new("Color staining grout/sealant", "For damaged grout or just freshening up/changing color", "$2.00"),
+        }),
+    };
 }

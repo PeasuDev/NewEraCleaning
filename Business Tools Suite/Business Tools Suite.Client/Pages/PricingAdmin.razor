@@ -1,0 +1,179 @@
+@page "/admin/pricing"
+@attribute [Authorize]
+@implements IDisposable
+@inject PlaceholderDataService DataService
+
+<PageTitle>Pricing · New Era Cleaning</PageTitle>
+
+<div class="page-header pricing-header">
+    <div>
+        <h1>Pricing</h1>
+        <p class="page-subtitle">
+            Edit the coupon price tables shown on the public
+            <a href="pricing" target="_blank">Pricing page</a>. Changes go live as soon as you save.
+        </p>
+    </div>
+    <div class="pricing-actions">
+        <button class="btn btn-outline-secondary" @onclick="Reset" disabled="@(!isDirty)">
+            <span class="bi bi-arrow-counterclockwise" aria-hidden="true"></span> Discard changes
+        </button>
+        <button class="btn btn-primary" @onclick="Save" disabled="@(!isDirty)">
+            <span class="bi bi-check-lg" aria-hidden="true"></span> Save changes
+        </button>
+    </div>
+</div>
+
+@if (savedMessageVisible)
+{
+    <div class="surface-card pricing-saved" aria-live="polite">
+        <span class="bi bi-check-circle-fill" aria-hidden="true"></span>
+        Pricing saved. The public page now shows your latest prices.
+    </div>
+}
+
+@for (var t = 0; t < tables.Count; t++)
+{
+    var table = tables[t];
+    var tableIndex = t;
+
+    <section class="surface-card pricing-table-card">
+        <div class="pricing-table-head">
+            <div class="form-field pricing-title-field">
+                <label for="@($"table-title-{tableIndex}")">Table title</label>
+                <input id="@($"table-title-{tableIndex}")" class="form-control" @bind="table.Title"
+                       @bind:after="MarkDirty" placeholder="e.g. Carpet Cleaning" />
+            </div>
+            <button class="btn btn-link pricing-remove-table" @onclick="() => RemoveTable(tableIndex)">
+                <span class="bi bi-trash" aria-hidden="true"></span> Remove table
+            </button>
+        </div>
+
+        <div class="pricing-edit-wrap">
+            <table class="pricing-edit-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Service</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Pricing or incident</th>
+                        <th scope="col" class="pricing-row-actions-col"><span class="visually-hidden">Actions</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (var r = 0; r < table.Rows.Count; r++)
+                    {
+                        var row = table.Rows[r];
+                        var rowIndex = r;
+                        <tr>
+                            <td>
+                                <textarea class="form-control" rows="2" @bind="row.Service"
+                                          @bind:after="MarkDirty" placeholder="Service name"></textarea>
+                            </td>
+                            <td>
+                                <textarea class="form-control" rows="2" @bind="row.Description"
+                                          @bind:after="MarkDirty" placeholder="What's included (optional)"></textarea>
+                            </td>
+                            <td>
+                                <textarea class="form-control" rows="2" @bind="row.Price"
+                                          @bind:after="MarkDirty" placeholder="e.g. $139.00"></textarea>
+                            </td>
+                            <td class="pricing-row-actions">
+                                <button class="btn btn-link pricing-remove-row"
+                                        title="Remove row" @onclick="() => RemoveRow(tableIndex, rowIndex)">
+                                    <span class="bi bi-x-lg" aria-hidden="true"></span>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <button class="btn btn-outline-secondary pricing-add-row" @onclick="() => AddRow(tableIndex)">
+            <span class="bi bi-plus-lg" aria-hidden="true"></span> Add row
+        </button>
+    </section>
+}
+
+<button class="btn btn-outline-primary pricing-add-table" @onclick="AddTable">
+    <span class="bi bi-plus-lg" aria-hidden="true"></span> Add a new table
+</button>
+
+@code {
+    // Working copy of the coupon price tables. Loaded as a deep copy from the
+    // data service so in-progress edits don't change the published pricing until
+    // the owner clicks Save.
+    private List<PriceTable> tables = new();
+    private bool isDirty;
+    private bool savedMessageVisible;
+
+    protected override void OnInitialized()
+    {
+        LoadFromService();
+        DataService.Changed += OnDataChanged;
+    }
+
+    private void LoadFromService()
+    {
+        tables = DataService.GetPriceTables().Select(t => t.Clone()).ToList();
+        isDirty = false;
+    }
+
+    private void MarkDirty()
+    {
+        isDirty = true;
+        savedMessageVisible = false;
+    }
+
+    private void AddRow(int tableIndex)
+    {
+        tables[tableIndex].Rows.Add(new PriceRow());
+        MarkDirty();
+    }
+
+    private void RemoveRow(int tableIndex, int rowIndex)
+    {
+        tables[tableIndex].Rows.RemoveAt(rowIndex);
+        MarkDirty();
+    }
+
+    private void AddTable()
+    {
+        tables.Add(new PriceTable("New table", new List<PriceRow> { new() }));
+        MarkDirty();
+    }
+
+    private void RemoveTable(int tableIndex)
+    {
+        tables.RemoveAt(tableIndex);
+        MarkDirty();
+    }
+
+    private void Save()
+    {
+        DataService.UpdatePriceTables(tables);
+        isDirty = false;
+        savedMessageVisible = true;
+    }
+
+    private void Reset()
+    {
+        LoadFromService();
+        savedMessageVisible = false;
+    }
+
+    private void OnDataChanged()
+    {
+        // Only refresh from the service when the user has no unsaved edits, so
+        // we never clobber work in progress.
+        if (!isDirty)
+        {
+            LoadFromService();
+            InvokeAsync(StateHasChanged);
+        }
+    }
+
+    public void Dispose()
+    {
+        DataService.Changed -= OnDataChanged;
+    }
+}
