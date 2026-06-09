@@ -4,7 +4,7 @@
 @inject PlaceholderDataService DataService
 @inject NavigationManager Navigation
 
-<PageTitle>@(client?.Name ?? "Client") · New Era Cleaning</PageTitle>
+<PageTitle>@(client?.Name ?? "Client") · New Era Steam Cleaning</PageTitle>
 
 @if (client is null)
 {
@@ -288,7 +288,7 @@ else
             var end = start.AddHours(2);
             var dates = $"{start:yyyyMMdd'T'HHmmss}/{end:yyyyMMdd'T'HHmmss}";
 
-            var title = $"New Era Cleaning — {client.ServiceType}: {client.Name}";
+            var title = $"New Era Steam Cleaning — {client.ServiceType}: {client.Name}";
 
             var details =
                 $"Service: {client.ServiceType}\n" +

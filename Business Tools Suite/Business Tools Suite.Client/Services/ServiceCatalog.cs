@@ -1,7 +1,7 @@
 namespace Business_Tools_Suite.Client.Services;
 
 /// <summary>
-/// Describes a single cleaning service offered by New Era Cleaning &amp;
+/// Describes a single cleaning service offered by New Era Steam Cleaning &amp;
 /// Restoration. Drives the services grid, the per-service detail pages
 /// (<c>/services/{Slug}</c>), and the quote form's service picker.
 /// </summary>

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Business_Tools_Suite.Client.Services;
 
-// TEMPORARY: Bypasses authentication so the New Era Cleaning admin portal can be
+// TEMPORARY: Bypasses authentication so the New Era Steam Cleaning admin portal can be
 // accessed without logging in. This always reports an authenticated user, which
 // satisfies the [Authorize] attributes, AuthorizeRouteView, and AuthorizeView used
 // throughout the admin pages.
