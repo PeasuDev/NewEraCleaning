@@ -29,40 +29,39 @@ else
                 ParentHref="services" />
 
     <section class="section">
-        <div class="section-inner split">
-            <div class="split-copy prose">
-                <h2>@service.Tagline</h2>
-                <p>@service.LongDescription</p>
+        <div class="section-inner section-narrow prose">
+            <h2>@service.Tagline</h2>
+            <p>@service.LongDescription</p>
 
-                <h3>What's included</h3>
-                <ul class="check-list">
-                    @foreach (var highlight in service.Highlights)
-                    {
-                        <li><span class="bi bi-check-circle-fill" aria-hidden="true"></span> @highlight</li>
-                    }
-                </ul>
+            <h3>What's included</h3>
+            <ul class="check-list">
+                @foreach (var highlight in service.Highlights)
+                {
+                    <li><span class="bi bi-check-circle-fill" aria-hidden="true"></span> @highlight</li>
+                }
+            </ul>
 
-                <p class="price-note" style="text-align:left;margin-top:1.5rem;">
-                    <span class="bi bi-patch-check-fill" aria-hidden="true"></span>
-                    Our technicians are insured &amp; bonded, and every job is backed by our
-                    10-day, no-hassle guarantee. Organic, all-natural green options are available
-                    on request. Check out our <a href="pricing">price list</a> or request a free,
-                    personalized quote.
-                </p>
+            <p class="price-note" style="text-align:left;margin-top:1.5rem;">
+                <span class="bi bi-patch-check-fill" aria-hidden="true"></span>
+                Our technicians are insured &amp; bonded, and every job is backed by our
+                10-day, no-hassle guarantee. Organic, all-natural green options are available
+                on request. Check out our <a href="pricing">price list</a> or request a free,
+                personalized quote.
+            </p>
 
-                <div class="hero-actions" style="margin-top:1.5rem;">
-                    <a class="btn-primary-lg" href="#service-quote">
-                        Get a Free Quote
-                        <span class="bi bi-arrow-right" aria-hidden="true"></span>
-                    </a>
-                    <a class="btn-outline" href="tel:+17139060918">
-                        <span class="bi bi-telephone-fill" aria-hidden="true"></span>
-                        (713) 906-0918
-                    </a>
-                </div>
-            </div>
-            <div class="split-media">
-                <span class="bi @service.Icon" aria-hidden="true"></span>
+            <div class="hero-actions" style="margin-top:1.5rem;">
+                @* Relative href, matching "pricing" above: it resolves against
+                   <base href="/">. A fragment-only href would not - "#service-quote"
+                   resolves against the base too, sending the visitor to the home
+                   page instead of the form below. *@
+                <a class="btn-primary-lg" href="@($"quote?service={Uri.EscapeDataString(service.Name)}")">
+                    Get a Free Quote
+                    <span class="bi bi-arrow-right" aria-hidden="true"></span>
+                </a>
+                <a class="btn-outline" href="tel:+17139060918">
+                    <span class="bi bi-telephone-fill" aria-hidden="true"></span>
+                    (713) 906-0918
+                </a>
             </div>
         </div>
     </section>
@@ -89,24 +88,7 @@ else
     </section>
 
     <!-- Quote -->
-    <section class="section quote-section" id="service-quote">
-        <div class="section-inner quote-grid">
-            <div class="quote-intro">
-                <span class="section-eyebrow section-eyebrow-light">Get Started</span>
-                <h2 class="quote-title">Request @service.Name</h2>
-                <p class="quote-lead">
-                    Tell us about your space and we'll get back to you with a free, no-obligation
-                    quote. Prefer to talk? Call us directly &mdash; we're happy to help.
-                </p>
-                <ul class="quote-contact">
-                    <li><span class="bi bi-telephone-fill" aria-hidden="true"></span> <a href="tel:+17139060918">(713) 906-0918</a></li>
-                    <li><span class="bi bi-clock-fill" aria-hidden="true"></span> Mon&ndash;Sun: 9:00 AM &ndash; 6:00 PM</li>
-                    <li><span class="bi bi-flower1" aria-hidden="true"></span> Ask about organic, green cleaning</li>
-                </ul>
-            </div>
-            <QuoteForm FormName="service-quote" PreselectedService="@service.Name" Title="@($"Request {service.Name}")" />
-        </div>
-    </section>
+    <QuoteSection SectionId="service-quote" FormName="service-quote" PreselectedService="@service.Name" />
 }
 
 @code {

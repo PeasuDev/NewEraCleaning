@@ -1,0 +1,49 @@
+@*
+    The whole quote-request block: intro copy, contact details, trust badges and
+    the form itself.
+
+    The home page, the quote page and the eight service pages each used to carry
+    their own copy of this markup, with a different heading, a differently worded
+    lead, and the area line and trust badges on only one of the three. They
+    render from here now, so the only things that vary are the anchor id, the
+    form name, and which service the picker opens on.
+
+    Mirrors newera_quote_section() in the WordPress theme's inc/template-tags.php
+    — change both or the preview stops matching what ships.
+*@
+
+<section class="section quote-section" id="@SectionId">
+    <div class="section-inner quote-grid">
+        <div class="quote-intro">
+            <span class="section-eyebrow section-eyebrow-light">Get Started</span>
+            <h2 class="quote-title">Let's Make Your Space Shine</h2>
+            <p class="quote-lead">
+                Tell us a little about the job and we'll get back to you with a free, no-obligation
+                quote. Prefer to talk? Call us directly &mdash; we're happy to help.
+            </p>
+            <ul class="quote-contact">
+                <li><span class="bi bi-telephone-fill" aria-hidden="true"></span> <a href="tel:+17139060918">(713) 906-0918</a></li>
+                <li><span class="bi bi-clock-fill" aria-hidden="true"></span> Mon&ndash;Fri: 9:00 AM &ndash; 6:00 PM</li>
+                <li><span class="bi bi-geo-alt-fill" aria-hidden="true"></span> Serving Harris &amp; Fort Bend County</li>
+                <li><span class="bi bi-flower1" aria-hidden="true"></span> Ask about organic, green cleaning</li>
+            </ul>
+            <div class="quote-trust">
+                <span><span class="bi bi-shield-check" aria-hidden="true"></span> Guaranteed, Bonded &amp; Insured</span>
+                <span><span class="bi bi-people-fill" aria-hidden="true"></span> Family-Owned Since 2014</span>
+            </div>
+        </div>
+
+        <QuoteForm FormName="@FormName" PreselectedService="@PreselectedService" />
+    </div>
+</section>
+
+@code {
+    /// <summary>Optional id for the section, used as a scroll target. Omitted when null.</summary>
+    [Parameter] public string? SectionId { get; set; }
+
+    /// <summary>Unique form name (also used to namespace the field ids on the page).</summary>
+    [Parameter] public string FormName { get; set; } = "quote-request";
+
+    /// <summary>Optional service to preselect in the picker.</summary>
+    [Parameter] public string? PreselectedService { get; set; }
+}

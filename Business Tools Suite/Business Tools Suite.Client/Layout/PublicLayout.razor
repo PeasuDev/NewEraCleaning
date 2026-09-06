@@ -1,10 +1,18 @@
 @inherits LayoutComponentBase
+@implements IDisposable
+@inject NavigationManager Nav
+@inject IJSRuntime JS
 
 @*
     Public-facing marketing chrome for neweracleaning.com. Wraps anonymous
     marketing pages with a sticky header and a content-rich footer. The admin
-    dashboard uses MainLayout instead; a discreet link to /admin lives in the
-    footer for staff.
+    dashboard uses MainLayout instead.
+
+    The footer used to carry a discreet "Staff Admin" link to /admin. It was
+    removed so these pages match the WordPress theme, which ships without it
+    (see the note at the top of the theme's footer.php) — this app now serves
+    only as the local preview of the public site. /admin is unaffected and is
+    still reachable by typing the URL.
 *@
 
 <div class="public-shell">
@@ -18,7 +26,7 @@
                 </span>
             </a>
 
-            <input type="checkbox" id="public-nav-toggle" class="public-nav-toggle" />
+            <input type="checkbox" id="public-nav-toggle" class="public-nav-toggle" @bind="_navOpen" />
             <label for="public-nav-toggle" class="public-nav-burger" aria-label="Toggle navigation">
                 <span></span><span></span><span></span>
             </label>
@@ -61,28 +69,7 @@
                 </p>
                 <div class="public-footer-follow">
                     <h3 class="public-footer-social-heading">Follow us</h3>
-                    <div class="public-footer-social">
-                        <a class="social-link social-facebook" href="https://www.facebook.com/newerasteamclean"
-                           target="_blank" rel="noopener noreferrer" aria-label="New Era Steam Cleaning on Facebook">
-                            <svg viewBox="0 0 320 512" fill="currentColor" aria-hidden="true" focusable="false">
-                                <path d="M80 299.3V512H196V299.3h86.5l18-97.8H196V166.9c0-51.7 20.3-71.5 72.7-71.5c16.3 0 29.4 .4 37 1.2V7.9C291.4 4 256.4 0 236.2 0C129.3 0 80 50.5 80 159.4v42.1H14v97.8H80z" />
-                            </svg>
-                        </a>
-                        <a class="social-link social-yelp" href="https://www.yelp.com/biz/new-era-steam-cleaning-and-restoration-sugar-land"
-                           target="_blank" rel="noopener noreferrer" aria-label="New Era Steam Cleaning on Yelp">
-                            <svg viewBox="0 0 384 512" fill="currentColor" aria-hidden="true" focusable="false">
-                                <path d="M42.9 240.32l99.62 48.61c19.2 9.4 16.2 37.51-4.5 42.71L30.5 358.45a22.79 22.79 0 0 1-28.21-19.6 197.16 197.16 0 0 1 9-85.32 22.8 22.8 0 0 1 31.61-13.21zm44 239.25a199.45 199.45 0 0 0 79.42 32.11A22.78 22.78 0 0 0 192.94 490l3.9-110.82c.7-21.3-25.5-31.91-39.81-16.1l-74.21 82.4a22.82 22.82 0 0 0 4.09 34.09zm145.34-109.92l58.81 94a22.93 22.93 0 0 0 34 5.5 198.36 198.36 0 0 0 52.71-67.61A23 23 0 0 0 364.17 370l-105.42-34.26c-20.31-6.5-37.81 15.8-26.51 33.91zm148.33-132.23a197.44 197.44 0 0 0-50.41-69.31 22.85 22.85 0 0 0-34 4.4l-62 91.92c-11.9 17.7 4.7 40.61 25.2 34.71L366 268.63a23 23 0 0 0 14.61-31.21zM62.11 30.18a22.86 22.86 0 0 0-9.9 32l104.12 180.44c11.7 20.2 42.61 11.9 42.61-11.4V22.88a22.67 22.67 0 0 0-24.5-22.8 320.37 320.37 0 0 0-112.33 30.1z" />
-                            </svg>
-                        </a>
-                        <a class="social-link social-angi" href="https://www.angi.com/companylist/us/tx/austin/new-era-steam-cleaning-and-restoration-reviews-8435486.htm"
-                           target="_blank" rel="noopener noreferrer" aria-label="New Era Steam Cleaning on Angi">
-                            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-                                <path d="m32.464 39.567l5.895.053L32.61 4.5h-8.584l-2.663 18.146c-.214 1.97-1.725 15.785-4.31 15.238c-5.07-3.454.625-9.686 3.088-9.28c9.285-1.3 11.791 2.027 12.324 10.963Z" />
-                                <path d="m28.466 9.954l-1.94 13.23a8.2 8.2 0 0 1 2.6.726a14 14 0 0 1 1.364.76ZM14.82 42.677a10.48 10.48 0 0 1-4.631-12.436a9.71 9.71 0 0 1 10.997-6.696" />
-                                <path d="M14.682 42.607c8.203 4.103 10.078-6.858 11.131-14.003" />
-                            </svg>
-                        </a>
-                    </div>
+                    <SocialLinks />
                 </div>
             </div>
 
@@ -120,14 +107,19 @@
                     </li>
                     <li>
                         <span class="bi bi-clock-fill" aria-hidden="true"></span>
-                        Mon&ndash;Sun: 9:00 AM &ndash; 6:00 PM
+                        Mon&ndash;Fri: 9:00 AM &ndash; 6:00 PM
                     </li>
                     <li>
                         <span class="bi bi-geo-alt-fill" aria-hidden="true"></span>
                         Harris &amp; Fort Bend County, TX
                     </li>
                 </ul>
-                <a class="public-footer-cta" href="quote">Request a Free Quote</a>
+                @*
+                    Left as a plain link so middle-click and ctrl-click still open
+                    the quote page in a new tab; the handler only records that this
+                    particular button was the thing that navigated.
+                *@
+                <a class="public-footer-cta" href="quote" @onclick="OnQuoteCtaClick">Request a Free Quote</a>
             </div>
         </div>
 
@@ -136,13 +128,98 @@
             <nav class="public-footer-links" aria-label="Footer">
                 <a href="about">About</a>
                 <a href="pricing">Pricing</a>
-                <a href="pricing#specials">Specials</a>
+                <a href="services">Services</a>
                 <a href="job-photos">Job Photos</a>
                 <a href="guarantee">Guarantee</a>
             </nav>
-            <a class="public-footer-admin" href="admin">
-                <span class="bi bi-shield-lock" aria-hidden="true"></span> Staff Admin
-            </a>
         </div>
     </footer>
 </div>
+
+@code {
+    // The mobile burger menu is a CSS-only checkbox: PublicLayout.razor.css opens
+    // the nav with `.public-nav-toggle:checked ~ .public-nav` below 1240px. In the
+    // WordPress theme, which ships the same markup, every nav item is a full page
+    // load, so the new document arrives with the checkbox unticked and the menu
+    // closes itself. Here the router navigates with pushState instead: this layout
+    // and the <input> node both survive, nothing resets `checked`, and the menu
+    // stayed open on top of the page the visitor had just picked.
+    //
+    // Binding the checkbox puts that state in the render tree so navigation can
+    // clear it. LocationChanged is the whole fix on its own -- Blazor pushes state
+    // even when the link points at the page you are already on, so re-picking the
+    // current page closes the menu too, as do the back and forward buttons.
+    private bool _navOpen;
+
+    // Scroll position is the other thing a full page load used to give us. The
+    // router keeps the viewport where it was on every navigation, so picking a
+    // nav item while scrolled down left the visitor part-way into the page they
+    // had just chosen -- and picking the page they were already on did nothing at
+    // all. PublicLayout.razor.js puts the WordPress behaviour back.
+    private IJSObjectReference? _scroll;
+
+    // Set by the footer's green CTA. On the quote page a plain navigation to
+    // /quote is invisible, so that one button scrolls to the form instead of the
+    // top. Only the footer CTA does this, which is why it needs its own flag
+    // rather than a rule about the quote page in general.
+    private bool _quoteCtaWantsForm;
+
+    protected override void OnInitialized() => Nav.LocationChanged += OnLocationChanged;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _scroll = await JS.InvokeAsync<IJSObjectReference>(
+                "import", "./Layout/PublicLayout.razor.js");
+        }
+    }
+
+    private void OnQuoteCtaClick()
+    {
+        // Only when the click cannot navigate anywhere -- from any other page the
+        // normal "land at the top of the quote page" behaviour is what we want.
+        _quoteCtaWantsForm = IsOnQuotePage();
+    }
+
+    private bool IsOnQuotePage() =>
+        Nav.ToBaseRelativePath(Nav.Uri).TrimStart('/').Split(new[] { '?', '#' })[0]
+           .Equals("quote", StringComparison.OrdinalIgnoreCase);
+
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        if (_navOpen)
+        {
+            _navOpen = false;
+            InvokeAsync(StateHasChanged);
+        }
+
+        var wantsForm = _quoteCtaWantsForm;
+        _quoteCtaWantsForm = false;
+
+        // A destination with a fragment already has a scroll target of its own
+        // (the job photo lightbox, the home page's #contact button). Stealing the
+        // viewport back to the top would break those.
+        if (!wantsForm && e.Location.Contains('#'))
+        {
+            return;
+        }
+
+        InvokeAsync(async () =>
+        {
+            if (_scroll is null)
+            {
+                return;
+            }
+
+            if (wantsForm && await _scroll.InvokeAsync<bool>("scrollToQuoteForm"))
+            {
+                return;
+            }
+
+            await _scroll.InvokeVoidAsync("scrollToTop");
+        });
+    }
+
+    public void Dispose() => Nav.LocationChanged -= OnLocationChanged;
+}

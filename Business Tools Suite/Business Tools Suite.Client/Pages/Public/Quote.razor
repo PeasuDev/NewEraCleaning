@@ -2,7 +2,8 @@
 @layout PublicLayout
 
 @*
-    Dedicated Get a Quote page. Reuses the shared QuoteForm component, which
+    Dedicated Get a Quote page. The page is the banner plus <QuoteSection />,
+    the same block the home page and every service page render, which in turn
     feeds submissions into the admin Quote Requests queue.
 *@
 
@@ -13,27 +14,13 @@
 <PageBanner Title="Get a Free Quote"
             Subtitle="You're seconds away from a cleaner space. Tell us what you need and we'll be in touch." />
 
-<section class="section quote-section">
-    <div class="section-inner quote-grid">
-        <div class="quote-intro">
-            <span class="section-eyebrow section-eyebrow-light">Get Started</span>
-            <h2 class="quote-title">Let's Make Your Space Shine</h2>
-            <p class="quote-lead">
-                Tell us a little about the job and we'll get back to you with a free, no-obligation
-                quote. Prefer to talk? Call us directly &mdash; we're happy to help.
-            </p>
-            <ul class="quote-contact">
-                <li><span class="bi bi-telephone-fill" aria-hidden="true"></span> <a href="tel:+17139060918">(713) 906-0918</a></li>
-                <li><span class="bi bi-clock-fill" aria-hidden="true"></span> Mon&ndash;Sun: 9:00 AM &ndash; 6:00 PM</li>
-                <li><span class="bi bi-geo-alt-fill" aria-hidden="true"></span> Serving Harris &amp; Fort Bend County</li>
-                <li><span class="bi bi-flower1" aria-hidden="true"></span> Ask about organic, green cleaning</li>
-            </ul>
-            <div class="quote-trust">
-                <span><span class="bi bi-shield-check" aria-hidden="true"></span> Guaranteed, Bonded &amp; Insured</span>
-                <span><span class="bi bi-people-fill" aria-hidden="true"></span> Family-Owned Since 2014</span>
-            </div>
-        </div>
+<QuoteSection FormName="quote-page" PreselectedService="@Service" />
 
-        <QuoteForm FormName="quote-page" Title="Request Your Free Quote" />
-    </div>
-</section>
+@code {
+    // Service pages link here as quote?service=<name> so the picker can open on
+    // the service the visitor was reading about. QuoteForm checks the value
+    // against ServiceCatalog.Names and ignores anything else, so an unrecognised
+    // value falls back to the empty picker rather than breaking.
+    [SupplyParameterFromQuery(Name = "service")]
+    public string? Service { get; set; }
+}

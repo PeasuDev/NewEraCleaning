@@ -1,9 +1,11 @@
 @*
     Reusable public quote-request form. Submissions flow into the shared
     PlaceholderDataService, which surfaces them in the admin Quote Requests
-    queue. Used on the Home page and the dedicated Get a Quote page.
+    queue, and are emailed to the business through IQuoteSubmissionService.
+    Used on the Home page and the dedicated Get a Quote page.
 *@
 @inject PlaceholderDataService DataService
+@inject IQuoteSubmissionService QuoteSubmission
 
 <div class="quote-form-wrap">
     @if (submitted)
@@ -17,6 +19,17 @@
     }
     else
     {
+        @if (sendError is not null)
+        {
+            <div class="newera-notice newera-notice-error" role="alert">
+                <span class="bi bi-exclamation-triangle-fill" aria-hidden="true"></span>
+                <div>
+                    <strong>We couldn't send your request.</strong>
+                    <p>@sendError</p>
+                </div>
+            </div>
+        }
+
         <EditForm Model="form" OnValidSubmit="HandleSubmit" class="quote-form" FormName="@FormName">
             <DataAnnotationsValidator />
             <h3 class="quote-form-title">@Title</h3>
@@ -58,8 +71,8 @@
                 <ValidationMessage For="() => form.Message" />
             </div>
 
-            <button class="btn-primary-lg btn-block" type="submit">
-                Send My Request
+            <button class="btn-primary-lg btn-block" type="submit" disabled="@sending">
+                @(sending ? "Sending…" : "Send My Request")
                 <span class="bi bi-send-fill" aria-hidden="true"></span>
             </button>
             <p class="quote-form-note">We'll never share your information. No obligation.</p>
@@ -69,7 +82,7 @@
 
 @code {
     /// <summary>Heading shown above the form fields.</summary>
-    [Parameter] public string Title { get; set; } = "Request a Free Quote";
+    [Parameter] public string Title { get; set; } = "Request Your Free Quote";
 
     /// <summary>Unique form name (also used to namespace field ids on the page).</summary>
     [Parameter] public string FormName { get; set; } = "quote-request";
@@ -79,7 +92,9 @@
 
     private QuoteFormModel form = new();
     private bool submitted;
+    private bool sending;
     private string submittedName = string.Empty;
+    private string? sendError;
 
     protected override void OnInitialized()
     {
@@ -90,28 +105,54 @@
         }
     }
 
-    private void HandleSubmit()
+    private async Task HandleSubmit()
     {
-        var request = new QuoteRequest(
-            form.Name.Trim(),
-            form.Email.Trim(),
-            form.Phone.Trim(),
-            form.ServiceType,
-            form.Message.Trim(),
-            DateTime.Now,
-            QuoteRequestStatus.New);
+        if (sending)
+        {
+            return;
+        }
 
-        DataService.AddQuoteRequest(request);
+        sending = true;
+        sendError = null;
 
-        submittedName = form.Name.Trim();
-        submitted = true;
-        form = new QuoteFormModel { ServiceType = PreselectedService ?? string.Empty };
+        try
+        {
+            var request = new QuoteRequest(
+                form.Name.Trim(),
+                form.Email.Trim(),
+                form.Phone.Trim(),
+                form.ServiceType,
+                form.Message.Trim(),
+                DateTime.Now,
+                QuoteRequestStatus.New);
+
+            var result = await QuoteSubmission.SubmitAsync(request);
+
+            // A request that was never delivered must not show a thank-you panel:
+            // the visitor would believe the business had heard from them.
+            if (!result.Sent)
+            {
+                sendError = result.ErrorMessage;
+                return;
+            }
+
+            DataService.AddQuoteRequest(request);
+
+            submittedName = form.Name.Trim();
+            submitted = true;
+            form = new QuoteFormModel { ServiceType = PreselectedService ?? string.Empty };
+        }
+        finally
+        {
+            sending = false;
+        }
     }
 
     private void ResetForm()
     {
         submitted = false;
         submittedName = string.Empty;
+        sendError = null;
     }
 
     /// <summary>

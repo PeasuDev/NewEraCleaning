@@ -28,6 +28,15 @@
     display: flex;
     align-items: center;
     gap: 1.25rem;
+    /*
+     * Nothing in this row can shrink -- the brand, every nav link and the call
+     * button are all nowrap -- so without this the row silently overflows the
+     * viewport and the tail of it (the call button first, then "Get a Quote")
+     * becomes unreachable. Wrapping is the safe failure: a second line looks
+     * odd but stays clickable. The burger breakpoint below is what normally
+     * keeps the row from getting that wide.
+     */
+    flex-wrap: wrap;
 }
 
 .public-brand {
@@ -68,7 +77,12 @@
 .public-nav {
     display: flex;
     align-items: center;
-    gap: 1.6rem;
+    /*
+     * 1.6rem here made the header row 1139px wide against a 1134px content box,
+     * so the row could never actually fit inside --max-width. 1.3rem leaves
+     * ~23px of slack, which is what keeps the call button on the same line.
+     */
+    gap: 1.3rem;
 }
 
 .public-nav a {
@@ -232,50 +246,15 @@
     margin: 0 0 0.7rem;
 }
 
-.public-footer-social {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-}
-
-.social-link {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.4rem;
-    height: 2.4rem;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    color: #ffffff;
-    text-decoration: none;
-    transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease;
-}
-
-.social-link svg {
-    width: 1.1rem;
-    height: 1.1rem;
-    display: block;
-}
-
-.social-link:hover {
-    transform: translateY(-2px);
-}
-
-.social-facebook:hover {
-    background: #1877f2;
-    border-color: #1877f2;
-}
-
-.social-yelp:hover {
-    background: #d32323;
-    border-color: #d32323;
-}
-
-.social-angi:hover {
-    background: #ff6153;
-    border-color: #ff6153;
-}
+/*
+ * .public-footer-social, .social-link and the brand hover colours are NOT here.
+ * They style markup rendered by <SocialLinks />, and this file is scoped CSS:
+ * the build rewrites every selector to `.foo[b-<hash>]` and stamps that
+ * attribute only on elements written in PublicLayout.razor itself. A child
+ * component's output never carries it, so the rules silently stopped matching
+ * and the icons rendered as bare 300x150 SVGs. They live in public.css instead,
+ * which is global. Anything targeting <SocialLinks /> output belongs there.
+ */
 
 .public-footer-col h3 {
     color: #ffffff;
@@ -346,19 +325,6 @@
     color: rgba(255, 255, 255, 0.6);
 }
 
-.public-footer-admin {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    color: rgba(255, 255, 255, 0.6);
-    text-decoration: none;
-    transition: color 0.18s ease;
-}
-
-.public-footer-admin:hover {
-    color: #ffffff;
-}
-
 .public-footer-links {
     display: flex;
     flex-wrap: wrap;
@@ -378,7 +344,19 @@
 
 /* ---------- Responsive ---------- */
 
-@media (max-width: 860px) {
+/*
+ * Collapse to the burger while the full row still fits, not at some notional
+ * "tablet" width. Brand (335px) + nav (~539px) + call button (198px) + gaps
+ * come to ~1112px against a 1134px content box.
+ *
+ * This used to break at 860px, which was far too late: nothing in the row can
+ * shrink, so between 861px and ~1180px the row simply ran off the right edge of
+ * the viewport. The call button went first (gone entirely below ~965px) and the
+ * last nav item followed -- at ~875px only the "G" of "Get a Quote" was still
+ * on screen and clickable. Measured across 1920-360px; keep it that way if the
+ * nav gains an item or the brand name gets longer.
+ */
+@media (max-width: 1240px) {
     .public-nav-burger {
         display: flex;
         order: 3;
@@ -406,10 +384,6 @@
 
     .public-nav-toggle:checked ~ .public-nav {
         max-height: 340px;
-    }
-
-    .public-header-inner {
-        flex-wrap: wrap;
     }
 }
 

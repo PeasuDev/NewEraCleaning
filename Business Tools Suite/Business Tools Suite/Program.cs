@@ -79,6 +79,17 @@ builder.Services.AddSingleton<Business_Tools_Suite.Services.ServerYelpReviewProv
 builder.Services.AddSingleton<Business_Tools_Suite.Client.Services.IReviewProvider>(sp =>
     sp.GetRequiredService<Business_Tools_Suite.Services.ServerYelpReviewProvider>());
 
+// Outbound email for public quote requests. The SMTP credentials are read from
+// configuration/user-secrets and never reach the browser. Set the values via:
+//   QuoteMail:UserName / QuoteMail:Password / QuoteMail:ToAddress
+// User-secrets only load in Development; when the app is started without a launch
+// profile, supply the same values as environment variables (QuoteMail__UserName).
+builder.Services.Configure<Business_Tools_Suite.Services.QuoteMailOptions>(
+    builder.Configuration.GetSection(Business_Tools_Suite.Services.QuoteMailOptions.SectionName));
+builder.Services.AddScoped<
+    Business_Tools_Suite.Client.Services.IQuoteSubmissionService,
+    Business_Tools_Suite.Services.SmtpQuoteSubmissionService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -116,5 +127,37 @@ app.MapGet("/api/reviews/live", async (
     var reviews = await reviewProvider.GetLiveReviewsAsync(cancellationToken);
     return Results.Ok(reviews);
 });
+
+// Quote form submissions posted by the WebAssembly client. The mail credentials stay
+// on the server, so the browser posts the request here instead of sending it itself.
+// Antiforgery is disabled because this is a JSON POST from the WASM runtime rather
+// than a rendered form post.
+app.MapPost("/api/quote", async (
+    Business_Tools_Suite.Client.Models.QuoteRequest request,
+    Business_Tools_Suite.Client.Services.IQuoteSubmissionService quoteSubmission,
+    Business_Tools_Suite.Client.Services.PlaceholderDataService dataService,
+    CancellationToken cancellationToken) =>
+{
+    // The browser's copy of the validation rules can be bypassed, so re-check here.
+    var validationError = Business_Tools_Suite.Services.QuoteRequestValidator.Validate(request);
+
+    if (validationError is not null)
+    {
+        return Results.Text(validationError, "text/plain", statusCode: StatusCodes.Status400BadRequest);
+    }
+
+    // Keep the server-side queue in step with the interactive-server path, which
+    // records the request through the same service.
+    dataService.AddQuoteRequest(request);
+
+    var result = await quoteSubmission.SubmitAsync(request, cancellationToken);
+
+    return result.Sent
+        ? Results.Ok()
+        : Results.Text(
+            result.ErrorMessage ?? "We couldn't send your request. Please call us instead.",
+            "text/plain",
+            statusCode: StatusCodes.Status502BadGateway);
+}).DisableAntiforgery();
 
 app.Run();

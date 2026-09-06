@@ -86,7 +86,7 @@ public static class ServiceCatalog
             "We love our pets, but let's be honest — accidents happen, and it's when the odors hang around that it becomes a real problem. You should be playing on the floor with your pets and inviting people over without worrying for a second about 'that smell.' Our standard pet treatment starts with a pre-treatment using a urine stain remover and enzyme disinfectant. The enzyme is crucial: both dog and cat urine contain uric acid, and most household cleaners can't break it down — so the uric acid stays behind, and when exposed to humidity its salts re-crystallize and release the smell again (which your pet's sensitive nose can still detect). We then perform steam extraction with detergent using portable and/or truck-mounted systems to remove most stains and detergents, leaving your carpet bright, fresh, and clean. If we really need to pull out the big guns, we also offer steam cleaning for both sides of the carpet plus pad replacement. Our technicians are insured and bonded, and every job is backed by a 10-day, no-hassle guarantee."),
         new(
             "tile-stone-grout",
-            "Tile, Stone & Grout",
+            "Tile, Stone & Grout Cleaning",
             "bi-grid-3x3-gap-fill",
             "Time to call in the big guns.",
             "Built-up soils erode hard surfaces over time. We deep-clean tile, natural stone, and grout to protect and restore them.",

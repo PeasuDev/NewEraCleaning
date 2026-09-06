@@ -15,14 +15,25 @@
 
 <section class="section">
     <div class="section-inner">
+        @*
+            The heading and paragraph must stay wrapped in a single element.
+            .guarantee-hero is a two-column `auto 1fr` grid: the seal sits in the
+            auto column and the text block in the 1fr one. Left unwrapped, the
+            paragraph auto-places into the *seal's* column, widens it to its own
+            max-content, and the heading gets squeezed into whatever 1fr has left
+            — which read as "Our Promise to You" crammed against the right edge.
+            The WordPress template (page-guarantee.php) wraps them for this reason.
+        *@
         <div class="guarantee-hero">
             <span class="guarantee-seal"><span class="bi bi-patch-check-fill" aria-hidden="true"></span></span>
-            <h2>Our Promise to You</h2>
-            <p>
-                Quality work is the foundation of our business &mdash; that's our promise as a
-                local, family-owned company. Our technicians are insured &amp; bonded, and every job
-                is backed by our <strong>10-day, no-hassle guarantee</strong>.
-            </p>
+            <div>
+                <h2>Our Promise to You</h2>
+                <p>
+                    Quality work is the foundation of our business &mdash; that's our promise as a
+                    local, family-owned company. Our technicians are insured &amp; bonded, and every job
+                    is backed by our <strong>10-day, no-hassle guarantee</strong>.
+                </p>
+            </div>
         </div>
 
         <div class="services-grid" style="margin-top:3rem;">

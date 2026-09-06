@@ -1,0 +1,1428 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+	New Era Steam Cleaning & Restoration — content import.
+
+	Import through Tools > Import > WordPress AFTER activating the New Era
+	theme, so the newera_service and newera_testimonial post types exist.
+
+	Contains: 5 pages, 7 services, 22 testimonials.
+	No media: the photos ship inside the theme under assets/img.
+-->
+<rss version="2.0"
+	xmlns:excerpt="http://wordpress.org/export/1.2/excerpt/"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:wp="http://wordpress.org/export/1.2/"
+>
+<channel>
+	<title>New Era Steam Cleaning &amp; Restoration</title>
+	<link>https://neweracleaning.com</link>
+	<description>Family-owned steam cleaning for the greater Houston area.</description>
+	<pubDate>Thu, 03 Sep 2026 09:00:00 +0000</pubDate>
+	<language>en-US</language>
+	<wp:wxr_version>1.2</wp:wxr_version>
+	<wp:base_site_url>https://neweracleaning.com</wp:base_site_url>
+	<wp:base_blog_url>https://neweracleaning.com</wp:base_blog_url>
+	<wp:author>
+		<wp:author_id>1</wp:author_id>
+		<wp:author_login><![CDATA[admin]]></wp:author_login>
+		<wp:author_email><![CDATA[]]></wp:author_email>
+		<wp:author_display_name><![CDATA[admin]]></wp:author_display_name>
+		<wp:author_first_name><![CDATA[]]></wp:author_first_name>
+		<wp:author_last_name><![CDATA[]]></wp:author_last_name>
+	</wp:author>
+	<generator>https://wordpress.org/?v=6.7</generator>
+
+	<item>
+		<title><![CDATA[About]]></title>
+		<link>https://neweracleaning.com/about-us/</link>
+		<pubDate>Thu, 03 Sep 2026 09:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">https://neweracleaning.com/?p=100</guid>
+		<description></description>
+		<content:encoded><![CDATA[<!-- wp:paragraph -->
+<p>New Era Steam Cleaning &amp; Restoration was founded in 2014 by Charles Hegler in Austin. A born-and-raised Houstonian with a beautiful young family to support and a deep love for the craft, Charles set out to fulfill a lifelong dream of starting his own business. He has since brought that business home &mdash; breathing new life into the Sugar Land, Houston, Katy, Richmond, Missouri City, and Fulshear steam cleaning scene.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>We combine over 25 years of hands-on experience with the best cleaning technologies to deliver an outstanding floor-care experience. As Houston natives, we're dedicated to growing our business the right way &mdash; through superior service and exceptional customer care. Your recommendation is our greatest compliment.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Whether it's a single room, an entire home, or a busy commercial space, no job is too large or too small. We treat every property as if it were our own.</p>
+<!-- /wp:paragraph -->]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>100</wp:post_id>
+		<wp:post_date><![CDATA[2026-09-03 09:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2026-09-03 09:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2026-09-03 09:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2026-09-03 09:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[about-us]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[page]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
+			<wp:meta_value><![CDATA[page-about.php]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+
+	<item>
+		<title><![CDATA[Pricing]]></title>
+		<link>https://neweracleaning.com/pricing/</link>
+		<pubDate>Thu, 03 Sep 2026 09:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">https://neweracleaning.com/?p=101</guid>
+		<description></description>
+		<content:encoded><![CDATA[<!-- wp:heading {"level":3} -->
+<h3>Carpet Cleaning</h3>
+<!-- /wp:heading -->
+
+<!-- wp:table {"className":"is-style-stripes"} -->
+<figure class="wp-block-table is-style-stripes"><table><thead><tr><th>Service</th><th>Description</th><th>Pricing or incident</th></tr></thead><tbody><tr><td>Carpet cleaning minimum includes from 1 room, in room closets included</td><td>Includes pre-treatment/steam cleaning, spot treating, STAIRS ARE NOT PRICED AS A ROOM</td><td>$139.00</td></tr><tr><td>Carpet cleaning 2-3 rooms, in room closets included</td><td>Includes pre-treatment/steam cleaning, spot treating, STAIRS ARE NOT PRICED AS A ROOM</td><td>$159.00</td></tr><tr><td>4 room clean, in room closets included</td><td>Includes pre-treatment/steam cleaning, spot treating, STAIRS ARE NOT PRICED AS A ROOM</td><td>$199.00</td></tr><tr><td>5 room clean, in room closets included</td><td>Includes pre-treatment/steam cleaning, spot treating, STAIRS ARE NOT PRICED AS A ROOM</td><td>$229.00</td></tr><tr><td>Rooms over 12&times;13 can result in an additional charge</td><td></td><td></td></tr><tr><td>6 Rooms, including hallways and closets</td><td>Includes pre-treatment/steam cleaning, spot treating, STAIRS ARE NOT PRICED AS A ROOM</td><td>$259.00</td></tr><tr><td>Whole House (Over 2000 sq ft, up to 3500sf)</td><td>Includes pre-treatment/steam cleaning</td><td>TBD Priced by number of rooms, hallways and stairs</td></tr><tr><td>Synthetic rug</td><td>Includes pre-treatment/steam cleaning</td><td>$35-$65 (depending on size)</td></tr><tr><td>Wool rugs/specialty cleaning/most natural fiber rugs</td><td></td><td>$1.50 per square foot</td></tr><tr><td>Hallway</td><td>Includes pre-treatment/steam cleaning, spot treating</td><td>$15.00 &ndash; $25.00</td></tr><tr><td>Stairs</td><td>Includes pre-treatment/steam cleaning, spot treating</td><td>$3 each or $45 up to 16 steps</td></tr><tr><td>Commercial Carpet</td><td>Must be during normal business hours</td><td>$0.25 per sq ft, $0.35 after business hours</td></tr><tr><td>Power scrub/heavy clean</td><td>Use of floor machine on very soiled areas</td><td>$45.00 minimum</td></tr><tr><td>Topical pet treatment</td><td>Includes urine stain treatment and enzyme disinfectant</td><td>$35 per room</td></tr><tr><td>Full Pet Treatment for heavily urine saturated carpets and padding</td><td>Two-sided carpet steam clean and disinfectant, pad replacement</td><td>Starts at $250 per room</td></tr></tbody></table></figure>
+<!-- /wp:table -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Carpet Repair/Restoration</h3>
+<!-- /wp:heading -->
+
+<!-- wp:table {"className":"is-style-stripes"} -->
+<figure class="wp-block-table is-style-stripes"><table><thead><tr><th>Service</th><th>Description</th><th>Pricing or incident</th></tr></thead><tbody><tr><td>Patches</td><td>Carpet patches cut and installed</td><td>$75.00 min</td></tr><tr><td>Water damage restoration</td><td>Complete dry out of flooring and structure</td><td>$125.00 minimum; priced on site</td></tr></tbody></table></figure>
+<!-- /wp:table -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Tile, Stone &amp; Grout Cleaning</h3>
+<!-- /wp:heading -->
+
+<!-- wp:table {"className":"is-style-stripes"} -->
+<figure class="wp-block-table is-style-stripes"><table><thead><tr><th>Service</th><th>Description</th><th>Pricing or incident</th></tr></thead><tbody><tr><td>Tile/grout clean &mdash; ceramic/porcelain only</td><td>Regular price $1 a square foot.</td><td>Starts at $0.85 per sq ft.</td></tr><tr><td>Stone restoration/clean</td><td>All stone floors, showers, backsplash and stone countertops</td><td>Priced on site</td></tr><tr><td>Color staining grout/sealant</td><td>For damaged grout or just freshening up/changing color</td><td>$2.00</td></tr></tbody></table></figure>
+<!-- /wp:table -->]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>101</wp:post_id>
+		<wp:post_date><![CDATA[2026-09-03 09:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2026-09-03 09:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2026-09-03 09:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2026-09-03 09:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[pricing]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[page]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
+			<wp:meta_value><![CDATA[page-pricing.php]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+
+	<item>
+		<title><![CDATA[Job Photos]]></title>
+		<link>https://neweracleaning.com/job-photos/</link>
+		<pubDate>Thu, 03 Sep 2026 09:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">https://neweracleaning.com/?p=102</guid>
+		<description></description>
+		<content:encoded><![CDATA[]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>102</wp:post_id>
+		<wp:post_date><![CDATA[2026-09-03 09:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2026-09-03 09:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2026-09-03 09:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2026-09-03 09:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[job-photos]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[page]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
+			<wp:meta_value><![CDATA[page-job-photos.php]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+
+	<item>
+		<title><![CDATA[Our Guarantee]]></title>
+		<link>https://neweracleaning.com/guarantee/</link>
+		<pubDate>Thu, 03 Sep 2026 09:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">https://neweracleaning.com/?p=103</guid>
+		<description></description>
+		<content:encoded><![CDATA[<!-- wp:paragraph -->
+<p>Quality work is the foundation of our business &mdash; that's our promise as a local, family-owned company. Our technicians are insured &amp; bonded, and every job is backed by our <strong>10-day, no-hassle guarantee</strong>.</p>
+<!-- /wp:paragraph -->]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>103</wp:post_id>
+		<wp:post_date><![CDATA[2026-09-03 09:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2026-09-03 09:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2026-09-03 09:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2026-09-03 09:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[guarantee]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[page]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
+			<wp:meta_value><![CDATA[page-guarantee.php]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+
+	<item>
+		<title><![CDATA[Get a Free Quote]]></title>
+		<link>https://neweracleaning.com/get-quote/</link>
+		<pubDate>Thu, 03 Sep 2026 09:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">https://neweracleaning.com/?p=104</guid>
+		<description></description>
+		<content:encoded><![CDATA[]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>104</wp:post_id>
+		<wp:post_date><![CDATA[2026-09-03 09:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2026-09-03 09:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2026-09-03 09:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2026-09-03 09:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[get-quote]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[page]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
+			<wp:meta_value><![CDATA[page-quote.php]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+
+	<item>
+		<title><![CDATA[Carpet Cleaning]]></title>
+		<link>https://neweracleaning.com/carpet-tile-grout-steam-cleaning-services/carpet-cleaning/</link>
+		<pubDate>Thu, 03 Sep 2026 09:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">https://neweracleaning.com/?p=105</guid>
+		<description></description>
+		<content:encoded><![CDATA[<!-- wp:paragraph -->
+<p>Let's face it &mdash; dirty carpet is the worst. But that's why we're here. Our skilled technicians are ready to help you recapture your carpet's youth. Here's what you can expect: most furniture (sofas, chairs, and tables) is moved before cleaning and put back afterward, with furniture protectors used where needed. Spots are pre-treated with the appropriate cleaning agent to lift stubborn stains that a typical clean might leave behind, and if desired we can pre-shampoo the carpet with gentle agitation to release and suspend soil (an optional add-on). We then perform Powerscrub steam extraction with detergent using portable equipment and/or truck-mounted systems, removing most soils and detergents to leave your carpet looking bright, smelling fresh, and feeling clean. Our technicians are insured and bonded, and every job is backed by a 10-day, no-hassle guarantee.</p>
+<!-- /wp:paragraph -->]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>105</wp:post_id>
+		<wp:post_date><![CDATA[2026-09-03 09:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2026-09-03 09:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2026-09-03 09:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2026-09-03 09:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[carpet-cleaning]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>1</wp:menu_order>
+		<wp:post_type><![CDATA[newera_service]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_tagline]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Recapture your carpet's youth.]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_summary]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Skilled technicians deep-clean and refresh tired carpets, lifting dirt, stains, and allergens for a like-new look.]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_icon]]></wp:meta_key>
+			<wp:meta_value><![CDATA[bi-stars]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_highlights]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Furniture moved before and replaced after, with protectors where needed
+Spots pre-treated with the appropriate agent for stubborn stains
+Optional pre-shampoo with gentle agitation to release soil (add-on)
+Powerscrub hot-water steam extraction via truck-mounted systems
+Insured, bonded, and backed by our 10-day no-hassle guarantee]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_local_title]]></wp:meta_key>
+			<wp:meta_value><![CDATA[What you get beyond the clean]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_local_body]]></wp:meta_key>
+			<wp:meta_value><![CDATA[We clean with Prochem products and truck-mounted equipment &mdash; a name near the front of professional carpet and fabric care since the mid 1990s. Every product we use is baby and pet safe, and organic products are available on request; if you would rather know exactly what is going on your floor before we start, ask and we will talk it through. Each job finishes with aftercare guidance and a walk-through of the work with you, in Sugar Land and across the wider Houston area. If you need us quickly, say so when you call and we will work to find an appointment that suits you.]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+
+	<item>
+		<title><![CDATA[Carpet Repairs]]></title>
+		<link>https://neweracleaning.com/carpet-tile-grout-steam-cleaning-services/carpet-repairs/</link>
+		<pubDate>Thu, 03 Sep 2026 09:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">https://neweracleaning.com/?p=106</guid>
+		<description></description>
+		<content:encoded><![CDATA[<!-- wp:paragraph -->
+<p>Carpet is awesome when it's brand new, but we all know that life happens. If your carpet is in need of some TLC, our skilled technicians can lend a helping hand &mdash; often for a fraction of the cost of replacement. Some of the common problems our technicians encounter and repair are open or raveled seams, loosening installations, burns and melted areas, pulled yarns and missing tufts, bleached spots and discolorations, ripples and buckles, and deteriorated or ruined padding. We carefully color-match and blend repairs so the finished result looks seamless. Our technicians are insured and bonded, and every job is backed by a 10-day, no-hassle guarantee.</p>
+<!-- /wp:paragraph -->]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>106</wp:post_id>
+		<wp:post_date><![CDATA[2026-09-03 09:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2026-09-03 09:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2026-09-03 09:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2026-09-03 09:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[carpet-repairs]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>2</wp:menu_order>
+		<wp:post_type><![CDATA[newera_service]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_tagline]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Restore damaged carpet seamlessly.]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_summary]]></wp:meta_key>
+			<wp:meta_value><![CDATA[From frays and burns to re-stretching and patching, we restore damaged carpet so it looks and feels seamless again.]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_icon]]></wp:meta_key>
+			<wp:meta_value><![CDATA[bi-tools]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_highlights]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Open, raveled, or failing seams re-seamed
+Burns and melted areas patched
+Pulled yarns and missing tufts repaired
+Ripples and buckles re-stretched flat
+Deteriorated or ruined padding replaced]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_local_title]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Repair is usually cheaper than replacement]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_local_body]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Wear and tear does not mean the carpet has to go. We handle carpet stretching, seam repair and patching throughout Fort Bend and Harris County, generally for a fraction of what replacing a floor costs. Ripples and buckles, open or raveled seams, burns, pulled yarns, bleached spots and failing padding are all everyday work for our technicians, and repairs are color-matched and blended so the result does not advertise itself. If you are not sure whether a floor is worth saving, send us a photo and we will tell you honestly.]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+
+	<item>
+		<title><![CDATA[Commercial Carpet Cleaning]]></title>
+		<link>https://neweracleaning.com/carpet-tile-grout-steam-cleaning-services/commercial/</link>
+		<pubDate>Thu, 03 Sep 2026 09:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">https://neweracleaning.com/?p=107</guid>
+		<description></description>
+		<content:encoded><![CDATA[<!-- wp:paragraph -->
+<p>Commercial carpet receives vastly more traffic than the typical residential carpet. Choosing the right carpet for the space matters, but once it's installed, retaining its beauty and durability relies on continuous maintenance and cleansing programs. Our experienced crew is available to service commercial spaces of every size &mdash; no job is too large or too small. We look forward to partnering with you to revitalize your commercial carpet and improve the overall indoor environment of your space, with after-hours and weekend availability and recurring maintenance plans to keep it looking its best year-round. Our technicians are insured and bonded, and every job is backed by a 10-day, no-hassle guarantee.</p>
+<!-- /wp:paragraph -->]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>107</wp:post_id>
+		<wp:post_date><![CDATA[2026-09-03 09:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2026-09-03 09:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2026-09-03 09:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2026-09-03 09:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[commercial]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>3</wp:menu_order>
+		<wp:post_type><![CDATA[newera_service]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_tagline]]></wp:meta_key>
+			<wp:meta_value><![CDATA[No job too large or too small.]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_summary]]></wp:meta_key>
+			<wp:meta_value><![CDATA[High-traffic commercial spaces need extra care. Our experienced crew services offices and storefronts of any size.]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_icon]]></wp:meta_key>
+			<wp:meta_value><![CDATA[bi-building-fill]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_highlights]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Continuous maintenance and cleansing programs
+Flexible after-hours and weekend scheduling
+High-traffic commercial extraction equipment
+No job too large or too small &mdash; offices, retail, medical, and more
+Insured, bonded, and backed by our 10-day no-hassle guarantee]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_local_title]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Where we work, and when]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_local_body]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Our commercial carpet cleaning service area includes Sugar Land, Katy, Richmond, Missouri City, Fulshear and the surrounding Houston area. No job is too large or too small &mdash; offices, retail units, medical suites and everything between. Because a commercial floor cannot be out of action during business hours, the work is scheduled after hours or on weekends and the drying planned around when you open rather than when we finish. For spaces that take heavy footfall, a continuous maintenance and cleansing program holds a carpet's appearance and durability far more cheaply than periodic rescue cleans.]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+
+	<item>
+		<title><![CDATA[Pet Odor Removal]]></title>
+		<link>https://neweracleaning.com/carpet-tile-grout-steam-cleaning-services/pet-odor-removal/</link>
+		<pubDate>Thu, 03 Sep 2026 09:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">https://neweracleaning.com/?p=108</guid>
+		<description></description>
+		<content:encoded><![CDATA[<!-- wp:paragraph -->
+<p>We love our pets, but let's be honest &mdash; accidents happen, and it's when the odors hang around that it becomes a real problem. You should be playing on the floor with your pets and inviting people over without worrying for a second about &ldquo;that smell.&rdquo; Our standard pet treatment starts with a pre-treatment using a urine stain remover and enzyme disinfectant. The enzyme is crucial: both dog and cat urine contain uric acid, and most household cleaners can't break it down &mdash; so the uric acid stays behind, and when exposed to humidity its salts re-crystallize and release the smell again (which your pet's sensitive nose can still detect). We then perform steam extraction with detergent using portable and/or truck-mounted systems to remove most stains and detergents, leaving your carpet bright, fresh, and clean. If we really need to pull out the big guns, we also offer steam cleaning for both sides of the carpet plus pad replacement. Our technicians are insured and bonded, and every job is backed by a 10-day, no-hassle guarantee.</p>
+<!-- /wp:paragraph -->]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>108</wp:post_id>
+		<wp:post_date><![CDATA[2026-09-03 09:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2026-09-03 09:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2026-09-03 09:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2026-09-03 09:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[pet-odor-removal]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>4</wp:menu_order>
+		<wp:post_type><![CDATA[newera_service]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_tagline]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Fresh, clean, and odor-free.]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_summary]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Targeted treatments neutralize stubborn pet odors and stains at the source, leaving your home fresh and clean.]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_icon]]></wp:meta_key>
+			<wp:meta_value><![CDATA[bi-heart-fill]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_highlights]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Pre-treatment with urine stain remover and enzyme disinfectant
+Enzymes break down uric acid that ordinary cleaners leave behind
+Steam extraction to rinse away stains and detergents
+Both-sides steam cleaning and pad replacement when needed
+Insured, bonded, and backed by our 10-day no-hassle guarantee]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_local_title]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Why the smell keeps coming back]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_local_body]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Both dog and cat urine contain uric acid, and most household cleaners cannot break it down. You remove the other components when you clean up, but the uric acid stays &mdash; and when it is exposed to humidity the salts re-form into crystals and release the smell all over again. On the Gulf Coast, that is most of the year. Even when it is undetectable to you, your pet's far more sensitive nose can still find it, which is often why an animal keeps returning to the same spot. The enzyme pre-treatment is the step that actually breaks the acid down, and where contamination has gone deep we can steam clean both sides of the carpet and replace the pad.]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+
+	<item>
+		<title><![CDATA[Tile, Stone & Grout Cleaning]]></title>
+		<link>https://neweracleaning.com/carpet-tile-grout-steam-cleaning-services/tile-stone-and-grout/</link>
+		<pubDate>Thu, 03 Sep 2026 09:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">https://neweracleaning.com/?p=109</guid>
+		<description></description>
+		<content:encoded><![CDATA[<!-- wp:paragraph -->
+<p>Soil builds up on hard surfaces, and grout is the worst of it &mdash; porous, usually unsealed, and sitting just below the tile where an ordinary mop pushes dirt in rather than lifting it out. Our technicians examine the surface first and choose the products, equipment, and method that suit it, then deep-clean ceramic and porcelain tile using high-pressure hot-water extraction that pulls soil out instead of moving it around. Grout is cleaned back toward its original color, and where it has gone patchy or permanently discolored it can be color-stained to an even finish. We finish by sealing, which penetrates the grout to form an invisible barrier resistant to water, dirt, and grease &mdash; the step that decides whether your floor still looks clean a year from now. Our technicians are insured and bonded, and every job is backed by a 10-day, no-hassle guarantee.</p>
+<!-- /wp:paragraph -->]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>109</wp:post_id>
+		<wp:post_date><![CDATA[2026-09-03 09:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2026-09-03 09:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2026-09-03 09:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2026-09-03 09:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[tile-stone-and-grout]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>5</wp:menu_order>
+		<wp:post_type><![CDATA[newera_service]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_tagline]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Time to call in the big guns.]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_summary]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Built-up soil dulls tile and darkens grout. We deep-clean both, then seal the grout so it stays clean.]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_icon]]></wp:meta_key>
+			<wp:meta_value><![CDATA[bi-grid-3x3-gap-fill]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_highlights]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Ceramic and porcelain tile deep-cleaned
+Grout cleaning, sealing, and color staining
+High-pressure hot-water extraction on hard surfaces
+Sealing that resists water, dirt, and grease
+Insured, bonded, and backed by our 10-day no-hassle guarantee]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_local_title]]></wp:meta_key>
+			<wp:meta_value><![CDATA[When cleaning it yourself stops working]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_local_body]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Tile and stone are durable and easy to stay on top of &mdash; right up until they are not, and the stains stay put and the grout no longer looks fresh. Built-up soil does more than look bad: it erodes the surface and can compromise the integrity of the tile or stone, which is how cracks and chips start. Our technicians examine the surface first and choose the products, equipment and method to suit it, rather than applying one process to everything. Our <a href="%JOB_PHOTOS%">job photos</a> page shows the kind of difference it makes.]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+
+	<item>
+		<title><![CDATA[Natural Stone & Travertine Restoration]]></title>
+		<link>https://neweracleaning.com/carpet-tile-grout-steam-cleaning-services/stone-travertine-restoration/</link>
+		<pubDate>Thu, 03 Sep 2026 09:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">https://neweracleaning.com/?p=134</guid>
+		<description></description>
+		<content:encoded><![CDATA[<!-- wp:paragraph -->
+<p>Natural stone is softer than it looks. Travertine, marble, and limestone etch wherever something acidic gets spilled, scratch under grit tracked in from outside, and lose their polish first along the paths people walk most. Cleaning alone will not bring that back &mdash; the surface itself has to be resurfaced. A typical restoration starts with repair, filling the holes and chips travertine develops as its natural voids open up. We then hone the stone with progressively finer diamond abrasive pads and honing powders, which removes scratches, marks, staining, and light erosion by taking the surface back to a fresh, even face. Polishing follows, bringing back the shine and luster the stone had the day it was installed. Finally we seal it, penetrating the stone to form an invisible barrier that resists water, dirt, and grease so the finish lasts. Our technicians are insured and bonded, and every job is backed by a 10-day, no-hassle guarantee.</p>
+<!-- /wp:paragraph -->]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>134</wp:post_id>
+		<wp:post_date><![CDATA[2026-09-03 09:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2026-09-03 09:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2026-09-03 09:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2026-09-03 09:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[stone-travertine-restoration]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>6</wp:menu_order>
+		<wp:post_type><![CDATA[newera_service]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_tagline]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Bring the shine back to natural stone.]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_summary]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Travertine, marble, and limestone scratch, etch, and dull with use. We hone, polish, and seal them back to their original finish.]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_icon]]></wp:meta_key>
+			<wp:meta_value><![CDATA[bi-gem]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_highlights]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Travertine, marble, limestone, and slate restoration
+Diamond abrasive honing to lift scratches, marks, and etching
+Polishing to restore the original shine and luster
+Hole and chip filling on travertine
+Penetrating sealer for lasting protection
+Insured, bonded, and backed by our 10-day no-hassle guarantee]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_local_title]]></wp:meta_key>
+			<wp:meta_value><![CDATA[The stone we restore, and how]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_local_body]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Marble, granite, travertine, slate and other natural stone. Restoration is one of our most requested services, and to anyone who has not seen it done it looks a little like magic &mdash; we will admit it more or less is. The process runs in three stages: repairing and resurfacing with diamond abrasive pads and honing powders to lift scratches, marks, stains and light erosion; polishing to bring back the shine and luster; and sealing, which penetrates to form an invisible barrier resistant to water, dirt and grease. Plenty of Houston-area homes have travertine and marble that has never been restored since it was laid. Our <a href="%JOB_PHOTOS%">job photos</a> page has before-and-after examples.]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+
+	<item>
+		<title><![CDATA[Upholstery Cleaning]]></title>
+		<link>https://neweracleaning.com/carpet-tile-grout-steam-cleaning-services/upholstery/</link>
+		<pubDate>Thu, 03 Sep 2026 09:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">https://neweracleaning.com/?p=110</guid>
+		<description></description>
+		<content:encoded><![CDATA[<!-- wp:paragraph -->
+<p>Furniture can be a significant financial investment. To protect that investment and keep your furniture looking its best, manufacturers recommend frequent maintenance &mdash; vacuuming, immediate attention to spills and stains, and a yearly visit from your local upholstery cleaning professional. If you've been keeping up with all of that, gold star! And if you've avoided lifting those cushions for fear of what's underneath, that's okay too &mdash; you're not alone, and we're here to help. Our upholstery specialists assess each fabric and use the appropriate method to gently but thoroughly steam-clean sofas, chairs, and more, reviving color and removing embedded grime so your favorite pieces look and smell fresh. Our technicians are insured and bonded, and every job is backed by a 10-day, no-hassle guarantee.</p>
+<!-- /wp:paragraph -->]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>110</wp:post_id>
+		<wp:post_date><![CDATA[2026-09-03 09:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2026-09-03 09:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2026-09-03 09:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2026-09-03 09:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[upholstery]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>7</wp:menu_order>
+		<wp:post_type><![CDATA[newera_service]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_tagline]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Revive your favorite furniture.]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_summary]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Sofas, chairs, and fabrics get a gentle yet thorough steam clean that revives color and removes embedded grime.]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_icon]]></wp:meta_key>
+			<wp:meta_value><![CDATA[bi-droplet-half]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_highlights]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Fabric-appropriate cleaning methods for every piece
+Removes embedded dust, body oils, and odors
+Brightens and revives faded colors
+Protects your furniture investment with regular care
+Insured, bonded, and backed by our 10-day no-hassle guarantee]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_local_title]]></wp:meta_key>
+			<wp:meta_value><![CDATA[The yearly visit manufacturers actually recommend]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_local_body]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Furniture is a serious investment, and manufacturers are consistent about how to protect it: vacuum often, deal with spills straight away, and book a yearly visit from a professional upholstery cleaner. If you have kept up with all of that, gold star &mdash; you are the client everyone hopes for. If you have been avoiding lifting the cushions because of what might be under them, you are in much larger company, and that is genuinely fine. We match the method to the fabric, and the products we use are baby and pet safe.]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+
+	<item>
+		<title><![CDATA[Water Damage Restoration]]></title>
+		<link>https://neweracleaning.com/carpet-tile-grout-steam-cleaning-services/water-damage-restoration/</link>
+		<pubDate>Thu, 03 Sep 2026 09:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">https://neweracleaning.com/?p=111</guid>
+		<description></description>
+		<content:encoded><![CDATA[<!-- wp:paragraph -->
+<p>Water damage is a phrase that can strike fear into the heart, and it's often deceptive &mdash; even a small amount of undetected moisture can cause incredible damage, from unpleasant odors at best to irreversible flooring damage and mold at worst. If you know or suspect your space is dealing with moisture, give us a call. Our experienced technicians use advanced moisture-detection measures to accurately identify moisture sources and any areas of contamination, then remove excess water and completely dry your space back to its original condition. On every water-damage job our technicians also perform a mold inspection &mdash; they're prepared to evaluate mold growth, contain damage, remove contamination, and dry materials to ensure mold won't return. Our technicians are insured and bonded, and every job is backed by a 10-day, no-hassle guarantee.</p>
+<!-- /wp:paragraph -->]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>111</wp:post_id>
+		<wp:post_date><![CDATA[2026-09-03 09:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2026-09-03 09:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2026-09-03 09:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2026-09-03 09:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[water-damage-restoration]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>8</wp:menu_order>
+		<wp:post_type><![CDATA[newera_service]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_tagline]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Fast action when water strikes.]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_summary]]></wp:meta_key>
+			<wp:meta_value><![CDATA[When water strikes, fast action matters. We extract, dry, and restore to minimize damage and prevent mold.]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_icon]]></wp:meta_key>
+			<wp:meta_value><![CDATA[bi-water]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_highlights]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Advanced moisture detection to find hidden water and contamination
+Rapid water extraction and complete structural drying
+Mold inspection on every water-damage job
+Containment, contamination removal, and mold prevention
+Insured, bonded, and backed by our 10-day no-hassle guarantee]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_local_title]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Call as soon as you suspect it]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_local_body]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Water damage is deceptive &mdash; even a small amount of undetected moisture does real harm, from unpleasant odors at best to irreversible flooring damage and mold at worst. That is why the call matters more than being certain: if you think your space is dealing with moisture, give us a call and we will work to get someone out quickly. Our technicians use advanced moisture detection to find the source and any contamination, remove the excess water and dry the space back to its original condition rather than merely dry to the touch. Every water damage job includes a mold inspection &mdash; we evaluate growth, contain the damage, remove contamination and dry materials so it does not return.]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+
+	<item>
+		<title><![CDATA[Nicole W.]]></title>
+		<link>https://neweracleaning.com/review-1-nicole-w/</link>
+		<pubDate>Thu, 30 Apr 2026 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">https://neweracleaning.com/?p=112</guid>
+		<description></description>
+		<content:encoded><![CDATA[<!-- wp:paragraph -->
+<p>I needed light colored dining room chairs that had become dingy and a few rugs cleaned, but I was needing to be careful because most of the chairs were a performance crypton fabric with special instructions that only water could be used to clean and it couldn't be too hot. The owner went above and beyond to understand the cleaning code, get the best products to use, and forming the best strategy to balance risk management but improving the state of the chairs. I understood he couldn't guarantee results, but felt that he worked hard and long to ensure the best outcome possible. In the end, we did see a big improvement in the chairs, and while they don't look brand new, it's much better. Communication was also easy throughout the process, and price was very reasonable after I checked with other companies as well. I'd recommend and use him again.</p>
+<!-- /wp:paragraph -->]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>112</wp:post_id>
+		<wp:post_date><![CDATA[2026-04-30 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2026-04-30 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2026-04-30 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2026-04-30 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[review-1-nicole-w]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[newera_testimonial]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_source]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Yelp]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_rating]]></wp:meta_key>
+			<wp:meta_value><![CDATA[5]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+
+	<item>
+		<title><![CDATA[Ashton S.]]></title>
+		<link>https://neweracleaning.com/review-2-ashton-s/</link>
+		<pubDate>Fri, 16 Jan 2026 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">https://neweracleaning.com/?p=113</guid>
+		<description></description>
+		<content:encoded><![CDATA[<!-- wp:paragraph -->
+<p>Charles was the utmost in professionalism. My home has 25yo carpets that have seen better days. I had very low expectations on the outcome and Charles used his expertise to give me what I needed. One room was so soiled, he recommended that the carpet be replaced and he didn't charge me for it. I appreciate the clear communication and trustworthiness of his business practices. I'd definitely recommend Charles in the future.</p>
+<!-- /wp:paragraph -->]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>113</wp:post_id>
+		<wp:post_date><![CDATA[2026-01-16 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2026-01-16 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2026-01-16 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2026-01-16 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[review-2-ashton-s]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[newera_testimonial]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_source]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Yelp]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_rating]]></wp:meta_key>
+			<wp:meta_value><![CDATA[5]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+
+	<item>
+		<title><![CDATA[Willie M.]]></title>
+		<link>https://neweracleaning.com/review-3-willie-m/</link>
+		<pubDate>Fri, 28 Nov 2025 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">https://neweracleaning.com/?p=114</guid>
+		<description></description>
+		<content:encoded><![CDATA[<!-- wp:paragraph -->
+<p>We've been using New Era Steam Cleaning &amp; Restoration for years, and Charles never disappoints! With a child and pets, our carpets see plenty of accidents, but every time he comes, they look brand new and smell amazing. Reliable, professional, and always friendly&mdash;highly recommend!</p>
+<!-- /wp:paragraph -->]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>114</wp:post_id>
+		<wp:post_date><![CDATA[2025-11-28 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2025-11-28 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2025-11-28 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2025-11-28 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[review-3-willie-m]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[newera_testimonial]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_source]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Yelp]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_rating]]></wp:meta_key>
+			<wp:meta_value><![CDATA[5]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+
+	<item>
+		<title><![CDATA[M P.]]></title>
+		<link>https://neweracleaning.com/review-4-m-p/</link>
+		<pubDate>Sat, 25 Oct 2025 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">https://neweracleaning.com/?p=115</guid>
+		<description></description>
+		<content:encoded><![CDATA[<!-- wp:paragraph -->
+<p>New Era was professional and efficient. They showed up during the agreed arrival window, and did the job thoroughly and quickly. At the end of the job, the owner walked me through the job, and pointed out areas where he had to use extra effort to clean the carpet. I am very happy with the job!</p>
+<!-- /wp:paragraph -->]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>115</wp:post_id>
+		<wp:post_date><![CDATA[2025-10-25 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2025-10-25 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2025-10-25 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2025-10-25 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[review-4-m-p]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[newera_testimonial]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_source]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Yelp]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_rating]]></wp:meta_key>
+			<wp:meta_value><![CDATA[5]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+
+	<item>
+		<title><![CDATA[Amy N.]]></title>
+		<link>https://neweracleaning.com/review-5-amy-n/</link>
+		<pubDate>Sat, 26 Jul 2025 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">https://neweracleaning.com/?p=116</guid>
+		<description></description>
+		<content:encoded><![CDATA[<!-- wp:paragraph -->
+<p>Easy communication. Job well done. Would highly recommend! Shower floor now looks much better!</p>
+<!-- /wp:paragraph -->]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>116</wp:post_id>
+		<wp:post_date><![CDATA[2025-07-26 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2025-07-26 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2025-07-26 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2025-07-26 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[review-5-amy-n]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[newera_testimonial]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_source]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Yelp]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_rating]]></wp:meta_key>
+			<wp:meta_value><![CDATA[5]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+
+	<item>
+		<title><![CDATA[Nicole B.]]></title>
+		<link>https://neweracleaning.com/review-6-nicole-b/</link>
+		<pubDate>Fri, 13 Jun 2025 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">https://neweracleaning.com/?p=117</guid>
+		<description></description>
+		<content:encoded><![CDATA[<!-- wp:paragraph -->
+<p>Forget the rest. CALL NEW ERA STEAM. He will address all your questions. Clear communication. Competitive prices. Made everything I needed easy and fast. Thank you so very much. I wasn't sure what I needed for moving out of my house and it came out better than expected. Everyone was happy.</p>
+<!-- /wp:paragraph -->]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>117</wp:post_id>
+		<wp:post_date><![CDATA[2025-06-13 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2025-06-13 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2025-06-13 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2025-06-13 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[review-6-nicole-b]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[newera_testimonial]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_source]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Yelp]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_rating]]></wp:meta_key>
+			<wp:meta_value><![CDATA[5]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+
+	<item>
+		<title><![CDATA[Brenda W.]]></title>
+		<link>https://neweracleaning.com/review-7-brenda-w/</link>
+		<pubDate>Tue, 06 May 2025 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">https://neweracleaning.com/?p=118</guid>
+		<description></description>
+		<content:encoded><![CDATA[<!-- wp:paragraph -->
+<p>Charles did an excellent job! He was on time and got the job done fast. We will use his service again! The carpet looked and smelled great.</p>
+<!-- /wp:paragraph -->]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>118</wp:post_id>
+		<wp:post_date><![CDATA[2025-05-06 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2025-05-06 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2025-05-06 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2025-05-06 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[review-7-brenda-w]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[newera_testimonial]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_source]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Yelp]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_rating]]></wp:meta_key>
+			<wp:meta_value><![CDATA[5]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+
+	<item>
+		<title><![CDATA[Hookem H.]]></title>
+		<link>https://neweracleaning.com/review-8-hookem-h/</link>
+		<pubDate>Mon, 06 Jan 2025 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">https://neweracleaning.com/?p=119</guid>
+		<description></description>
+		<content:encoded><![CDATA[<!-- wp:paragraph -->
+<p>Selected Charles based on his large number of 5-star reviews. He communicated quickly and easily and came precisely at the scheduled time. He was quick and efficient and it is easy to see why he has so many 5-star reviews. He made our 33+ year old carpet look great and our house feels fresh and clean. He has our recommendation and we will use him again.</p>
+<!-- /wp:paragraph -->]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>119</wp:post_id>
+		<wp:post_date><![CDATA[2025-01-06 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2025-01-06 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2025-01-06 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2025-01-06 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[review-8-hookem-h]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[newera_testimonial]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_source]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Yelp]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_rating]]></wp:meta_key>
+			<wp:meta_value><![CDATA[5]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+
+	<item>
+		<title><![CDATA[Daneille T.]]></title>
+		<link>https://neweracleaning.com/review-9-daneille-t/</link>
+		<pubDate>Mon, 28 Oct 2024 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">https://neweracleaning.com/?p=120</guid>
+		<description></description>
+		<content:encoded><![CDATA[<!-- wp:paragraph -->
+<p>New era was quick to respond to my request. I'm so grateful he was able to get our grout cleaned and carpets shampooed before the movers came. The before and after visually was a world of difference but the smell was even better. The previous owners had pets, so there was a heavy smell of dander in our home. I'm very happy with this service and would recommend him to anyone who needs cleaning and restoration. Lastly he was very nice and educated us on cleaning materials we use that may have been causing more wear on our tile.</p>
+<!-- /wp:paragraph -->]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>120</wp:post_id>
+		<wp:post_date><![CDATA[2024-10-28 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2024-10-28 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2024-10-28 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2024-10-28 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[review-9-daneille-t]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[newera_testimonial]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_source]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Yelp]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_rating]]></wp:meta_key>
+			<wp:meta_value><![CDATA[5]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+
+	<item>
+		<title><![CDATA[Richard W.]]></title>
+		<link>https://neweracleaning.com/review-10-richard-w/</link>
+		<pubDate>Fri, 10 May 2024 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">https://neweracleaning.com/?p=121</guid>
+		<description></description>
+		<content:encoded><![CDATA[<!-- wp:paragraph -->
+<p>Great job, honest and communicative throughout the project. We felt like we got what we wanted and a fair price. Highly recommend this company.</p>
+<!-- /wp:paragraph -->]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>121</wp:post_id>
+		<wp:post_date><![CDATA[2024-05-10 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2024-05-10 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2024-05-10 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2024-05-10 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[review-10-richard-w]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[newera_testimonial]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_source]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Yelp]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_rating]]></wp:meta_key>
+			<wp:meta_value><![CDATA[5]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+
+	<item>
+		<title><![CDATA[Paul T.]]></title>
+		<link>https://neweracleaning.com/review-11-paul-t/</link>
+		<pubDate>Sun, 17 Mar 2024 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">https://neweracleaning.com/?p=122</guid>
+		<description></description>
+		<content:encoded><![CDATA[<!-- wp:paragraph -->
+<p>Charles was excellent! He came, worked hard all day, and left me with a very clean house. The price was good and I am very pleased with the results.</p>
+<!-- /wp:paragraph -->]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>122</wp:post_id>
+		<wp:post_date><![CDATA[2024-03-17 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2024-03-17 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2024-03-17 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2024-03-17 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[review-11-paul-t]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[newera_testimonial]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_source]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Angi]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_rating]]></wp:meta_key>
+			<wp:meta_value><![CDATA[5]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+
+	<item>
+		<title><![CDATA[Kedar K.]]></title>
+		<link>https://neweracleaning.com/review-12-kedar-k/</link>
+		<pubDate>Fri, 16 Aug 2019 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">https://neweracleaning.com/?p=123</guid>
+		<description></description>
+		<content:encoded><![CDATA[<!-- wp:paragraph -->
+<p>The service overall with them was good. Scheduling was easy.</p>
+<!-- /wp:paragraph -->]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>123</wp:post_id>
+		<wp:post_date><![CDATA[2019-08-16 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2019-08-16 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2019-08-16 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2019-08-16 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[review-12-kedar-k]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[newera_testimonial]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_source]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Angi]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_rating]]></wp:meta_key>
+			<wp:meta_value><![CDATA[4]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+
+	<item>
+		<title><![CDATA[Susan C.]]></title>
+		<link>https://neweracleaning.com/review-13-susan-c/</link>
+		<pubDate>Fri, 15 Sep 2017 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">https://neweracleaning.com/?p=124</guid>
+		<description></description>
+		<content:encoded><![CDATA[<!-- wp:paragraph -->
+<p>Great &mdash; loved them!</p>
+<!-- /wp:paragraph -->]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>124</wp:post_id>
+		<wp:post_date><![CDATA[2017-09-15 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2017-09-15 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2017-09-15 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2017-09-15 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[review-13-susan-c]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[newera_testimonial]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_source]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Angi]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_rating]]></wp:meta_key>
+			<wp:meta_value><![CDATA[5]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+
+	<item>
+		<title><![CDATA[Kyle P.]]></title>
+		<link>https://neweracleaning.com/review-14-kyle-p/</link>
+		<pubDate>Tue, 06 Jun 2017 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">https://neweracleaning.com/?p=125</guid>
+		<description></description>
+		<content:encoded><![CDATA[<!-- wp:paragraph -->
+<p>Charles came out and did an AMAZING job, he was early to the appointment and was very informative on ways to clean and maintain my carpets. Overall a fantastic job done by New Era and wouldn't recommend any company for the job other than them. Thanks, and we will be seeing you again!</p>
+<!-- /wp:paragraph -->]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>125</wp:post_id>
+		<wp:post_date><![CDATA[2017-06-06 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2017-06-06 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2017-06-06 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2017-06-06 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[review-14-kyle-p]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[newera_testimonial]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_source]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Angi]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_rating]]></wp:meta_key>
+			<wp:meta_value><![CDATA[5]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+
+	<item>
+		<title><![CDATA[Samantha H.]]></title>
+		<link>https://neweracleaning.com/review-15-samantha-h/</link>
+		<pubDate>Mon, 20 Mar 2017 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">https://neweracleaning.com/?p=126</guid>
+		<description></description>
+		<content:encoded><![CDATA[<!-- wp:paragraph -->
+<p>It went great. My previously gray carpet is now white. They were able to get stains out that I wasn't able to. I would highly recommend them.</p>
+<!-- /wp:paragraph -->]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>126</wp:post_id>
+		<wp:post_date><![CDATA[2017-03-20 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2017-03-20 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2017-03-20 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2017-03-20 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[review-15-samantha-h]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[newera_testimonial]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_source]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Angi]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_rating]]></wp:meta_key>
+			<wp:meta_value><![CDATA[5]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+
+	<item>
+		<title><![CDATA[Toby P.]]></title>
+		<link>https://neweracleaning.com/review-16-toby-p/</link>
+		<pubDate>Tue, 07 Mar 2017 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">https://neweracleaning.com/?p=127</guid>
+		<description></description>
+		<content:encoded><![CDATA[<!-- wp:paragraph -->
+<p>The technician, Charles, was pretty knowledgeable about cleaning the carpet and removing scratches on the wood trim. He was also a nice guy and did a great job.</p>
+<!-- /wp:paragraph -->]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>127</wp:post_id>
+		<wp:post_date><![CDATA[2017-03-07 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2017-03-07 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2017-03-07 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2017-03-07 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[review-16-toby-p]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[newera_testimonial]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_source]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Angi]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_rating]]></wp:meta_key>
+			<wp:meta_value><![CDATA[5]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+
+	<item>
+		<title><![CDATA[Daniel M.]]></title>
+		<link>https://neweracleaning.com/review-17-daniel-m/</link>
+		<pubDate>Thu, 02 Mar 2017 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">https://neweracleaning.com/?p=128</guid>
+		<description></description>
+		<content:encoded><![CDATA[<!-- wp:paragraph -->
+<p>It went splendid! He was really prompt and respectful.</p>
+<!-- /wp:paragraph -->]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>128</wp:post_id>
+		<wp:post_date><![CDATA[2017-03-02 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2017-03-02 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2017-03-02 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2017-03-02 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[review-17-daniel-m]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[newera_testimonial]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_source]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Angi]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_rating]]></wp:meta_key>
+			<wp:meta_value><![CDATA[5]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+
+	<item>
+		<title><![CDATA[Jake Z.]]></title>
+		<link>https://neweracleaning.com/review-18-jake-z/</link>
+		<pubDate>Wed, 01 Mar 2017 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">https://neweracleaning.com/?p=129</guid>
+		<description></description>
+		<content:encoded><![CDATA[<!-- wp:paragraph -->
+<p>It went awesome. They got a bunch of stains up I didn't think would come up.</p>
+<!-- /wp:paragraph -->]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>129</wp:post_id>
+		<wp:post_date><![CDATA[2017-03-01 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2017-03-01 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2017-03-01 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2017-03-01 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[review-18-jake-z]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[newera_testimonial]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_source]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Angi]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_rating]]></wp:meta_key>
+			<wp:meta_value><![CDATA[5]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+
+	<item>
+		<title><![CDATA[Brian J.]]></title>
+		<link>https://neweracleaning.com/review-19-brian-j/</link>
+		<pubDate>Wed, 01 Mar 2017 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">https://neweracleaning.com/?p=130</guid>
+		<description></description>
+		<content:encoded><![CDATA[<!-- wp:paragraph -->
+<p>He was very professional. He showed up right on time and was able to get the job done promptly, he even finished a few minutes early. I would definitely use him again.</p>
+<!-- /wp:paragraph -->]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>130</wp:post_id>
+		<wp:post_date><![CDATA[2017-03-01 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2017-03-01 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2017-03-01 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2017-03-01 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[review-19-brian-j]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[newera_testimonial]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_source]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Angi]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_rating]]></wp:meta_key>
+			<wp:meta_value><![CDATA[5]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+
+	<item>
+		<title><![CDATA[Melissa D.]]></title>
+		<link>https://neweracleaning.com/review-20-melissa-d/</link>
+		<pubDate>Wed, 01 Mar 2017 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">https://neweracleaning.com/?p=131</guid>
+		<description></description>
+		<content:encoded><![CDATA[<!-- wp:paragraph -->
+<p>They did a great job. He pre-treated the carpet then cleaned the carpet very well.</p>
+<!-- /wp:paragraph -->]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>131</wp:post_id>
+		<wp:post_date><![CDATA[2017-03-01 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2017-03-01 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2017-03-01 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2017-03-01 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[review-20-melissa-d]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[newera_testimonial]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_source]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Angi]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_rating]]></wp:meta_key>
+			<wp:meta_value><![CDATA[5]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+
+	<item>
+		<title><![CDATA[Ryan B.]]></title>
+		<link>https://neweracleaning.com/review-21-ryan-b/</link>
+		<pubDate>Wed, 22 Feb 2017 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">https://neweracleaning.com/?p=132</guid>
+		<description></description>
+		<content:encoded><![CDATA[<!-- wp:paragraph -->
+<p>I called New Era to clean our carpet and tile. He was extremely courteous and knowledgeable walking me through the process. The owner, Charles, came out (on time) to give me an estimate, honored his coupon prices and got straight to work. I couldn't be happier with the work that Charles provided. My carpets look and smell fresh and the tile looks just as good as the day it was installed! He earned my repeat business with his effort and attention to detail. I definitely recommend New Era steam cleaning!</p>
+<!-- /wp:paragraph -->]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>132</wp:post_id>
+		<wp:post_date><![CDATA[2017-02-22 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2017-02-22 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2017-02-22 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2017-02-22 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[review-21-ryan-b]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[newera_testimonial]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_source]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Angi]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_rating]]></wp:meta_key>
+			<wp:meta_value><![CDATA[5]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+
+	<item>
+		<title><![CDATA[Brooke E.]]></title>
+		<link>https://neweracleaning.com/review-22-brooke-e/</link>
+		<pubDate>Mon, 20 Feb 2017 12:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">https://neweracleaning.com/?p=133</guid>
+		<description></description>
+		<content:encoded><![CDATA[<!-- wp:paragraph -->
+<p>Charles was here within 2 hours of calling at 2am on a Sunday night. We had water throughout 3 rooms of our house. He was able to give us a very detailed estimate and exact game plan for the drying process. He was very detailed in explaining what he was doing and exactly why he was doing it. He even gave us a link to a company called IICRC, who generate the guidelines for water restoration so we could double check and make sure what he was stating was true. He explained the drying could take 3-5 days to be complete, he was done in 3! He was very reasonable on pricing since we decided to pay out of pocket instead of using our insurance. All around great guy, professional and honest. We've used him for years for carpet and tile cleaning, hopefully we won't have to call for water damage again, but he will be the guy we call if it happens!</p>
+<!-- /wp:paragraph -->]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>133</wp:post_id>
+		<wp:post_date><![CDATA[2017-02-20 12:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2017-02-20 12:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2017-02-20 12:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2017-02-20 12:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[review-22-brooke-e]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[newera_testimonial]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_source]]></wp:meta_key>
+			<wp:meta_value><![CDATA[Angi]]></wp:meta_value>
+		</wp:postmeta>
+		<wp:postmeta>
+			<wp:meta_key><![CDATA[_newera_rating]]></wp:meta_key>
+			<wp:meta_value><![CDATA[5]]></wp:meta_value>
+		</wp:postmeta>
+	</item>
+
+</channel>
+</rss>

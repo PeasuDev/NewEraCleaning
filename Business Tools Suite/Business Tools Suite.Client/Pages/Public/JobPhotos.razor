@@ -26,12 +26,69 @@
         </div>
 
         <div class="gallery-grid">
-            @foreach (var tile in tiles)
+            @for (var i = 0; i < tiles.Count; i++)
             {
-                <figure class="gallery-tile">
-                    <img src="@tile.Image" alt="@tile.Caption" loading="lazy" />
-                    <figcaption class="gallery-tile-caption">@tile.Caption</figcaption>
+                var tile = tiles[i];
+                var prev = (i - 1 + tiles.Count) % tiles.Count;
+                var next = (i + 1) % tiles.Count;
+
+                @* The tiles carry no visible caption, so the photo has to describe
+                   itself: the alt text is the only description a screen reader
+                   gets, and the link takes its own label from the same string. A
+                   stretched ::after in public.css covers the tile edge to edge.
+
+                   Two things these hrefs must keep doing, both verified against
+                   the running app — get either wrong and the tile silently stops
+                   opening:
+
+                   1. The path is spelled out rather than a bare "#photo-N".
+                      App.razor sets <base href="/">, and a fragment-only href
+                      resolves against the BASE url, not the document — so
+                      "#photo-5" navigates to the home page at /#photo-5.
+
+                   2. target="_top" is load-bearing, not a copy-paste artifact.
+                      Blazor's router intercepts same-origin anchors and navigates
+                      with history.pushState, and :target does NOT recompute on
+                      pushState, so the overlay never matches. The router skips
+                      any anchor whose target is not _self; on an unframed page
+                      _top is the same window, so nothing else changes.
+                      (data-enhance-nav="false" does NOT work here — still
+                      pushState.) The WordPress theme needs neither trick: no
+                      <base> element and no router. *@
+                <figure class="gallery-tile" id="tile-@i">
+                    <a class="gallery-tile-link" href="/job-photos#photo-@i" target="_top"
+                       aria-label="View larger: @tile.Alt">
+                        <img src="@tile.Image" alt="@tile.Alt" loading="lazy" />
+                    </a>
                 </figure>
+
+                @* Overlay sits inside the grid, right after the tile that opens it:
+                   display:none keeps it out of the grid flow and out of the tab
+                   order until :target reveals it, and placing it here means the
+                   close control is the next thing a keyboard user reaches. Close
+                   targets #tile-N, not the top of the grid, so dismissing photo
+                   twelve returns the reader to photo twelve. *@
+                <div class="lightbox" id="photo-@i" role="group" aria-label="Enlarged photo: @tile.Alt">
+                    <a class="lightbox-backdrop" href="/job-photos#tile-@i" target="_top"
+                       tabindex="-1" aria-hidden="true"></a>
+
+                    <figure class="lightbox-figure">
+                        <img src="@tile.Image" alt="@tile.Alt" loading="lazy" />
+                    </figure>
+
+                    <a class="lightbox-close" href="/job-photos#tile-@i" target="_top"
+                       aria-label="Close enlarged photo">
+                        <span class="bi bi-x-lg" aria-hidden="true"></span>
+                    </a>
+                    <a class="lightbox-nav lightbox-prev" href="/job-photos#photo-@prev" target="_top"
+                       aria-label="Previous photo">
+                        <span class="bi bi-chevron-left" aria-hidden="true"></span>
+                    </a>
+                    <a class="lightbox-nav lightbox-next" href="/job-photos#photo-@next" target="_top"
+                       aria-label="Next photo">
+                        <span class="bi bi-chevron-right" aria-hidden="true"></span>
+                    </a>
+                </div>
             }
         </div>
     </div>
@@ -41,21 +98,40 @@
          Subheading="Let's make your space the next success story. Get your free quote today." />
 
 @code {
+    // Order follows the live site's Job Photos page. That page serves 27 files,
+    // but seven are the same shot uploaded twice: nw-era-img5 through
+    // nw-era-img8 and new-era-cleaning are 740x343 banner crops of photos
+    // already listed here, nw-era-img8-1 is byte-identical to nw-era-img8, and
+    // neweracleaning-img15 is a letterboxed copy of the travertine pair. Each
+    // of those appears once, below.
+    //
+    // Alt is alt text, not a caption — nothing here is rendered on the page. It
+    // describes what is in the frame, so the descriptions are worth checking
+    // against the image itself if a photo is ever swapped out. The WordPress
+    // theme ships the same twenty under filenames that describe them.
     private readonly IReadOnlyList<JobPhoto> tiles = new List<JobPhoto>
     {
-        new("img/Upholstery-before-and-after.jpg", "Upholstery before & after"),
-        new("img/Pet-Damage-No-Problem.jpg", "Pet stains & odor — no problem"),
-        new("img/Polishing-travertine.jpg", "Travertine polished & restored"),
-        new("img/neweracleaning-img1.jpg", "Carpet brought back to life"),
-        new("img/neweracleaning-img3.jpg", "Tile & grout deep clean"),
-        new("img/neweracleaning-img4.jpg", "Spotless steam-cleaned carpet"),
-        new("img/neweracleaning-img6.jpg", "Fresh, revived flooring"),
-        new("img/neweracleaning-img7.jpg", "Detailed upholstery care"),
-        new("img/neweracleaning-img9.jpg", "High-traffic lanes restored"),
-        new("img/neweracleaning-img13.jpg", "Commercial floor care"),
-        new("img/neweracleaning-img16.jpg", "Stone & tile cleaning"),
-        new("img/Our-Work.jpg", "Quality results across Houston"),
+        new("img/Upholstery-before-and-after.jpg", "Sofa cushion before and after upholstery cleaning, soiled at left and clean at right"),
+        new("img/Polishing-travertine.jpg", "Travertine floor before and after polishing, dull at left and mirror-bright at right"),
+        new("img/Pet-Damage-No-Problem.jpg", "Technician steam cleaning a living room carpet, a cleaned lane trailing behind the wand"),
+        new("img/neweracleaning-img17.jpg", "Kitchen travertine floor before and after cleaning"),
+        new("img/Our-Work.jpg", "Terracotta tile floor half cleaned, the cabinet base masked off with paper and tape"),
+        new("img/neweracleaning-img20.jpg", "Cleaned travertine floor beside plantation shutters overlooking a pool"),
+        new("img/neweracleaning-img18.jpg", "Cleaned grey ceramic tile floor meeting carpet at a doorway"),
+        new("img/neweracleaning-img10.jpg", "Ceramic tile floor before and after cleaning, the grout brightened"),
+        new("img/neweracleaning-img13.jpg", "Cleaned tile entry steps at a brick commercial building"),
+        new("img/neweracleaning-img14.jpg", "Saltillo tile floor cleaned and drying beside a kitchen counter"),
+        new("img/neweracleaning-img16.jpg", "Brick-pattern tile floor cleaned to a shine in a game room"),
+        new("img/neweracleaning-img8.jpg", "Outdoor stone walkway before and after cleaning, bordered by lawn"),
+        new("img/neweracleaning-img9.jpg", "Tile floor being cleaned with a wand, the finished half meeting carpet"),
+        new("img/neweracleaning-img7.jpg", "Poolside travertine deck before and after cleaning"),
+        new("img/neweracleaning-img6.jpg", "Cleaned travertine patio pavers running along a stone wall"),
+        new("img/neweracleaning-img1.jpg", "Bathroom tile and pink grout before and after cleaning"),
+        new("img/neweracleaning-img3.jpg", "Travertine floor cleaned beside a window wall overlooking a pool"),
+        new("img/neweracleaning-img4.jpg", "Stone patio mid-clean, cleaned pavers meeting untreated ones"),
+        new("img/New-Era-Van.jpg", "New Era service van parked in the driveway of a two-story brick home"),
+        new("img/IMG_4900.jpg", "Travertine floor with a tile medallion ringing a round glass floor feature"),
     };
 
-    private sealed record JobPhoto(string Image, string Caption);
+    private sealed record JobPhoto(string Image, string Alt);
 }

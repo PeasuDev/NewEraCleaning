@@ -50,7 +50,7 @@
         },
         "openingHoursSpecification": {
             "@@type": "OpeningHoursSpecification",
-            "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+            "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
             "opens": "09:00",
             "closes": "18:00"
         }
@@ -95,8 +95,8 @@
                 <div class="hero-stars">
                     <span class="bi bi-star-fill"></span><span class="bi bi-star-fill"></span><span class="bi bi-star-fill"></span><span class="bi bi-star-fill"></span><span class="bi bi-star-fill"></span>
                 </div>
-                <strong>@averageRating.ToString("0.0")</strong>
-                <span class="hero-card-rating-label">from @reviewCount reviews</span>
+                <span class="hero-card-rating-label">from 240+ reviews</span>
+                <SocialLinks WrapperClass="hero-card-social" />
             </div>
             <p class="hero-card-quote">
                 &ldquo;@featuredReview?.Text&rdquo;
@@ -156,13 +156,16 @@
 
 <!-- ===================== BRAND LOGO ===================== -->
 <section class="section brand-logo-feature" aria-label="New Era Steam Cleaning & Restoration">
-    <img src="new-era-logo.png" alt="New Era Steam Cleaning &amp; Restoration logo" loading="lazy" />
+    @* width/height are what reserve the box: the band's CSS is height:auto, so
+       without them the page jumps ~365px as the banner arrives. *@
+    <img src="new-era-banner.jpg" alt="New Era Steam Cleaning &amp; Restoration logo"
+         width="960" height="486" loading="lazy" />
 </section>
 
 <!-- ===================== TRUST BAR ===================== -->
 <section class="trust-bar">
     <div class="trust-bar-inner">
-        <div class="trust-item"><span class="bi bi-clock-history" aria-hidden="true"></span> Open 7 Days &middot; 9:00 AM&ndash;6:00 PM</div>
+        <div class="trust-item"><span class="bi bi-clock-history" aria-hidden="true"></span> Mon&ndash;Fri &middot; 9:00 AM&ndash;6:00 PM</div>
         <div class="trust-item"><span class="bi bi-droplet-half" aria-hidden="true"></span> Truck-Mounted Steam Cleaning</div>
         <div class="trust-item"><span class="bi bi-geo-alt-fill" aria-hidden="true"></span> Harris &amp; Fort Bend County</div>
     </div>
@@ -287,31 +290,11 @@
 </section>
 
 <!-- ===================== QUOTE FORM / CONTACT ===================== -->
-<section class="section quote-section" id="contact">
-    <div class="section-inner quote-grid">
-        <div class="quote-intro">
-            <span class="section-eyebrow section-eyebrow-light">Get Started</span>
-            <h2 class="quote-title">You're Seconds Away From a Cleaner Space</h2>
-            <p class="quote-lead">
-                Tell us what you need and we'll get back to you with a free, no-obligation quote.
-                Prefer to talk? Call us directly &mdash; we're happy to help.
-            </p>
-            <ul class="quote-contact">
-                <li><span class="bi bi-telephone-fill" aria-hidden="true"></span> <a href="tel:+17139060918">(713) 906-0918</a></li>
-                <li><span class="bi bi-clock-fill" aria-hidden="true"></span> Mon&ndash;Sun: 9:00 AM &ndash; 6:00 PM</li>
-                <li><span class="bi bi-flower1" aria-hidden="true"></span> Ask about organic, green cleaning</li>
-            </ul>
-        </div>
-
-        <QuoteForm FormName="home-quote" />
-    </div>
-</section>
+<QuoteSection SectionId="contact" FormName="home-quote" />
 
 @code {
     private IReadOnlyList<Review> testimonials = Array.Empty<Review>();
     private Review? featuredReview;
-    private int reviewCount;
-    private double averageRating;
 
     private readonly IReadOnlyList<string> serviceAreas = new List<string>
     {
@@ -330,8 +313,6 @@
     protected override async Task OnInitializedAsync()
     {
         var reviews = await GetMergedReviewsAsync();
-        reviewCount = reviews.Count;
-        averageRating = reviews.Count > 0 ? reviews.Average(r => r.Rating) : 5.0;
 
         testimonials = reviews
             .Where(r => r.Rating >= 4)

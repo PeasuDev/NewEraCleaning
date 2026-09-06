@@ -337,7 +337,7 @@ public class PlaceholderDataService
             new("Water damage restoration", "Complete dry out of flooring and structure",
                 "$125.00 minimum; priced on site"),
         }),
-        new("Stone, Tile, Grout", new List<PriceRow>
+        new("Tile, Stone & Grout Cleaning", new List<PriceRow>
         {
             new("Tile/grout clean — ceramic/porcelain only", "Regular price $1 a square foot.",
                 "Starts at $0.85 per sq ft."),

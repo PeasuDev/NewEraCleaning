@@ -202,6 +202,95 @@
         letter-spacing: 1px;
     }
 
+    /* ---------- Social icon links ---------- */
+
+    /*
+     * These style <SocialLinks /> output, so they must be global rather than in
+     * PublicLayout.razor.css: scoped CSS only matches elements written in the
+     * layout's own markup, never a child component's. Sizing the svg matters —
+     * the inline SVGs carry a viewBox but no width/height, so without a rule
+     * they fall back to the replaced-element default of 300x150.
+     */
+    .public-footer-social {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+    }
+
+    .social-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.4rem;
+        height: 2.4rem;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        color: #ffffff;
+        text-decoration: none;
+        transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease;
+    }
+
+    .social-link svg {
+        width: 1.1rem;
+        height: 1.1rem;
+        display: block;
+    }
+
+    .social-link:hover {
+        transform: translateY(-2px);
+    }
+
+    .social-facebook:hover {
+        background: #1877f2;
+        border-color: #1877f2;
+    }
+
+    .social-yelp:hover {
+        background: #d32323;
+        border-color: #d32323;
+    }
+
+    .social-angi:hover {
+        background: #ff6153;
+        border-color: #ff6153;
+    }
+
+    /*
+     * In the hero card the icons ride in the rating row, pushed to the right so
+     * they sit opposite the review count. margin-left:auto is what does that —
+     * .hero-card-rating is the flex container.
+     */
+    .hero-card-social {
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+        margin-left: auto;
+    }
+
+    /*
+     * .social-link is written for the dark footer - white glyph on a
+     * translucent white border. The hero card is a white card, so those values
+     * would render an invisible icon. Override the colours here rather than
+     * weakening the base, and size them down to sit under the rating line.
+     */
+    .hero-card-social .social-link {
+        width: 1.75rem;
+        height: 1.75rem;
+        background: rgba(17, 24, 39, 0.05);
+        border-color: rgba(17, 24, 39, 0.14);
+        color: var(--ink);
+    }
+
+    .hero-card-social .social-link svg {
+        width: 0.85rem;
+        height: 0.85rem;
+    }
+
+    .hero-card-social .social-link:hover {
+        color: #ffffff;
+    }
+
     .hero-card-rating strong {
         font-size: 1.15rem;
         font-weight: 800;
@@ -528,6 +617,13 @@
     }
 
     /* ---------- Prose ---------- */
+
+    /* The first block already sits against the section padding; its own top
+       margin would double that gap. */
+    .prose > :first-child {
+        margin-top: 0;
+    }
+
     .prose p {
         font-size: 1rem;
         line-height: 1.7;
@@ -640,7 +736,7 @@
 
     .brand-logo-feature img {
         width: 100%;
-        max-width: 300px;
+        max-width: 720px;
         height: auto;
     }
 
@@ -974,16 +1070,179 @@
         object-fit: cover;
     }
 
-    .gallery-tile-caption {
+    /* ---------- Gallery lightbox ---------- */
+
+    /*
+     * Tap or click a tile to see the whole photo. CSS only: each tile links to
+     * #photo-N and the matching overlay is revealed by :target. Every close
+     * control links back to #tile-N rather than to the top of the grid, so
+     * dismissing photo twelve returns the reader to photo twelve.
+     *
+     * Kept deliberately identical to the "Gallery lightbox" block in the
+     * WordPress theme's style.css so the two stay diffable.
+     */
+
+    .gallery-tile {
+        /* Keep the close jump from parking the tile under the sticky header. */
+        scroll-margin-top: 6rem;
+    }
+
+    .gallery-tile-link {
+        display: block;
+        align-self: stretch;
+        width: 100%;
+        height: 100%;
+    }
+
+    /*
+     * Stretch the link over the whole tile so the tap target covers it edge to
+     * edge. The offset parent is .gallery-tile, which is already relative.
+     */
+    .gallery-tile-link::after {
+        content: "";
         position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        padding: 0.85rem 1rem;
-        background: linear-gradient(to top, rgba(10, 42, 56, 0.85), transparent);
+        inset: 0;
+        z-index: 1;
+    }
+
+    /* The figure clips its overflow, so the focus ring has to sit inside it. */
+    .gallery-tile-link:focus-visible {
+        outline: none;
+    }
+
+    .gallery-tile-link:focus-visible::after {
+        outline: 3px solid var(--brand);
+        outline-offset: -3px;
+    }
+
+    .lightbox {
+        position: fixed;
+        inset: 0;
+        /* Over the sticky header, which PublicLayout.razor.css puts at 50. */
+        z-index: 200;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: clamp(0.75rem, 4vw, 3rem);
+        overscroll-behavior: contain;
+    }
+
+    .lightbox:target {
+        display: flex;
+    }
+
+    .lightbox-backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(10, 42, 56, 0.92);
+        cursor: zoom-out;
+    }
+
+    .lightbox-figure {
+        position: relative;
+        z-index: 1;
+        margin: 0;
+        max-width: min(100%, 1100px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .lightbox-figure img {
+        display: block;
+        max-width: 100%;
+        /*
+         * The whole photo, uncropped, whatever its shape — the grid crops
+         * everything to 4:3, and several of these are portrait or square. dvh
+         * keeps mobile browser chrome from clipping it; vh is the fallback.
+         */
+        max-height: 78vh;
+        max-height: 78dvh;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+        border-radius: var(--radius-lg);
+        background: var(--canvas-warm);
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+    }
+
+    .lightbox-close,
+    .lightbox-nav {
+        position: absolute;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /* Comfortably past the 44px touch-target minimum. */
+        width: 48px;
+        height: 48px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        background: rgba(10, 42, 56, 0.75);
         color: #fff;
-        font-size: 0.85rem;
-        font-weight: 600;
+        font-size: 1.15rem;
+        line-height: 1;
+        text-decoration: none;
+        transition: background 0.18s ease, border-color 0.18s ease;
+    }
+
+    .lightbox-close:hover,
+    .lightbox-nav:hover,
+    .lightbox-close:focus-visible,
+    .lightbox-nav:focus-visible {
+        background: var(--brand);
+        border-color: #fff;
+        color: #fff;
+    }
+
+    .lightbox-close {
+        top: clamp(0.75rem, 3vw, 1.5rem);
+        right: clamp(0.75rem, 3vw, 1.5rem);
+    }
+
+    .lightbox-prev,
+    .lightbox-next {
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .lightbox-prev {
+        left: clamp(0.5rem, 2vw, 1.5rem);
+    }
+
+    .lightbox-next {
+        right: clamp(0.5rem, 2vw, 1.5rem);
+    }
+
+    @media (max-width: 640px) {
+        .lightbox {
+            /* Room for the close control above and the arrow row below. */
+            padding: 4rem 0.5rem 5.5rem;
+        }
+
+        .lightbox-figure img {
+            max-height: 62vh;
+            max-height: 62dvh;
+        }
+
+        /*
+         * At this width the photo fills the viewport, so side arrows would sit
+         * on top of it. Move them to a thumb-height row under the caption.
+         */
+        .lightbox-prev,
+        .lightbox-next {
+            top: auto;
+            bottom: max(1rem, env(safe-area-inset-bottom));
+            transform: none;
+        }
+
+        .lightbox-prev {
+            left: calc(50% - 3.5rem);
+        }
+
+        .lightbox-next {
+            right: calc(50% - 3.5rem);
+        }
     }
 
     /* ---------- Guarantee ---------- */
@@ -1272,6 +1531,9 @@
         border-radius: var(--radius-lg);
         padding: 2rem;
         box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
+        /* Keep the footer CTA's jump from parking the form under the sticky
+           header, the same way .gallery-tile does for the lightbox. */
+        scroll-margin-top: 6rem;
     }
 
     .quote-form-title {
@@ -1338,6 +1600,35 @@
         color: var(--ink-muted);
         text-align: center;
         margin: 0.9rem 0 0;
+    }
+
+    /* Shown when a submission could not be emailed. Mirrors .newera-notice in the
+       WordPress theme's style.css. */
+    .newera-notice {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.65rem;
+        border-radius: var(--radius);
+        padding: 0.9rem 1.1rem;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        margin: 0 0 1.25rem;
+    }
+
+    .newera-notice-error {
+        background: rgba(217, 83, 79, 0.1);
+        border: 1px solid rgba(217, 83, 79, 0.35);
+        color: #a33330;
+    }
+
+    .newera-notice .bi {
+        font-size: 1.05rem;
+        flex-shrink: 0;
+        margin-top: 0.1rem;
+    }
+
+    .newera-notice p {
+        margin: 0.35rem 0 0;
     }
 
     .quote-success {

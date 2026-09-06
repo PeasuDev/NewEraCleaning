@@ -22,4 +22,8 @@ builder.Services.AddScoped(sp => new HttpClient
 });
 builder.Services.AddScoped<IReviewProvider, ClientLiveReviewProvider>();
 
+// Quote requests are posted to the server endpoint for the same reason: the mail
+// account's app password must never ship to the browser.
+builder.Services.AddScoped<IQuoteSubmissionService, ClientQuoteSubmissionService>();
+
 await builder.Build().RunAsync();
