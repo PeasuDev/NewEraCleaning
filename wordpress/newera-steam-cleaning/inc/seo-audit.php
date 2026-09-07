@@ -51,6 +51,68 @@ function newera_seo_findings() {
 		);
 	}
 
+	/*
+	 * Two SEO plugins at once. This theme stands its own head output down as
+	 * soon as any one of them is detected, so a second plugin does not silence
+	 * the theme twice — it means two plugins are both writing titles and
+	 * canonicals. The live site has All in One SEO installed but deactivated,
+	 * which is one click away from exactly this.
+	 */
+	$seo_plugins = array(
+		'Yoast SEO'            => defined( 'WPSEO_VERSION' ),
+		'Rank Math'            => defined( 'RANK_MATH_VERSION' ),
+		'All in One SEO'       => defined( 'AIOSEO_VERSION' ),
+		'SEOPress'             => defined( 'SEOPRESS_VERSION' ),
+		'The SEO Framework'    => class_exists( 'The_SEO_Framework\\Load' ),
+	);
+
+	$active_seo = array_keys( array_filter( $seo_plugins ) );
+
+	if ( count( $active_seo ) > 1 ) {
+		$findings[] = sprintf(
+			'<strong>%s are both active.</strong> Two SEO plugins each emit their own title, canonical and schema, which is a conflict rather than a redundancy. Deactivate all but one.',
+			esc_html( wp_sprintf_l( '%l', $active_seo ) )
+		);
+	}
+
+	/*
+	 * The second way to be invisible, and the one the Reading checkbox above
+	 * does not cover. Yoast keeps a noindex flag per content type in
+	 * `wpseo_titles`, and "Show Services in search results?" being off excludes
+	 * all eight service pages from both the index and sitemap_index.xml while
+	 * every other signal on the site looks healthy. The archive has its own
+	 * flag, so the catalogue page can disappear on its own.
+	 *
+	 * Read through get_option() rather than WPSEO_Options::get(): this runs on
+	 * admin_notices, and the option is the stable surface across Yoast majors.
+	 */
+	if ( newera_yoast_active() ) {
+		$titles = get_option( 'wpseo_titles' );
+		$titles = is_array( $titles ) ? $titles : array();
+
+		$hidden = array();
+
+		if ( ! empty( $titles['noindex-newera_service'] ) ) {
+			$hidden[] = 'the eight service pages';
+		}
+
+		if ( ! empty( $titles['noindex-ptarchive-newera_service'] ) ) {
+			$hidden[] = 'the service catalogue';
+		}
+
+		if ( ! empty( $titles['noindex-page'] ) ) {
+			$hidden[] = 'every ordinary page';
+		}
+
+		if ( $hidden ) {
+			$findings[] = sprintf(
+				'<strong>Yoast is set to keep %s out of search results.</strong> That is a separate switch from the one in Settings &rarr; Reading, and it removes those URLs from <code>sitemap_index.xml</code> too. Check <a href="%s">Yoast &rarr; Settings &rarr; Content types</a>.',
+				esc_html( wp_sprintf_l( '%l', $hidden ) ),
+				esc_url( admin_url( 'admin.php?page=wpseo_page_settings' ) )
+			);
+		}
+	}
+
 	if ( '' === trim( newera_google_business_profile() ) ) {
 		$findings[] = 'No <strong>Google Business Profile</strong> URL is set. For a service-area business the Business Profile is what ranks in the local map pack, and <code>sameAs</code> is how this site and that listing are tied to the same company. Add the listing&rsquo;s share link with the <code>newera_google_business_profile</code> filter.';
 	}

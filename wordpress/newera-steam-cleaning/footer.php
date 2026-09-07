@@ -118,16 +118,25 @@ $newera_cta_href = $newera_on_quote ? '#quote-page' : newera_quote_url();
 			}
 
 			/*
-			 * Rendered outside the menu branch on purpose. The privacy policy is
-			 * the one link that has to exist whether or not anyone has built a
-			 * footer menu — the page was already published on the live site and
-			 * nothing linked to it.
+			 * Rendered outside the menu branch on purpose. These two are the
+			 * links that have to exist whether or not anyone has built a footer
+			 * menu — both pages were already published on the live site and
+			 * nothing linked to either of them. Each renders only when the page
+			 * is actually there, so neither can become a 404 in the footer.
 			 */
 			$newera_privacy = get_privacy_policy_url();
 
 			if ( $newera_privacy ) :
 				?>
 				<a class="public-footer-privacy" href="<?php echo esc_url( $newera_privacy ); ?>">Privacy Policy</a>
+				<?php
+			endif;
+
+			$newera_terms = newera_terms_url();
+
+			if ( $newera_terms ) :
+				?>
+				<a class="public-footer-privacy" href="<?php echo esc_url( $newera_terms ); ?>">Terms of Service</a>
 				<?php
 			endif;
 			?>

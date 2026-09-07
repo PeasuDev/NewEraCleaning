@@ -17,6 +17,17 @@ defined( 'ABSPATH' ) || exit;
  * Starts at 25+ in 2026 and increases by one each calendar year, never
  * reporting less than the anchored value.
  *
+ * **This is not the age of the company, and the two must not be reconciled.**
+ * The business was founded in 2014 — see newera_founded_year() — so this figure
+ * is larger than the company is old, on purpose: it describes the trade
+ * experience the technicians bring, which predates the business. The About copy
+ * words it as "hands-on experience" and the home page as "technicians with N+
+ * years in the trade" for exactly that reason.
+ *
+ * Confirmed with the owner on 7 Sep 2026, when the site was publishing three
+ * different business ages at once. If the two figures ever need to agree,
+ * change the copy rather than this number.
+ *
  * @return int
  */
 function newera_years_of_experience() {

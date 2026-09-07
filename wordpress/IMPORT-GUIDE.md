@@ -25,12 +25,15 @@ avoids the failure modes that are painful to unpick afterwards.
 
 ### 1. Work on a staging copy
 
-Your response headers point to Nexcess / Liquid Web managed WordPress, which includes
-one-click staging in the client portal. Create a staging site from the current
-production site and do all the installation work there.
+The site is on **SiteGround** — Speed Optimizer and Security Optimizer are installed and
+there is a "Purge SG Cache" control in the admin toolbar. Use Site Tools → WordPress →
+Staging to create a staging copy from production, and do all the installation work there.
 
-If staging is not available, the alternative is a local copy (LocalWP, or a subdomain
-like `staging.neweracleaning.com` with search engines discouraged in
+> An earlier version of this guide said Nexcess / Liquid Web. That was wrong. If you find
+> any other reference to Nexcess in these files, it is a leftover — the host is SiteGround.
+
+If staging is not available on your plan, the alternative is a local copy (LocalWP, or a
+subdomain like `staging.neweracleaning.com` with search engines discouraged in
 **Settings → Reading**). What you must not do is install straight onto the live site
 and hope — the theme swap is immediate, and visitors will see whatever state you are
 mid-way through.
@@ -40,19 +43,53 @@ mid-way through.
 Files and database, both, even on staging. You want a restore point that predates the
 theme switch, because switching themes back does not undo imported content.
 
-Nexcess takes automatic nightly backups, but take a manual one anyway so you know
-exactly what moment you are restoring to. Confirm it completed before continuing.
+SiteGround takes automatic daily backups, and **Duplicator is already installed** on the
+site, so you have two routes. Duplicator is one of the fifteen plugins behind on updates —
+update it before you rely on it. Either way take a manual backup so you know exactly what
+moment you are restoring to, and confirm it completed before continuing.
+
+### 2b. Update the plugins, before anything else changes
+
+Twenty-nine plugins are installed, twenty-seven active, and **fifteen are behind on
+updates** — including ACF PRO, Duplicator, MonsterInsights and Yoast. Update them on
+staging *before* the theme switch. Doing it afterwards means any breakage has two possible
+causes instead of one.
+
+While you are in there, **uninstall All in One SEO.** It is installed but deactivated, and
+reactivating it — which someone will eventually do while troubleshooting — puts two SEO
+plugins on the site at once. The theme now raises a notice if that happens, but not having
+it installed is better. Its companion, Broken Link Checker by AIOSEO, is a separate plugin
+and can stay.
 
 ### 3. Export your current titles and meta descriptions
 
 **Do this before anything else changes.** Yoast → Tools → Import and Export → Export
-settings, and separately note the title and meta description of every page. These are
-already tuned for local search — today's carpet page is
+settings. These are already tuned for local search — today's carpet page is
 *"Houston Area Carpet Cleaning Services - New Era Steam Cleaning & Restoration"* — and
 if a page is replaced rather than kept, that wording is gone with no error to tell you.
 
-While you are there, pull **Search Console → Performance → Pages**, last 16 months, and
-**Links → Top linked pages**. You need both to make the decisions in step 4.
+> **The eight services are already handled.** `newera-content.xml` now carries
+> `_yoast_wpseo_title` and `_yoast_wpseo_metadesc` for each one, copied verbatim from what
+> the live site serves, so the trash-and-replace in step 4a no longer loses them. You do
+> not need to retype anything for the services. Two of them —
+> `pet-odor-removal` and `water-damage-restoration` — carry the shorter
+> "New Era Cleaning" brand name on the live site; that was preserved deliberately rather
+> than corrected, so the migration changes nothing on its own. Fix those two afterwards,
+> as a separate edit, where the effect can be seen in isolation.
+>
+> `stone-travertine-restoration` is new and has a freshly written pair.
+
+**Search Console has been read** (16 months to 5 Sep 2026) and the step 4 decisions are
+already made below. The findings that drove them:
+
+- Nothing being removed earns meaningful traffic. `/contact-us/` has 1 click in sixteen
+  months, `/pricing/specials/` has 1.
+- **All ten external backlinks point at the home page.** No service page and no
+  testimonial page has any, so nothing being trashed carries link equity.
+- The two testimonial pages that look busy in the Pages report — 31 and 26 clicks at
+  position 7 — rank only for the literal `xxxx` placeholder left in their titles. Every
+  query is a variant of it. Redirect them; there is no customer behind those clicks.
+- Baseline to compare against after launch: **21 pages indexed, 0 404s.**
 
 ### 4. Decide what happens to each existing page
 
@@ -112,17 +149,44 @@ history it has accumulated. You get the new design. Nothing needs redirecting.
 The alternative — trash yours, then rename the imported `-2` page — loses the Yoast
 metadata you exported in step 3 and gains nothing.
 
+> **Step 4 above assumes the old content is prose in the editor. On three pages it is
+> not.** Advanced Custom Fields PRO is running with three field groups attached to Pages —
+> **Home** (7 fields), **Pricing Tables** (4) and **Gallery** (1). That content lives in
+> custom fields, and the new templates only read `post_content`. Attaching a template
+> keeps the URL and the Yoast metadata; it does not carry the fields across, and nothing
+> errors when it doesn't.
+>
+> - **Pricing** is the one that matters — it is the second most-clicked page on the site,
+>   and its coupon prices are ACF values. The theme publishes its own copy from
+>   `inc/pricing.php` instead. As of 6 Sep 2026 **all nineteen figures match**, so the
+>   port is current. But the two copies are not connected: any price edited between now
+>   and launch reaches the live site and not the new build. **Re-run the comparison on the
+>   day you switch.**
+> - **Job Photos** is the same shape — the gallery is ACF, the theme ships a hard-coded
+>   set of sixteen. Compare them before you switch, and if the live gallery has newer
+>   work in it, move those images into the theme or the Media Library first.
+> - **Home** is moot: `front-page.php` replaces that page's rendering entirely.
+
 #### 4c. The four pages with no replacement
 
 | Page | What to do |
 | --- | --- |
-| `/contact-us/` | No equivalent in the new build. Check its Search Console numbers: if it earns impressions, keep it as a real page and add it to the menu. Otherwise 301 it to `/get-quote/`. |
+| `/contact-us/` | **Decided: 301 it to `/get-quote/`.** 1 click and 168 impressions in sixteen months, average position 31 — it is not quietly earning brand or near-me searches. Redirecting it is also what makes the Contact Form 7 stack removable. |
 | `/pricing/specials/` | 301 to `/pricing/`; the coupon prices are tables there now. |
 | `/privacy-policy/` | Keep. Not in the import. The footer links to it automatically once it is set in Settings → Privacy. |
 | `/terms-of-service/` | Keep. Not in the import. |
 
-The four `/testimonials/…` URLs also disappear — testimonials become a non-public post
-type — and need 301s. All of this is in `REDIRECTS.md`.
+The four `/testimonials/…` URLs also disappear and need 301s. All of this is in
+`REDIRECTS.md`.
+
+> **Those four have a sequencing trap.** The `testimonials` post type is registered by the
+> *current* theme — ACF registers no post types and no plugin provides one — so the moment
+> you activate the new theme it deregisters. The posts stay in the database but vanish
+> from wp-admin, and the URLs stop resolving immediately.
+>
+> So: **copy anything worth keeping out of them before step 5**, and have their 301s live
+> at the moment of the switch rather than added afterwards in step 12. Otherwise those
+> URLs serve 404s for however long the gap is.
 
 ---
 
@@ -252,15 +316,33 @@ licensed, in which case its redirect manager will do.
 
 ### 13. Settle the SEO configuration
 
+- **Turn off the WPCode schema snippet.** This one is easy to miss because it is not in
+  the theme. WPCode Lite has one active snippet — "Custom HTML", site-wide header, added
+  29 June 2026 — containing a hand-written `LocalBusiness` JSON-LD block under `@id`
+  `#localbusiness`. Yoast's business node uses `#organization`, and the theme extends
+  *that* one. Leave the snippet on and the site publishes two business entities describing
+  the same company. **It lives in a plugin, so activating the theme does not remove it.**
+  Deactivate it. The theme publishes everything it contained and more: `foundingDate`,
+  `priceRange`, Angi in `sameAs`, state-qualified service-area cities, and `Service` nodes
+  that resolve back to the catalogue.
+
+  Its `description` also claims the business has served *"since the mid-1990s"*, which is
+  wrong — New Era was founded in 2014, which is what the About page, the footer and the
+  theme's `foundingDate` all say. Do not carry that sentence over when you remove the
+  snippet. (The separate "25+ years" figure on the home page and About page is a different
+  claim — the technicians' trade experience, which predates the company — and is correct
+  as written. See the docblock on `newera_years_of_experience()`.)
 - **Titles and descriptions.** Walk the pages in Yoast. For pages you kept, the existing
   title and description are still attached — improve them deliberately rather than
-  replacing them. For the eight services, which are new posts, write titles in the style
-  of the ones you exported in step 3: they lead with the service and the city, not just
-  the service.
-- **Site Title.** Settings → General must match the business name the theme renders, or
-  the admin notice will tell you it does not. Both must match the Google Business Profile.
+  replacing them. **The eight services already carry theirs** from the import; see step 3.
+- **Organization name.** Yoast → Settings → Site representation currently reads
+  "New Era Cleaning & Restoration". The search data is unambiguous that the "Steam"
+  version is the one customers use — it earns 88 clicks to the shorter name's 23 and ranks
+  at position 1.2–1.5 — and Settings → General is already set to it. Change the Yoast
+  field to match, and check both against the Google Business Profile listing.
 - **Services in the sitemap.** Yoast → Settings → Content Types → Services, confirm it is
-  set to appear in search results.
+  set to appear in search results. The archive has its own switch. The theme's admin
+  notice now checks both, but confirm it once by eye.
 - **Remove the development block.** Settings → Reading → uncheck "Discourage search
   engines", and check Yoast's site-wide indexing switch too. Verify from outside:
   `curl -s https://neweracleaning.com/ | grep robots` should show nothing saying noindex.
@@ -268,7 +350,32 @@ licensed, in which case its redirect manager will do.
   arriving from datacentre IPs — reproducible as of 3 Sep 2026: Chrome 131 gets 403,
   Googlebot and Firefox get 200. It does not block real customers, but it blocks
   Lighthouse, PageSpeed, uptime monitors, link-preview fetchers and Search Console's Live
-  Test, in the exact week you most need them. Open a Nexcess ticket with that symptom.
+  Test, in the exact week you most need them. Security Optimizer is the likely source;
+  check its settings before opening a SiteGround ticket.
+
+### 13b. Retire the plugins the theme replaces
+
+Not required for launch, but this is the moment when it is obvious what is safe to remove,
+and twenty-seven active plugins is the single biggest thing slowing the site down.
+
+The theme ships its own quote form — nonce, honeypot, server-side validation, stored to
+the database and emailed — so the whole form stack is redundant once `/contact-us/` is
+redirected: **Contact Form 7, Contact Form CFDB7, CF7 Apps, ReCaptcha v2 for Contact Form
+7, Advanced Google reCAPTCHA and WPForms Lite.** CF7 renders on two pages today while
+loading its CSS and JavaScript on every page of the site.
+
+Export any stored CFDB7 submissions you want to keep first — they are form entries, and
+uninstalling takes them with it.
+
+Others worth a decision, none urgent:
+
+| Plugin | Why |
+| --- | --- |
+| MonsterInsights *or* Site Kit | Both are doing Google Analytics. One is enough. |
+| CookieYes *or* WPConsent | Two consent managers on one site. |
+| WP Engine Automated Migration | The site is not on WP Engine. |
+| Simple CAPTCHA with Cloudflare Turnstile | Already deactivated. |
+| All in One SEO | Already covered in step 2b — uninstall it. |
 
 ### 14. Push staging to live
 

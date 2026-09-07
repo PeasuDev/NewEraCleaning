@@ -62,30 +62,54 @@ URL Inspection on it after launch to get it indexed sooner.
 
 Six. Two are straightforward, four need a decision about where reviews should land.
 
-| Old URL | Redirect to | Notes |
-| --- | --- | --- |
-| `/pricing/specials/` | `/pricing/` | Coupon prices are now tables on the pricing page. |
-| `/contact-us/` | `/get-quote/` | **Decide first** — see below. |
-| `/testimonials/j-e-xxxx-texas/` | `/#reviews` | Testimonials are no longer standalone pages. |
-| `/testimonials/m-f-xxxx-texas/` | `/#reviews` | |
-| `/testimonials/l-p-xxxx-texas/` | `/#reviews` | |
-| `/testimonials/j-e-xxxx-texas-2/` | `/#reviews` | |
+All six are now confirmed against Search Console (16 months to 5 Sep 2026). Nothing here
+is still a judgement call.
 
-### Before you set the `/contact-us/` redirect
+| Old URL | Redirect to | 16-mo clicks | Notes |
+| --- | --- | --- | --- |
+| `/pricing/specials/` | `/pricing/` | 1 | Coupon prices are now tables on the pricing page. |
+| `/contact-us/` | `/get-quote/` | 1 | Confirmed — see below. |
+| `/testimonials/j-e-xxxx-texas/` | `/#reviews` | 31 | Junk-string traffic — see below. |
+| `/testimonials/l-p-xxxx-texas/` | `/#reviews` | 26 | |
+| `/testimonials/j-e-xxxx-texas-2/` | `/#reviews` | 4 | |
+| `/testimonials/m-f-xxxx-texas/` | `/#reviews` | 0 | |
 
-The new build has no contact page — the quote form is the contact route, and it appears
-on the home page, on `/get-quote/`, and on all eight service pages. Sending `/contact-us/`
-to `/get-quote/` is reasonable, but check Search Console first: a page named "contact us"
-often picks up brand and "near me" searches that a quote form does not answer as well.
+**No page other than the home page has a single external backlink.** Ten exist in total
+and all ten point at `/`, from powerwashmaps, BBB, Fyple, MapQuest and Nextdoor. So no
+redirect target here needs choosing to preserve link equity — these are traffic decisions
+only.
 
-If it has meaningful impressions, the better move is to keep a real contact page at
-`/contact-us/` and add it to the navigation, rather than redirecting it away.
+### `/contact-us/` — confirmed, redirect it
 
-### About the testimonial URLs
+The concern was that a page named "contact us" picks up brand and "near me" searches a
+quote form does not answer. It does not: **1 click and 168 impressions in sixteen months,
+average position 31.3.** Send it to `/get-quote/`.
 
-`/#reviews` is an anchor on the home page, and Google will treat it as a redirect to `/`.
-That is acceptable for four thin pages. If any of them turns out to have backlinks, point
-that one at the most relevant service page instead.
+That also settles the plugin question — with no contact page to serve, the Contact Form 7
+stack has nothing left to render and can be retired.
+
+### The testimonial URLs — confirmed, redirect all four
+
+Two of these look alarming in the Pages report: `j-e-xxxx-texas` earns 31 clicks at
+position 6.8 with a 3.8% CTR, `l-p-xxxx-texas` earns 26 at 7.0. Best click-through rates
+on the site. On that evidence you would keep them.
+
+**Filter the query report by page and it evaporates.** The reviewers' surnames were
+anonymised to the literal string `xxxx` in the page titles, and every query reaching these
+pages is that string: `xxxx je`, `je xxxx`, `jexxxx`, `لبxxxx`, `cleaning xxxx`,
+`era xxxx`, `lp xxxx`, `xxxx texas`, `texas xxxx`, `xxxx txx`. Across both pages not one
+query mentions cleaning, carpet, or Sugar Land. Almost nothing else on the web contains
+"xxxx", so they rank fourth for a garbage string. Real clicks, no customer behind them.
+
+They also have zero received internal links, so nothing on the site depends on them.
+
+`/#reviews` is an anchor on the home page and Google will treat it as a redirect to `/`.
+That is fine here.
+
+> **Timing matters for these four.** The `testimonials` post type is registered by the
+> *current* theme, so it deregisters the instant the new theme is activated and the URLs
+> stop resolving straight away. Put these 301s in place at the moment of the switch, not
+> afterwards.
 
 ---
 
@@ -107,7 +131,7 @@ source,target,type
 /testimonials/j-e-xxxx-texas-2/,/#reviews,301
 ```
 
-### Option B — nginx, via Nexcess support
+### Option B — server rules, via SiteGround support
 
 Faster, and does not add a plugin. Send these to the host:
 
@@ -120,10 +144,10 @@ location = /testimonials/l-p-xxxx-texas/   { return 301 /#reviews; }
 location = /testimonials/j-e-xxxx-texas-2/ { return 301 /#reviews; }
 ```
 
-### Option C — Yoast Premium
+### ~~Option C — Yoast Premium~~ — not available
 
-If the site already has Yoast Premium, its redirect manager handles this with no extra
-plugin. Check the licence before assuming.
+Checked in wp-admin on 7 Sep 2026: the site runs **Yoast SEO free**, with the Premium
+upsell panel still in the sidebar. There is no redirect manager. Use Option A or B.
 
 ---
 

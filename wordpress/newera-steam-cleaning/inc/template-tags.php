@@ -167,6 +167,33 @@ function newera_photos_url() {
 }
 
 /**
+ * URL of the terms of service page, or '' when there isn't one.
+ *
+ * Deliberately not newera_page_url(): that helper falls back to a constructed
+ * home_url() so the primary navigation always has somewhere to point, which is
+ * right for the five pages the theme ships designs for. Terms of service is not
+ * one of those — it is a page the live site happens to have, nothing in the
+ * theme creates it, and a footer link to a URL that 404s is worse than no link.
+ *
+ * The live site publishes one at /terms-of-service/ and nothing linked to it,
+ * which is the whole reason this exists. Same treatment as the privacy policy
+ * in footer.php: render the link only when the page is really there.
+ *
+ * @return string
+ */
+function newera_terms_url() {
+	$slug = (string) apply_filters( 'newera_terms_slug', 'terms-of-service' );
+
+	if ( '' === $slug ) {
+		return '';
+	}
+
+	$page = get_page_by_path( $slug );
+
+	return $page && 'publish' === get_post_status( $page ) ? (string) get_permalink( $page ) : '';
+}
+
+/**
  * URL of the services listing.
  *
  * Read from the post type rather than assembled by hand, so changing the

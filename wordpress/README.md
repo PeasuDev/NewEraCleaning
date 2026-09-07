@@ -201,10 +201,11 @@ wrong for a cleaning company and is corrected to `LocalBusiness`.
 
 **The wp-admin SEO checklist.** `newera_seo_notice()` reports what code cannot supply
 for itself, on the Dashboard, Themes, Pages, Services, Reading and Import screens: the
-site-wide noindex switch being left on, a missing Google Business Profile URL, services
-with no featured image, and summaries that are blank or too long for a snippet. Each of
-those fails silently — the page still renders and the markup is still valid — which is
-why there is a notice at all.
+site-wide noindex switch being left on, **Yoast set to hide services or pages from search
+results**, **two SEO plugins active at once**, a missing Google Business Profile URL,
+services with no featured image, and summaries that are blank or too long for a snippet.
+Each of those fails silently — the page still renders and the markup is still valid —
+which is why there is a notice at all.
 
 The Business Profile URL is the one worth doing first. For a service-area business the
 Profile is what ranks in the local map pack, and `sameAs` is what ties it to this site.
@@ -225,11 +226,19 @@ both added through that same filter rather than printed over the top of it:
   made in the plugin's UI is worse than leaving it alone. Search results need no rule
   here; core already noindexes them.
 
-Sitemaps are core's `wp-sitemap.xml`. Services appear in it because the post type is
-registered `public`; testimonials and quote requests do not, because they are not.
+**Sitemaps.** On an install with no SEO plugin these are core's `wp-sitemap.xml`. The
+live site runs Yoast, which disables core's and serves **`sitemap_index.xml`** instead —
+that is the URL to submit in Search Console, and `wp-sitemap.xml` 301s to it. Services
+appear in either because the post type is registered `public`; testimonials and quote
+requests do not, because they are not.
 
-**Images.** Sixteen photos, 1.4 MB, resized to 800 px on the long edge with filenames
-that describe what they show. They ship inside the theme rather than the Media Library,
+Yoast can still exclude them: **Yoast → Settings → Content types → Services** has its own
+"Show Services in search results?" switch, and turning it off drops all eight from the
+sitemap and the index while everything else looks healthy. The archive has a separate
+switch again. `newera_seo_notice()` checks both and says so in wp-admin.
+
+**Images.** Twenty-five files, 2.2 MB — content photos at 800 px on the long edge, three
+carousel slides at 1200×500, with filenames that describe what they show. They ship inside the theme rather than the Media Library,
 which means WordPress cannot generate responsive sizes for them — if that matters later,
 move them into the Media Library and render with `wp_get_attachment_image()`.
 
