@@ -335,6 +335,36 @@ licensed, in which case its redirect manager will do.
 - **Titles and descriptions.** Walk the pages in Yoast. For pages you kept, the existing
   title and description are still attached — improve them deliberately rather than
   replacing them. **The eight services already carry theirs** from the import; see step 3.
+- **Fix the `/pricing/` meta description.** This one is not optional, and nothing in the
+  package can do it for you: `/pricing/` is a page you keep, so its Yoast fields survive
+  the migration untouched — including the error. It currently reads:
+
+  > Home carpet cleaning, carpet repair & floor cleaning prices for **Austin, Texas** from
+  > New Era Cleaning & Restoration.
+
+  The business was founded in Austin and moved to the Houston area years ago; this is a
+  leftover from that era. It is the description Google shows for the site's
+  **second most-clicked page**, and it names a city the business does not serve. Replace
+  it in Yoast → the Pricing page → SEO → Meta description. Either of these fits the
+  snippet width:
+
+  ```
+  Home carpet cleaning, carpet repair and floor cleaning prices for Sugar Land, Katy, Richmond and the Houston area. Whole-house coupons cover up to 6 rooms.
+  ```
+  ```
+  Current coupon prices for carpet, tile, grout and upholstery cleaning in Sugar Land and the Houston area. House coupons cover up to 6 rooms, halls and closets.
+  ```
+
+  The page **title** is fine as it stands — "Cleaning Services Pricing | New Era Steam
+  Cleaning & Restoration" already uses the correct business name. Leave it.
+
+  `/pricing/specials/` carries the same Austin error but is being redirected to
+  `/pricing/`, so its description stops being served and needs no edit.
+
+- **While you are on the kept pages**, the `/guarantee/` description advertises a
+  "100% satisfaction guarantee" while the page itself offers a 10-day, no-hassle
+  guarantee. Both are true claims but they are not the same promise; make the description
+  describe what the page actually says.
 - **Organization name.** Yoast → Settings → Site representation currently reads
   "New Era Cleaning & Restoration". The search data is unambiguous that the "Steam"
   version is the one customers use — it earns 88 clicks to the shorter name's 23 and ranks
