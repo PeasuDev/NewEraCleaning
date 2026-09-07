@@ -62,9 +62,9 @@ $newera_testimonials = array_slice(
 			</h1>
 			<p class="hero-lead">
 				Recapture your carpet's youth. <?php echo esc_html( newera_business_name() ); ?> is a local,
-				family-owned company delivering deep, hospital-grade steam cleaning for
-				carpets, tile, stone, and upholstery &mdash; backed by
-				<?php echo esc_html( newera_years_of_experience() ); ?>+ years of experience.
+				family-owned company delivering deep truck mounted disinfecting steam cleaning for
+				carpets, tile, stone, and upholstery &mdash; backed by technicians with
+				<?php echo esc_html( newera_years_of_experience() ); ?>+ years in the trade.
 			</p>
 			<div class="hero-actions">
 				<a class="btn-primary-lg" href="#contact">
