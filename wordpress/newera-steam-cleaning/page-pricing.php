@@ -5,8 +5,18 @@
  * Ported from Pages/Public/Pricing.razor.
  *
  * The coupon tables come from the page's own content, imported as core table
- * blocks, so the owner can change prices in the block editor. When the page is
- * empty the seeded tables from inc/pricing.php are rendered instead.
+ * blocks, so the owner can change prices in the block editor. When the page
+ * supplies no table of its own, the seeded tables from inc/pricing.php are
+ * rendered instead.
+ *
+ * That test is deliberately "does the content contain a table", not "is the
+ * content empty". The two differ on exactly the page this site will actually
+ * launch with. The recommended migration keeps the existing /pricing/ page and
+ * attaches this template to it — and that page holds a 719-character intro
+ * paragraph with its prices in ACF fields, which this theme does not read. On
+ * an is-it-empty test that intro counted as content, suppressed the seeded
+ * tables, and published a pricing page with no prices on it: no error, no
+ * warning, just the intro and then the call-to-action.
  *
  * @package newera
  */
@@ -42,9 +52,20 @@ while ( have_posts() ) :
 				</p>
 			</div>
 
+			<?php
+			/*
+			 * Raw content, not the rendered output: a core table block is stored
+			 * as `<!-- wp:table --><figure …><table>`, so the tag is present in
+			 * post_content and this can be decided before anything is printed.
+			 */
+			$newera_own_tables = false !== stripos( (string) get_the_content(), '<table' );
+			?>
+
 			<?php if ( trim( get_the_content() ) ) : ?>
 				<div class="entry-content"><?php the_content(); ?></div>
-			<?php else : ?>
+			<?php endif; ?>
+
+			<?php if ( ! $newera_own_tables ) : ?>
 				<?php foreach ( newera_default_price_tables() as $newera_table ) : ?>
 					<h3 class="price-table-title"><?php echo wp_kses_post( $newera_table['title'] ); ?></h3>
 					<div class="price-table-wrap">

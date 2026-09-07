@@ -157,11 +157,26 @@ metadata you exported in step 3 and gains nothing.
 > errors when it doesn't.
 >
 > - **Pricing** is the one that matters — it is the second most-clicked page on the site,
->   and its coupon prices are ACF values. The theme publishes its own copy from
->   `inc/pricing.php` instead. As of 6 Sep 2026 **all nineteen figures match**, so the
->   port is current. But the two copies are not connected: any price edited between now
->   and launch reaches the live site and not the new build. **Re-run the comparison on the
->   day you switch.**
+>   and its coupon prices are ACF values the theme does not read. **The prices in
+>   `inc/pricing.php` are the ones to publish** (confirmed with the owner, 7 Sep 2026).
+>   They also match the live ACF values exactly as of 6 Sep, so nothing visible changes
+>   at launch.
+>
+>   **This was a silent failure until 7 Sep 2026.** `page-pricing.php` used to render the
+>   seeded tables only when the page was *empty*. The existing `/pricing/` page is not
+>   empty — it holds a 719-character intro paragraph, with the prices themselves in ACF.
+>   So attaching the template to it rendered the intro, skipped the tables, and published
+>   a pricing page **with no prices on it**. No error, no warning.
+>
+>   The template now tests whether the content contains a table rather than whether it is
+>   empty, so the seeded tables render alongside any prose the page carries. Nothing needs
+>   doing for this to work. The theme also prints its own intro above the tables, so the
+>   existing page's intro is now duplicated — clearing the page's editor content gives the
+>   tidiest result, and is optional.
+>
+>   From now on prices are edited in `inc/pricing.php`, or as a table block on the Pricing
+>   page, which overrides the seeded tables when present. **Do not edit them in ACF** —
+>   nothing reads those fields once the theme is switched.
 > - **Job Photos** is the same shape — the gallery is ACF, the theme ships a hard-coded
 >   set of sixteen. Compare them before you switch, and if the live gallery has newer
 >   work in it, move those images into the theme or the Media Library first.
@@ -259,7 +274,11 @@ Open each of these and confirm it looks right.
 - [ ] The other six service URLs, from the list in step 4a
 - [ ] `/about-us/`, `/pricing/`, `/job-photos/`, `/guarantee/`, `/get-quote/`
 - [ ] `/privacy-policy/` and `/terms-of-service/` still render acceptably
-- [ ] Pricing shows three tables with teal headers, not plain unstyled tables
+- [ ] Pricing shows three tables with teal headers, not plain unstyled tables — **and
+      check the prices are actually on the page.** This is the one failure that looks like
+      a normal page rather than a broken one: intro text, then straight to the call to
+      action, with the tables silently missing. Confirm you can see $139 / $159 / $199 /
+      $229 / $259 on the carpet table.
 - [ ] Job Photos shows a twelve-image grid
 - [ ] Icons appear as symbols, not empty boxes
 - [ ] Navigation and footer links all go somewhere real, including Privacy Policy
@@ -361,10 +380,18 @@ licensed, in which case its redirect manager will do.
   `/pricing/specials/` carries the same Austin error but is being redirected to
   `/pricing/`, so its description stops being served and needs no edit.
 
-- **While you are on the kept pages**, the `/guarantee/` description advertises a
-  "100% satisfaction guarantee" while the page itself offers a 10-day, no-hassle
-  guarantee. Both are true claims but they are not the same promise; make the description
-  describe what the page actually says.
+- **Fix the `/guarantee/` meta description too.** It advertises a
+  **"100% satisfaction guarantee"**, which the owner has confirmed is not accurate — the
+  promise is the 10-day, no-hassle guarantee, and that is the wording the new site uses
+  throughout. Same situation as pricing: `/guarantee/` is a kept page, so the description
+  survives the migration unless you change it in Yoast. Something like:
+
+  ```
+  Every job is backed by our 10-day, no-hassle guarantee. If you are not happy, we return and re-service the work — up to three times within those 10 days.
+  ```
+
+  The page's own body copy is already accurate and says exactly this, so it carries over
+  unchanged. Only the description is wrong.
 - **Organization name.** Yoast → Settings → Site representation currently reads
   "New Era Cleaning & Restoration". The search data is unambiguous that the "Steam"
   version is the one customers use — it earns 88 clicks to the shorter name's 23 and ranks
@@ -482,7 +509,7 @@ Once installed, here is where each kind of content is edited:
 | To change | Go to |
 | --- | --- |
 | Service copy, bullets, icons | Services → edit a service |
-| Coupon prices | Pages → Pricing (ordinary table blocks) |
+| Coupon prices | `inc/pricing.php`, or a table block on Pages → Pricing, which overrides it |
 | Customer reviews | Testimonials |
 | About and Guarantee wording | Pages → the relevant page |
 | Business name, phone, hours, address, service area | Theme file `inc/company.php` |

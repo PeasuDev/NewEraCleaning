@@ -139,7 +139,7 @@ disappearing.
 | Content | Where |
 | --- | --- |
 | Service copy, taglines, bullet lists, icons | Services → edit a service |
-| Coupon prices | Pages → Pricing (they are ordinary table blocks) |
+| Coupon prices | `inc/pricing.php`, or a table block on Pages → Pricing, which overrides it |
 | Customer reviews | Testimonials |
 | About and Guarantee copy | Pages → the relevant page |
 | Business name, phone, hours, address, service area, social links | `inc/company.php`, or the `newera_*` filters it defines |
