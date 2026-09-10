@@ -3,7 +3,7 @@ Theme Name: New Era Steam Cleaning & Restoration
 Theme URI: https://neweracleaning.com/
 Author: New Era Steam Cleaning & Restoration
 Description: Marketing theme for New Era Steam Cleaning & Restoration, a family-owned steam cleaning company serving the greater Houston area. Provides the home, services, pricing, job photos, guarantee, about and quote pages, plus a built-in quote request handler.
-Version: 1.1.1
+Version: 1.4.0
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
@@ -586,8 +586,17 @@ a {
         grid-template-columns: 1fr 1fr;
     }
 
-    .public-call-text {
+    /*
+     * Keep the digits on screen on a phone. Only the "Call for a free quote"
+     * label is dropped — it is the longer of the two lines, so the button gets
+     * no wider than hiding both, and the number is what people are looking for.
+     */
+    .public-call-label {
         display: none;
+    }
+
+    .public-call-number {
+        font-size: 0.95rem;
     }
 
     .public-footer-bottom {
@@ -2281,7 +2290,13 @@ a {
     line-height: 1.7;
 }
 
-.public-shell .prose a {
+/* Body-copy links only. A link that carries a class is already a styled
+   component and brings its own color, but `.prose a` outranks a single
+   component class — unqualified, it repainted the service pages' in-copy
+   `.btn-primary-lg` brand-dark on its brand-dark background, leaving the
+   label invisible until :hover won the specificity contest back. Links
+   typed in the block editor have no class, so they still pick this up. */
+.public-shell .prose a:not([class]) {
     color: var(--brand-dark);
     text-decoration: underline;
 }

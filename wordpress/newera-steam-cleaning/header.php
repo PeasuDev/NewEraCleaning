@@ -72,7 +72,7 @@ defined( 'ABSPATH' ) || exit;
 				?>
 			</nav>
 
-			<a class="public-call" href="<?php echo esc_url( newera_phone( 'tel' ) ); ?>">
+			<a class="public-call" href="<?php echo esc_url( newera_phone( 'tel' ) ); ?>" aria-label="Call <?php echo esc_attr( newera_business_name() ); ?> at <?php echo esc_attr( newera_phone() ); ?>">
 				<?php echo newera_icon( 'bi-telephone-fill' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 				<span class="public-call-text">
 					<span class="public-call-label">Call for a free quote</span>
