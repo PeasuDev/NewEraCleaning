@@ -192,7 +192,7 @@ metadata you exported in step 3 and gains nothing.
 | Page | What to do |
 | --- | --- |
 | `/contact-us/` | **Decided: 301 it to `/get-quote/`.** 1 click and 168 impressions in sixteen months, average position 31 — it is not quietly earning brand or near-me searches. Redirecting it is also what makes the Contact Form 7 stack removable. |
-| `/pricing/specials/` | 301 to `/pricing/`; the coupon prices are tables there now. |
+| `/pricing/specials/` | 301 to `/pricing/#coupon-prices`; the coupon prices are tables there now. |
 | `/privacy-policy/` | Keep. Not in the import. The footer links to it automatically once it is set in Settings → Privacy. |
 | `/terms-of-service/` | Keep. Not in the import. |
 

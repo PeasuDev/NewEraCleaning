@@ -67,7 +67,7 @@ is still a judgement call.
 
 | Old URL | Redirect to | 16-mo clicks | Notes |
 | --- | --- | --- | --- |
-| `/pricing/specials/` | `/pricing/` | 1 | Coupon prices are now tables on the pricing page. |
+| `/pricing/specials/` | `/pricing/#coupon-prices` | 1 | Coupon prices are now tables on the pricing page; the anchor lands on them rather than the top of it. |
 | `/contact-us/` | `/get-quote/` | 1 | Confirmed — see below. |
 | `/testimonials/j-e-xxxx-texas/` | `/#reviews` | 31 | Junk-string traffic — see below. |
 | `/testimonials/l-p-xxxx-texas/` | `/#reviews` | 26 | |
@@ -146,7 +146,7 @@ Install **Redirection**, then Tools → Redirection → Import/Export and paste 
 
 ```csv
 source,target,type
-/pricing/specials/,/pricing/,301
+/pricing/specials/,/pricing/#coupon-prices,301
 /contact-us/,/get-quote/,301
 /testimonials/j-e-xxxx-texas/,/#reviews,301
 /testimonials/m-f-xxxx-texas/,/#reviews,301
@@ -159,7 +159,7 @@ source,target,type
 Faster, and does not add a plugin. Send these to the host:
 
 ```nginx
-location = /pricing/specials/            { return 301 /pricing/; }
+location = /pricing/specials/            { return 301 /pricing/#coupon-prices; }
 location = /contact-us/                  { return 301 /get-quote/; }
 location = /testimonials/j-e-xxxx-texas/   { return 301 /#reviews; }
 location = /testimonials/m-f-xxxx-texas/   { return 301 /#reviews; }
@@ -207,6 +207,13 @@ done
 Expected: the sixteen in section 1 return `200`, and the six in section 2 return `301`
 to the listed target. Anything returning `404`, or a `301` that lands on another `301`,
 needs fixing before you resubmit the sitemap.
+
+Five of the six destinations carry a `#` fragment, and it appears in the `Location`
+header, so the script prints the whole thing — `https://neweracleaning.com/#reviews`, not
+`https://neweracleaning.com/`. That is correct, not a stray character. If an old link
+arrives with a query string on it the theme puts that *before* the fragment, so
+`/pricing/specials/?utm_source=fb` lands on `/pricing/?utm_source=fb#coupon-prices` —
+the tag survives for analytics and the anchor still resolves.
 
 Then in Search Console: resubmit `sitemap_index.xml`, and run URL Inspection on the home
 page and two or three service pages.

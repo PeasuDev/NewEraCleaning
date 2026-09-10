@@ -112,7 +112,24 @@ function newera_do_redirects() {
 	$query = wp_parse_url( $requested, PHP_URL_QUERY );
 
 	if ( $query ) {
-		$target .= ( false === strpos( $target, '?' ) ? '?' : '&' ) . $query;
+		/*
+		 * The query goes before the fragment, never after it. Five of the six
+		 * destinations carry a '#', and everything past that character is
+		 * fragment: appending there would bury the query inside it, so the
+		 * server would never see the campaign tag and the anchor would read
+		 * 'reviews?utm_source=x', matching no element on the page. A tagged old
+		 * link would lose its attribution *and* land at the top of the home page
+		 * rather than the section it names.
+		 */
+		$fragment = '';
+		$hash     = strpos( $target, '#' );
+
+		if ( false !== $hash ) {
+			$fragment = substr( $target, $hash );
+			$target   = substr( $target, 0, $hash );
+		}
+
+		$target .= ( false === strpos( $target, '?' ) ? '?' : '&' ) . $query . $fragment;
 	}
 
 	wp_safe_redirect( home_url( $target ), 301 );
