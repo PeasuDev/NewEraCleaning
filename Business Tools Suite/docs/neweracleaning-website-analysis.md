@@ -69,9 +69,11 @@ residential customers are NOT blocked**.
 2. **Allow-list** the IPs of your audit/monitoring tools so you can run SEO/accessibility scans.
 3. Stop 403'ing modern Chrome/Edge UAs outright; keep bot protection but narrow the rule.
 4. Source of the rule (in order of likelihood on this stack):
-   - **Host edge security** — headers (`X-Httpd-Modphp`, hashed `Host-Header`, `X-Proxy-Cache`)
-	 indicate **Nexcess / Liquid Web managed WordPress**; open a support ticket with the exact
+   - **Host edge security** — the host is **SiteGround**, confirmed in wp-admin on 2026-09-07;
+	 its Security Optimizer is the likely source. Open a support ticket with the exact
 	 symptom ("403 to modern Chrome/Edge from datacenter IPs; Googlebot/curl get 200").
+	 *(This analysis originally read the headers `X-Httpd-Modphp` and the hashed `Host-Header`
+	 as Nexcess / Liquid Web. That inference was wrong — don't re-derive it from headers.)*
    - **Security plugin** — Wordfence / All-In-One Security / Sucuri (check "block fake Googlebot",
 	 "bad bot / UA blocking", live traffic logs).
    - **Server config** — `.htaccess` / nginx `if ($http_user_agent ...) return 403;`.
@@ -152,7 +154,7 @@ width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no
 |---|---|
 | Platform | WordPress + PHP |
 | Web server | nginx (with proxy cache: `X-Proxy-Cache: HIT`, `X-Cache-Enabled: True`) |
-| Likely host | Nexcess / Liquid Web managed WordPress (`X-Httpd-Modphp`, hashed `Host-Header`) |
+| Host | **SiteGround** managed WordPress — confirmed in wp-admin 2026-09-07, not inferred from headers |
 | SEO plugin | Yoast SEO |
 | Domain registered | 2014-12-02 (GoDaddy), expires 2034-12-02 |
 | Security headers present | `X-Content-Type-Options: nosniff`, `X-XSS-Protection`, `Strict-Transport-Security` (via host) |

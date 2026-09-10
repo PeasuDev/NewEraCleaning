@@ -52,7 +52,7 @@ first and WordPress files them under a type nothing knows about, and they
 silently do not appear.
 
 1. **Upload the theme.** Appearance → Themes → Add New → Upload Theme →
-   `newera-steam-cleaning.zip` (1.6 MB) → Install → **Activate**.
+   `newera-steam-cleaning.zip` (2.5 MB) → Install → **Activate**.
 
    At this point the whole site already works. Every page renders using copy
    built into the theme, so you can look before importing anything.
@@ -101,33 +101,118 @@ exactly like an empty inbox. Confirm a test submission actually arrives.
 lands in the theme. Every one of them is optional; with none defined the theme
 behaves like stock WordPress and notifies the Settings → General admin email.
 
-```php
-/* Where quote notifications go. Omit on production — see the warning below. */
-define( 'NEWERA_QUOTE_RECIPIENT', 'you@example.com' );
+### Production — recipient pinned, transport unconfigured
 
+`neweracleaning.com` defines exactly one of these constants:
+
+```php
+/* Quote leads go to the business inbox regardless of what the admin email says. */
+define( 'NEWERA_QUOTE_RECIPIENT', 'newerasteamclean@gmail.com' );
+```
+
+**Pinning it changes nothing today.** That is already the Settings → General address, so
+the default would deliver to the same inbox. It is there for later: a change to the admin
+email, made for some unrelated reason by someone who has never read this file, cannot
+silently redirect customer leads.
+
+The cost is a second source of truth. **Keep the two addresses equal** — the admin email
+still needs to be right, because every *other* WordPress notification uses it.
+
+So that the pinning is not invisible, **Settings → General carries a read-only
+"Quote notifications" readout** (`inc/settings.php`) showing the address mail would go to
+right now and where that came from — the constant, the admin email above it, or a filter
+some plugin or snippet has added. It resolves by running the same
+`newera_quote_recipient` filter the send path runs, so it cannot report one thing while
+the site does another, and it calls out the case that would otherwise pass silently: a
+constant defined with a typo, which `is_email()` discards before falling back to the admin
+address.
+
+**The transport, by contrast, is deliberately left alone.** Notifications go out as
+`WordPress <wordpress@neweracleaning.com>` through the host's mailer, which is stock
+WordPress behaviour: core supplies the literal name `WordPress` and builds the address
+from the site URL, and both of the theme's sender filters stand down because
+`newera_smtp_configured()` is false.
+
+The owner reviewed this and accepted it. Worth recording *why* it is a live decision
+rather than an oversight, so nobody "fixes" it without cause — and what would change it:
+
+- **The sender address needs no setup.** `wordpress@neweracleaning.com` is what WordPress
+  falls back to. There is no such mailbox and none is required while SMTP is off.
+- **The risk is deliverability, not identity.** Unauthenticated mail from a shared host
+  to a Gmail recipient is the classic spam-file. It fails invisibly: the form works, the
+  request is stored, and the absence of email looks like an absence of customers.
+- **The display name is coupled to SMTP.** `newera_mail_from_name()` swaps `WordPress`
+  for the Site Title only when SMTP is configured. Keeping "WordPress" and gaining
+  authenticated delivery are not both available without filtering the name back.
+
+If quote mail starts landing in spam or stops arriving, this is the fix:
+
+```php
 /* Route mail through authenticated SMTP instead of the host's mailer. */
+define( 'NEWERA_SMTP_HOST', 'mail.neweracleaning.com' );
+define( 'NEWERA_SMTP_PORT', 465 );
+define( 'NEWERA_SMTP_SECURE', 'ssl' );   // 'ssl' on 465, 'tls' on 587
+define( 'NEWERA_SMTP_USER', 'wordpress@neweracleaning.com' );
+define( 'NEWERA_SMTP_PASS', '<mailbox password>' );
+define( 'NEWERA_SMTP_FROM', 'wordpress@neweracleaning.com' );
+
+/* NEWERA_QUOTE_RECIPIENT belongs above, not here — it is unrelated to transport. */
+```
+
+> **That turns `wordpress@neweracleaning.com` into something that must actually exist.**
+> As a fallback sender it is fine imaginary; as an SMTP account it is not — authentication
+> needs a real mailbox. Create it under Site Tools → Email → Accounts, and take the exact
+> host and port from that account's Mail Configuration panel rather than trusting the
+> values above. `mail.<domain>` on 465 is the normal SiteGround shape, but confirm it.
+
+Once that mailbox exists, bounce notices and out-of-office replies start landing in it,
+and nothing routinely reads it. The customer's address is on `Reply-To` so answering a
+quote still works, but a bouncing lead fails silently — check it if a customer says they
+never heard back.
+
+### Staging
+
+Gmail is fine for a staging copy, where the point is only to prove mail leaves the
+server:
+
+```php
+/* Staging only. Never copy this block to production. */
+define( 'NEWERA_QUOTE_RECIPIENT', 'you@example.com' );
 define( 'NEWERA_SMTP_HOST', 'smtp.gmail.com' );
 define( 'NEWERA_SMTP_PORT', 587 );
-define( 'NEWERA_SMTP_SECURE', 'tls' );   // 'tls' on 587, 'ssl' on 465
+define( 'NEWERA_SMTP_SECURE', 'tls' );
 define( 'NEWERA_SMTP_USER', 'you@gmail.com' );
 define( 'NEWERA_SMTP_PASS', 'xxxxxxxxxxxxxxxx' );
 define( 'NEWERA_SMTP_FROM', 'you@gmail.com' );
 ```
 
-> **`NEWERA_QUOTE_RECIPIENT` replaces the recipient, it does not add one.** That is
-> right for a staging site and wrong for production, where it would divert real
-> customer leads into a personal inbox. Leave it undefined on the live site and
-> point Settings → General → admin email at the business address instead.
+> **`NEWERA_QUOTE_RECIPIENT` replaces the recipient, it does not add one.** Production
+> pins it to the business inbox on purpose — see above. The danger is this *staging*
+> value reaching live, where it would replace the business address with a personal one
+> and divert real customer leads while the form still looks perfectly healthy. To notify
+> more than one inbox, give it a comma-separated list with the business address included,
+> since it is replaced rather than added to.
+
+> **Do not let the staging block reach production.** A staging-to-live push copies
+> `wp-config.php` edits along with everything else, and the result is every quote
+> notification going out as a personal Gmail account and landing in a personal inbox.
+> Delete the block after the push, or keep the values out of `wp-config.php` entirely on
+> staging by putting them in a separate file that is not promoted. The in-place cutover
+> avoids this by never pushing `wp-config.php` at all.
 
 For Gmail, `NEWERA_SMTP_PASS` must be an **App Password**, not the account
 password — Google rejects account passwords over SMTP. Generate one at
 <https://myaccount.google.com/apppasswords>; the option only appears once
 2-Step Verification is enabled on the account. Google shows the 16 characters
-once, and its display spaces can be omitted.
+once, and its display spaces can be omitted. A SiteGround mailbox password is an
+ordinary password and needs none of this.
 
-`inc/mail.php` also aligns the From header with the SMTP account, because Gmail
-rewrites a mismatched From anyway and elsewhere it fails SPF/DMARC. The customer's
-address stays on `Reply-To`, so replying from the notification reaches them.
+### Either configuration
+
+`inc/mail.php` aligns the From header with the account actually doing the sending. A
+mismatched From is a reliable way to fail SPF/DMARC, and Gmail rewrites one regardless.
+The customer's address stays on `Reply-To`, so replying from the notification reaches
+them.
 
 With `WP_DEBUG` on, a refused send is written to the PHP error log rather than
 disappearing.
@@ -143,7 +228,7 @@ disappearing.
 | Customer reviews | Testimonials |
 | About and Guarantee copy | Pages → the relevant page |
 | Business name, phone, hours, address, service area, social links | `inc/company.php`, or the `newera_*` filters it defines |
-| Google Business Profile URL | `newera_google_business_profile` filter — feeds `sameAs`, and clears the wp-admin checklist item |
+| Google Business Profile URL | **Settings → General**, or the `newera_google_business_profile` filter — feeds `sameAs`, and clears the wp-admin checklist item |
 | The services URL base | `newera_services_base()` in `inc/post-types.php` |
 | Job photos and carousel slides | `inc/template-tags.php`, or the `newera_gallery_photos` / `newera_carousel_slides` filters |
 
@@ -209,7 +294,7 @@ which is why there is a notice at all.
 
 The Business Profile URL is the one worth doing first. For a service-area business the
 Profile is what ranks in the local map pack, and `sameAs` is what ties it to this site.
-Set it with the `newera_google_business_profile` filter and it flows into the schema and
+Paste it into **Settings → General** and it flows into the schema and
 the checklist stops asking.
 
 **Robots.** The theme emits no robots tag of its own. WordPress owns it through the

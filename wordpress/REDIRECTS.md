@@ -115,9 +115,32 @@ That is fine here.
 
 ## 3. Implementing them
 
-No redirect plugin is installed on the live site today, so pick one route.
+**The theme now serves all six itself.** `inc/redirects.php` holds the map and issues the
+301s on `template_redirect`, so activating the theme is all that is required — no plugin,
+nothing to transcribe, and the rules are version-controlled alongside the code that
+depends on them.
 
-### Option A — Redirection plugin (simplest)
+Matching is on the request path rather than on what WordPress resolves the request to.
+That matters for `/pricing/specials/`, which is still a published page today: a rule that
+only fired on a 404 would never reach it. Trailing slashes and letter case are both
+ignored, and any query string on the old link is carried through to the destination.
+
+To change a destination, filter the map rather than editing the file:
+
+```php
+add_filter( 'newera_redirect_map', function ( $map ) {
+	$map['/contact-us'] = '/about-us/';
+	return $map;
+} );
+```
+
+The wp-admin SEO checklist reports any redirect whose destination page is missing, so a
+rule pointing at a trashed page does not go unnoticed.
+
+The two routes below are no longer needed. They are kept for the case where the theme is
+ever replaced but the URLs still have to resolve.
+
+### Option A — Redirection plugin
 
 Install **Redirection**, then Tools → Redirection → Import/Export and paste this CSV:
 

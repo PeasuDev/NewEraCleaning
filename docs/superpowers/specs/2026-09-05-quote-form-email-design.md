@@ -1,8 +1,23 @@
 # Quote form email delivery — design
 
 **Date:** 2026-09-05
-**Goal:** A submitted quote request arrives as email at `tpease87@gmail.com`, on both
-the WordPress theme and the Blazor local preview, so the owner can test it end to end.
+**Goal:** A submitted quote request arrives as email at the business inbox,
+`newerasteamclean@gmail.com`, on both the WordPress theme and the Blazor local preview,
+so the owner can test it end to end.
+
+> **Revised 2026-09-07.** This originally delivered to `tpease87@gmail.com` and sent as
+> that account on both surfaces. Two things changed, and they are independent settings:
+>
+> | | Production (WordPress) | Blazor preview |
+> | --- | --- | --- |
+> | **Recipient** | `newerasteamclean@gmail.com` | `newerasteamclean@gmail.com` |
+> | **Sender** | `WordPress <wordpress@neweracleaning.com>` — the unconfigured default | `tpease87@gmail.com` — unchanged |
+>
+> The owner's decision: no personal address on production mail, and no SMTP setup to
+> achieve it — WordPress's own default already satisfies that, so production defines none
+> of the `NEWERA_SMTP_*` constants. The Blazor preview keeps the Gmail sender
+> deliberately: it is a local test surface, its app password already works, and the admin
+> it belongs to is being retired.
 
 ## Starting position
 
@@ -124,7 +139,7 @@ From the `Business Tools Suite` folder:
 dotnet user-secrets --project "Business Tools Suite\Business Tools Suite.csproj" set "QuoteMail:UserName" "tpease87@gmail.com"
 dotnet user-secrets --project "Business Tools Suite\Business Tools Suite.csproj" set "QuoteMail:Password" "<app password>"
 dotnet user-secrets --project "Business Tools Suite\Business Tools Suite.csproj" set "QuoteMail:FromAddress" "tpease87@gmail.com"
-dotnet user-secrets --project "Business Tools Suite\Business Tools Suite.csproj" set "QuoteMail:ToAddress" "tpease87@gmail.com"
+dotnet user-secrets --project "Business Tools Suite\Business Tools Suite.csproj" set "QuoteMail:ToAddress" "newerasteamclean@gmail.com"
 ```
 
 Host (`smtp.gmail.com`), port (`587`) and SSL default correctly in `appsettings.json`.
@@ -132,23 +147,50 @@ Host (`smtp.gmail.com`), port (`587`) and SSL default correctly in `appsettings.
 If the app is ever started with `-NoLaunchBrowser`, set the same values as
 environment variables (`QuoteMail__UserName`, …) instead, for the reason above.
 
-### 3. WordPress staging
+### 3. WordPress
 
-In `wp-config.php`, above the `/* That's all, stop editing! */` line:
+In `wp-config.php`, above the `/* That's all, stop editing! */` line. The theme's
+README carries the canonical version of both blocks; this is the summary.
 
-```php
-define( 'NEWERA_QUOTE_RECIPIENT', 'tpease87@gmail.com' );
-define( 'NEWERA_SMTP_HOST', 'smtp.gmail.com' );
-define( 'NEWERA_SMTP_PORT', 587 );
-define( 'NEWERA_SMTP_SECURE', 'tls' );
-define( 'NEWERA_SMTP_USER', 'tpease87@gmail.com' );
-define( 'NEWERA_SMTP_PASS', '<app password>' );
-define( 'NEWERA_SMTP_FROM', 'tpease87@gmail.com' );
-```
+**Production defines none of the SMTP constants** — the owner's decision on 2026-09-07,
+after reviewing what the default produces. Mail leaves through the host's mailer as
+`WordPress <wordpress@neweracleaning.com>`, both halves being WordPress core defaults,
+with the theme's sender filters standing down.
 
-`NEWERA_QUOTE_RECIPIENT` replaces the recipient outright. That is correct for a
-staging site, and deliberately wrong for production — on live it would divert real
-customer leads to a personal inbox. Production should leave the constant undefined.
+The accepted trade is unauthenticated delivery to a Gmail recipient, whose failure mode
+is a spam-file that looks exactly like nobody enquiring. The step 10 test therefore has
+to check the spam folder, and a recurrence later is the trigger to revisit rather than
+something to pre-empt.
+
+Should that happen, SMTP through a domain mailbox is the fix, documented in full in the
+theme README. Two things make it more than a config edit: `wordpress@neweracleaning.com`
+has to be created for real (as a fallback sender it works imaginary; as an SMTP account
+it does not), and configuring SMTP also promotes the display name from `WordPress` to the
+Site Title, because `newera_mail_from_name()` stops standing down.
+
+**Staging** may use Gmail with an app password, since the only thing being proved there
+is that mail leaves the server. That block must not survive a staging-to-live push:
+`wp-config.php` is promoted along with everything else, and the result is real customer
+leads going out as a personal Gmail account.
+
+`NEWERA_QUOTE_RECIPIENT` replaces the recipient outright, so a staging value reaching
+production would divert real customer leads to whichever inbox is named there.
+
+> **Reversed 10 Sep 2026.** This section originally concluded that production should leave
+> the constant undefined and rely on **Settings → General → admin email**, so the
+> destination stayed visible in the admin rather than buried in `wp-config.php`. The owner
+> chose to pin it instead:
+>
+> ```php
+> define( 'NEWERA_QUOTE_RECIPIENT', 'newerasteamclean@gmail.com' );
+> ```
+>
+> Same address either way, so nothing changes on the site today. The reasoning that won:
+> the admin email is an ordinary-looking setting someone may change for an unrelated
+> reason, and quote requests are the site's only revenue path, so they should not follow
+> it by accident. The accepted cost is exactly the one this section originally objected
+> to — a destination wp-admin cannot see. Mitigation is that the two addresses are kept
+> equal, and `README.md` and `IMPORT-GUIDE.md` step 11 both record the pinning.
 
 ## Verification boundary
 

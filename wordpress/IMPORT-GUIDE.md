@@ -3,8 +3,8 @@
 How to get the ported marketing site onto `neweracleaning.com` — in the order that
 avoids the failure modes that are painful to unpick afterwards.
 
-**Package:** `wordpress/` v1.1.0 · **Time:** about ninety minutes, mostly checking
-· **Updated:** 4 Sep 2026
+**Package:** `wordpress/`, theme v1.4.0 · **Time:** about ninety minutes, mostly checking
+· **Updated:** 10 Sep 2026
 
 > ### Read this first
 >
@@ -177,9 +177,14 @@ metadata you exported in step 3 and gains nothing.
 >   From now on prices are edited in `inc/pricing.php`, or as a table block on the Pricing
 >   page, which overrides the seeded tables when present. **Do not edit them in ACF** —
 >   nothing reads those fields once the theme is switched.
-> - **Job Photos** is the same shape — the gallery is ACF, the theme ships a hard-coded
->   set of sixteen. Compare them before you switch, and if the live gallery has newer
->   work in it, move those images into the theme or the Media Library first.
+> - **Job Photos** is the same shape — the gallery is ACF, and the theme ships a
+>   hard-coded set of twenty. **This one has been checked and needs no action.** The live
+>   page serves 27 files, but seven are duplicates of shots already in the set: the
+>   `nw-era-img5`–`img8` banner crops, `nw-era-img8-1` (byte-identical to `nw-era-img8`)
+>   and `neweracleaning-img15` (a letterboxed copy of the travertine pair). That leaves
+>   20 unique images, which is exactly what the theme carries. Re-verified against the
+>   live page on 7 Sep 2026 — still 27 files, unchanged. Only revisit this if new work is
+>   added to the live gallery before you switch.
 > - **Home** is moot: `front-page.php` replaces that page's rendering entirely.
 
 #### 4c. The four pages with no replacement
@@ -202,6 +207,13 @@ The four `/testimonials/…` URLs also disappear and need 301s. All of this is i
 > So: **copy anything worth keeping out of them before step 5**, and have their 301s live
 > at the moment of the switch rather than added afterwards in step 12. Otherwise those
 > URLs serve 404s for however long the gap is.
+>
+> **The copy is done** — see [`RESCUED-TESTIMONIALS.md`](RESCUED-TESTIMONIALS.md), captured
+> 7 Sep 2026. Worth knowing what it found: all four reviews are genuinely unique, appearing
+> in neither `inc/testimonials.php` nor `newera-content.xml`, so activating the theme would
+> have destroyed them outright. Two of the four are also word-for-word identical, making
+> three distinct reviews across four URLs. They are **not** in the package — republishing
+> them is a separate decision, and that file sets out what it would take.
 
 ---
 
@@ -213,7 +225,7 @@ The four `/testimonials/…` URLs also disappear and need 301s. All of this is i
 
 **Appearance → Themes → Add New → Upload Theme**
 
-Choose `newera-steam-cleaning.zip` (1.6 MB), click Install Now, then **Activate**.
+Choose `newera-steam-cleaning.zip` (2.5 MB), click Install Now, then **Activate**.
 
 Now open the site in a new tab. The homepage and all eight services should already
 work — the theme carries a full copy of the content built in, so you get to look at the
@@ -230,11 +242,11 @@ on the catalogue's URLs, and possibly one about the Site Title. Both are expecte
 
 **Tools → Import → WordPress → Install Now → Run Importer**
 
-Choose `newera-content.xml` (82 KB) and upload it. On the options screen:
+Choose `newera-content.xml` (86 KB) and upload it. On the options screen:
 
 - Assign all posts to your own admin user.
 - Leave **"Download and import file attachments" unchecked.** There are no attachments —
-  the 16 photos ship inside the theme.
+  the 20 photos ship inside the theme.
 
 > **Critical.** The theme must already be active before you run this — you did that in
 > step 5. The import contains services and testimonials, which are content types the
@@ -279,7 +291,8 @@ Open each of these and confirm it looks right.
       a normal page rather than a broken one: intro text, then straight to the call to
       action, with the tables silently missing. Confirm you can see $139 / $159 / $199 /
       $229 / $259 on the carpet table.
-- [ ] Job Photos shows a twelve-image grid
+- [ ] Job Photos shows a **twenty**-image grid — count them. A short grid means photos
+      are missing, and it looks like a normal page rather than a broken one.
 - [ ] Icons appear as symbols, not empty boxes
 - [ ] Navigation and footer links all go somewhere real, including Privacy Policy
 - [ ] No `-2` pages remain
@@ -297,8 +310,10 @@ Go to `/get-quote/`, fill the form in properly and submit. Three things should h
 1. The form is replaced by a thank-you panel.
 2. A new entry appears under **Quote Requests** in the admin sidebar, with the phone,
    email and service in the list columns.
-3. An email arrives at the address in **Settings → General**, with the customer set as
-   Reply-To.
+3. An email arrives at the recipient address, with the customer set as Reply-To. On live
+   that is `NEWERA_QUOTE_RECIPIENT` in `wp-config.php`; with the constant undefined it
+   falls back to **Settings → General**. Set it before testing — see step 11 — or the
+   test lands wherever the install was first configured.
 
 Then submit again with the email field left blank, and confirm you get a readable error
 rather than a blank page or a lost submission.
@@ -313,25 +328,100 @@ rather than a blank page or a lost submission.
 
 ### 11. Make email reliable
 
-WordPress sends mail through the web server by default, which on shared hosting
-frequently lands in spam or is dropped outright. Quote requests are the site's revenue
-path, so this is worth doing properly rather than hoping.
+**Decided: pin the recipient, leave the transport unconfigured, and test it.**
+Notifications go out as `WordPress <wordpress@neweracleaning.com>` through SiteGround's own
+mailer. That is the WordPress default and it is an acceptable starting point — but it is
+unauthenticated mail, so confirm it before trusting it.
 
-Install an SMTP plugin (WP Mail SMTP, Post SMTP, or similar) and point it at a real
-mailbox or a sending service. Then repeat the step 10 test and confirm delivery to an
-address you can actually check — ideally not on the same domain, so you are testing more
-than local loopback.
+Two settings, independent of each other — this is the part that gets conflated:
 
-Consider also setting a dedicated recipient rather than the site admin address. The theme
-exposes a `newera_quote_recipient` filter for that.
+| | Address | Set where |
+| --- | --- | --- |
+| **Sender** — what recipients see mail coming *from* | `WordPress <wordpress@neweracleaning.com>` | Nothing to set; WordPress's default |
+| **Recipient** — where the lead lands | `newerasteamclean@gmail.com` | `wp-config.php` → `NEWERA_QUOTE_RECIPIENT` |
+
+The sender address is derived from the site URL at send time, so on a staging copy it
+arrives as `wordpress@staging.neweracleaning.com`. Expected, not a fault.
+
+**The test that matters: check the spam folder, not just the inbox.** The recipient is a
+Gmail account and the mail is unauthenticated — no DKIM, and SPF only passes if
+SiteGround's sending IPs are in the domain's SPF record. That combination is the classic
+spam-file, and it fails in the worst possible way: the form works, the request is saved,
+the owner sees nothing and concludes nobody is enquiring.
+
+If it does land in spam — or in a week, stops arriving — the fix is SMTP, and the theme
+does it natively with no plugin. `inc/mail.php` routes `wp_mail()` through authenticated
+SMTP as soon as `NEWERA_SMTP_HOST` is defined, and stands completely down when it is not.
+That needs `wordpress@neweracleaning.com` created as a real mailbox under Site Tools →
+Email → Accounts — it does not exist today; it is only the address WordPress *falls back
+to*, which makes it look like it does. The theme README has the full block. Note that
+configuring SMTP also changes the display name from "WordPress" to the Site Title, since
+`newera_mail_from_name()` stops standing down.
+
+Either way, repeat the step 10 test afterwards and confirm delivery to an address you can
+actually check — ideally not on the same domain, so you are testing more than local
+loopback.
+
+#### Where the lead lands — pin it
+
+Quote notifications default to **Settings → General → admin email**, and on the live site
+that destination is **pinned in `wp-config.php`** so an unrelated change to the admin email
+cannot quietly redirect it:
+
+```php
+/* Quote leads go to the business inbox regardless of what the admin email says. */
+define( 'NEWERA_QUOTE_RECIPIENT', 'newerasteamclean@gmail.com' );
+```
+
+Add this on live **before the theme is activated**, so the first real lead is never the
+thing that tests it. It changes nothing on the site: it is the same address the admin
+email should already hold, so the default would deliver to the same inbox anyway.
+
+**Then check it from wp-admin.** Settings → General carries a read-only
+**Quote notifications** readout, directly below the Google Business Profile field. It shows
+the address mail would go to right now and which mechanism decided it — so you can confirm
+the pinning took without SSH, and without reading email headers. It resolves through the
+same filter the send path uses, so it cannot report one thing while the site does another.
+
+Four things it can say:
+
+| Readout | Meaning |
+| --- | --- |
+| Pinned by `NEWERA_QUOTE_RECIPIENT` | Working as intended. This is what you want to see on live. |
+| Using the administration email above | The constant is absent. Delivery follows Settings → General. |
+| `NEWERA_QUOTE_RECIPIENT` is defined but was ignored | **Typo.** Nothing in it parsed as an address, so delivery silently fell back to the admin email. |
+| Set by a filter on `newera_quote_recipient` | Something else — a plugin, snippet or mu-plugin — is overriding it. |
+
+> **The constant *replaces* rather than adds.** Changing Settings → General later will move
+> every other WordPress notification but not this one, and the readout above is the only
+> thing that will tell you. Keep the two addresses equal, and when one has to change, change
+> both. To notify more than one inbox, give the constant a comma-separated list with the
+> business address included — invalid entries are dropped silently, and if none survive it
+> falls back to the admin email rather than erroring.
+
+**Set the admin email too.** It is still what password resets, plugin notices and every
+other WordPress mail uses, and a WordPress install keeps whatever address it was set up
+with. Over SSH:
+
+```bash
+wp option update admin_email newerasteamclean@gmail.com
+wp option get admin_email        # confirm
+```
+
+Prefer WP-CLI over Settings → General here. Changing it in the admin does not take effect
+immediately — WordPress emails a confirmation link to the *new* address and leaves the
+change pending until someone clicks it. On this site mail delivery is the one thing not
+yet proven, so that can deadlock: you cannot fix the address because the address does not
+work. `wp option update` writes straight to the database and skips the confirmation.
 
 ### 12. Set up the redirects
 
-Six URLs need a 301. `REDIRECTS.md` has the list, a ready-made CSV for the Redirection
-plugin, nginx rules if you would rather not add a plugin, and a verification script.
+**Nothing to do — the theme serves them.** `inc/redirects.php` issues all six 301s, so
+they start working the moment the theme is activated. No redirect plugin is needed.
 
-No redirect plugin is installed today, so this needs adding — unless Yoast Premium is
-licensed, in which case its redirect manager will do.
+Confirm them anyway once the site is live, with the verification script in `REDIRECTS.md`.
+That file also documents how to change a destination, and keeps plugin and nginx routes on
+record for the case where the theme is ever replaced.
 
 ### 13. Settle the SEO configuration
 
@@ -342,7 +432,7 @@ licensed, in which case its redirect manager will do.
   *that* one. Leave the snippet on and the site publishes two business entities describing
   the same company. **It lives in a plugin, so activating the theme does not remove it.**
   Deactivate it. The theme publishes everything it contained and more: `foundingDate`,
-  `priceRange`, Angi in `sameAs`, state-qualified service-area cities, and `Service` nodes
+  `priceRange`, Facebook and Yelp in `sameAs`, state-qualified service-area cities, and `Service` nodes
   that resolve back to the catalogue.
 
   Its `description` also claims the business has served *"since the mid-1990s"*, which is
@@ -498,7 +588,7 @@ imported content and the theme in one move, which is exactly why step 2 is not o
 
 | File | What it is |
 | --- | --- |
-| `newera-steam-cleaning.zip` | The theme. Upload this. 1.6 MB, includes all 16 photos and the icon font. |
+| `newera-steam-cleaning.zip` | The theme. Upload this. 2.5 MB, includes all 20 photos and the icon font. |
 | `newera-content.xml` | The content import. 5 pages, 8 services, 22 testimonials. |
 | `REDIRECTS.md` | Every live URL, what happens to it, and how to implement the six 301s. |
 | `newera-steam-cleaning/` | The same theme unzipped, for reading and editing. |

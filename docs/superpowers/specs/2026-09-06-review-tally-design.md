@@ -8,8 +8,8 @@
 > it: Yelp Fusion turned out to be paid-only (free tier withdrawn), and Angi and
 > Facebook both refuse server-side fetches — measured 403 and 400 respectively,
 > with a Chrome user agent, over both cURL and PHP streams. A datacenter host
-> fares no better. Only the browser can read those pages, so no cron job on
-> Nexcess can.
+> fares no better. Only the browser can read those pages, so no cron job on the
+> web host can.
 >
 > Kept for the measurements in "Ground truth" below, which are still accurate,
 > and as the record of why automation was abandoned.

@@ -7,7 +7,7 @@
 
 ## Goal
 
-`neweracleaning.com` already runs WordPress (nginx / Nexcess, Yoast SEO). This repo holds a newer, better-structured rebuild of the public marketing site written in Blazor, which WordPress cannot run. The deliverable is therefore a translation, not a deployment: a theme the owner uploads through **Appearance → Themes → Add New**, and a WXR file imported through **Tools → Import**.
+`neweracleaning.com` already runs WordPress (nginx / SiteGround, Yoast SEO). This repo holds a newer, better-structured rebuild of the public marketing site written in Blazor, which WordPress cannot run. The deliverable is therefore a translation, not a deployment: a theme the owner uploads through **Appearance → Themes → Add New**, and a WXR file imported through **Tools → Import**.
 
 ## What ships and what does not
 
