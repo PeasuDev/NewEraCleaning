@@ -114,7 +114,48 @@ function newera_seo_findings() {
 	}
 
 	if ( '' === trim( newera_google_business_profile() ) ) {
-		$findings[] = 'No <strong>Google Business Profile</strong> URL is set. For a service-area business the Business Profile is what ranks in the local map pack, and <code>sameAs</code> is how this site and that listing are tied to the same company. Add the listing&rsquo;s share link with the <code>newera_google_business_profile</code> filter.';
+		$findings[] = sprintf(
+			'No <strong>Google Business Profile</strong> URL is set. For a service-area business the Business Profile is what ranks in the local map pack, and <code>sameAs</code> is how this site and that listing are tied to the same company. Paste the listing&rsquo;s share link into <a href="%s">Settings &rarr; General</a>.',
+			esc_url( admin_url( 'options-general.php' ) )
+		);
+	}
+
+	/*
+	 * A second business entity, published from a plugin rather than the theme.
+	 * WPCode Lite carries a hand-written LocalBusiness block under its own @id;
+	 * Yoast's node — the one this theme extends — uses #organization. Leave both
+	 * on and the site describes the same company twice, with different founding
+	 * dates. Activating the theme cannot remove it, because it lives elsewhere.
+	 */
+	if ( newera_wpcode_active() ) {
+		$findings[] = sprintf(
+			'<strong>WPCode is active.</strong> If its site-wide &ldquo;Custom HTML&rdquo; snippet still contains the hand-written <code>LocalBusiness</code> block, this site is publishing two business entities for the same company. The theme already publishes everything that snippet contained. Check <a href="%s">the snippet list</a> and deactivate it.',
+			esc_url( admin_url( 'admin.php?page=wpcode' ) )
+		);
+	}
+
+	/*
+	 * Two descriptions that are wrong on the live site today and that survive
+	 * the migration precisely because kept pages keep their Yoast fields. They
+	 * are checked rather than assumed: once either is corrected the notice goes
+	 * away on its own.
+	 */
+	foreach ( newera_description_problems() as $problem ) {
+		$findings[] = $problem;
+	}
+
+	/*
+	 * A redirect that points at a page which is not there sends visitors from
+	 * one 404 to another. Cheap to check, and the destinations are pages a
+	 * person can trash by accident.
+	 */
+	$missing_targets = newera_missing_redirect_targets();
+
+	if ( $missing_targets ) {
+		$findings[] = sprintf(
+			'<strong>A redirect points at a page that does not exist:</strong> %s. Old URLs are being sent somewhere that returns a 404. Restore the page, or change the destination with the <code>newera_redirect_map</code> filter.',
+			esc_html( implode( ', ', $missing_targets ) )
+		);
 	}
 
 	$no_image = array();
@@ -180,6 +221,103 @@ function newera_seo_findings() {
 	}
 
 	return $findings;
+}
+
+/**
+ * Whether the WPCode snippet plugin is running.
+ *
+ * Checked by constant and class rather than by plugin path, so it holds for
+ * both the free and paid builds.
+ *
+ * @return bool
+ */
+function newera_wpcode_active() {
+	return defined( 'WPCODE_VERSION' )
+		|| class_exists( 'WPCode' )
+		|| function_exists( 'wpcode' );
+}
+
+/**
+ * Pages whose Yoast meta description still carries a known error.
+ *
+ * Both of these are live today and both survive a theme swap, because a page
+ * that is kept keeps its Yoast fields. The check is on the stored description
+ * rather than on a flag, so correcting the text is what clears the notice.
+ *
+ * @return array<int,string> Ready-to-render HTML fragments.
+ */
+function newera_description_problems() {
+	$checks = array(
+		array(
+			'slug'   => 'pricing',
+			'needle' => 'austin',
+			'label'  => 'Pricing',
+			'why'    => 'names <strong>Austin, Texas</strong> &mdash; a city the business left years ago. This is the description Google shows for one of the site&rsquo;s most-clicked pages.',
+		),
+		array(
+			'slug'   => 'guarantee',
+			'needle' => '100%',
+			'label'  => 'Guarantee',
+			'why'    => 'advertises a <strong>100% satisfaction guarantee</strong>. The actual promise is the 10-day, no-hassle guarantee, which is what the page body and the rest of the site say.',
+		),
+	);
+
+	$problems = array();
+
+	foreach ( $checks as $check ) {
+		$page = get_page_by_path( $check['slug'] );
+
+		if ( ! $page ) {
+			continue;
+		}
+
+		$description = (string) get_post_meta( $page->ID, '_yoast_wpseo_metadesc', true );
+
+		if ( '' === $description || false === stripos( $description, $check['needle'] ) ) {
+			continue;
+		}
+
+		$problems[] = sprintf(
+			'<strong>The %1$s page&rsquo;s meta description</strong> %2$s <a href="%3$s">Edit it</a>.',
+			esc_html( $check['label'] ),
+			$check['why'],
+			esc_url( get_edit_post_link( $page->ID, 'raw' ) )
+		);
+	}
+
+	return $problems;
+}
+
+/**
+ * Redirect destinations that do not resolve to anything.
+ *
+ * Only the destinations that are real pages are worth checking; the home page
+ * and its anchors always exist.
+ *
+ * @return array<int,string> Destination paths, for display.
+ */
+function newera_missing_redirect_targets() {
+	if ( ! function_exists( 'newera_redirect_map' ) ) {
+		return array();
+	}
+
+	$missing = array();
+
+	foreach ( newera_redirect_map() as $target ) {
+		$path = (string) wp_parse_url( $target, PHP_URL_PATH );
+		$path = trim( $path, '/' );
+
+		// The home page, or an anchor on it.
+		if ( '' === $path ) {
+			continue;
+		}
+
+		if ( ! get_page_by_path( $path ) ) {
+			$missing[] = '/' . $path . '/';
+		}
+	}
+
+	return array_values( array_unique( $missing ) );
 }
 
 /**
