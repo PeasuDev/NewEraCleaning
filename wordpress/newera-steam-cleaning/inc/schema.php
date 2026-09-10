@@ -202,7 +202,7 @@ function newera_business_node() {
 			'logo'        => newera_logo_url(),
 			'description' => 'Local, family-owned steam cleaning company serving residential and commercial customers across the greater Houston area since ' . newera_founded_year() . '.',
 			'url'         => home_url( '/' ),
-			'sameAs'      => array_values( newera_social_links() ),
+			'sameAs'      => array_values( newera_schema_profiles() ),
 		),
 		newera_business_schema()
 	);
@@ -546,8 +546,10 @@ add_action( 'wp_head', 'newera_json_ld', 5 );
  * the type it already emits and fills in the local-business properties Yoast
  * has no settings field for.
  *
- * Name, url, logo, image and sameAs are left alone — those come from Yoast's
- * own configuration, and overwriting them is how the two sources drift apart.
+ * Name, url, logo and image are left alone — those come from Yoast's own
+ * configuration, and overwriting them is how the two sources drift apart.
+ * sameAs is left alone too, with one exception noted in the body: the Angi
+ * listing is stripped, because it is filed under the wrong city.
  *
  * @param array $data The Organization piece Yoast is about to output.
  * @return array
@@ -570,6 +572,43 @@ function newera_yoast_organization( $data ) {
 	foreach ( newera_business_schema() as $key => $value ) {
 		if ( ! isset( $data[ $key ] ) || '' === $data[ $key ] || array() === $data[ $key ] ) {
 			$data[ $key ] = $value;
+		}
+	}
+
+	/*
+	 * The one exception to leaving sameAs alone. Yoast builds that array from
+	 * its own social settings, so a URL typed into wp-admin lands in the graph
+	 * whatever the theme does. The pre-launch audit asked specifically that the
+	 * Angi listing not be published as one of this business's identities: it is
+	 * filed under Austin and carries that city in its URL. Stripping it here
+	 * makes that a property of the site rather than something a person has to
+	 * remember not to paste. Everything else Yoast publishes is untouched.
+	 *
+	 * Remove the filter to opt out:
+	 *   remove_filter( 'newera_schema_sameas_blocklist', ... )
+	 * or return an empty array from it.
+	 */
+	if ( ! empty( $data['sameAs'] ) && is_array( $data['sameAs'] ) ) {
+		$blocked = (array) apply_filters(
+			'newera_schema_sameas_blocklist',
+			array( 'angi.com', 'angieslist.com' )
+		);
+
+		if ( $blocked ) {
+			$data['sameAs'] = array_values(
+				array_filter(
+					$data['sameAs'],
+					static function ( $url ) use ( $blocked ) {
+						foreach ( $blocked as $needle ) {
+							if ( false !== stripos( (string) $url, $needle ) ) {
+								return false;
+							}
+						}
+
+						return true;
+					}
+				)
+			);
 		}
 	}
 
