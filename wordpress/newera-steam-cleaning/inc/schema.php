@@ -576,13 +576,18 @@ function newera_yoast_organization( $data ) {
 	}
 
 	/*
-	 * The one exception to leaving sameAs alone. Yoast builds that array from
-	 * its own social settings, so a URL typed into wp-admin lands in the graph
-	 * whatever the theme does. The pre-launch audit asked specifically that the
-	 * Angi listing not be published as one of this business's identities: it is
-	 * filed under Austin and carries that city in its URL. Stripping it here
-	 * makes that a property of the site rather than something a person has to
-	 * remember not to paste. Everything else Yoast publishes is untouched.
+	 * The one exception to leaving sameAs alone, and the reason it survives the
+	 * Angi listing being removed from the theme entirely: this is not the
+	 * theme's array. Yoast builds sameAs from its own social settings, so a URL
+	 * typed into wp-admin reaches the graph whatever inc/company.php holds.
+	 *
+	 * The listing is filed under Austin and carries that city in its URL, so
+	 * publishing it as one of this business's identities asserts a location the
+	 * business does not serve from. Stripping it here makes that a property of
+	 * the site rather than something a person has to remember not to paste --
+	 * which matters more now than before, since deleting the link is exactly the
+	 * kind of change someone later undoes by pasting it back into Yoast.
+	 * Everything else Yoast publishes is untouched.
 	 *
 	 * Remove the filter to opt out:
 	 *   remove_filter( 'newera_schema_sameas_blocklist', ... )

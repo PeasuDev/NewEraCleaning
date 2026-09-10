@@ -164,10 +164,15 @@ function newera_google_business_profile() {
  * @return array<string,string>
  */
 function newera_social_links() {
+	/*
+	 * No Angi listing here, deliberately. It is filed under Austin and carries
+	 * that city in its URL, so linking it from a Houston-area site sends people
+	 * to a page asserting a location the business does not serve from. Removed
+	 * at the owner's request on 2026-09-10.
+	 */
 	$links = array(
 		'facebook' => 'https://www.facebook.com/newerasteamclean',
 		'yelp'     => 'https://www.yelp.com/biz/new-era-steam-cleaning-and-restoration-sugar-land',
-		'angi'     => 'https://www.angi.com/companylist/us/tx/austin/new-era-steam-cleaning-and-restoration-reviews-8435486.htm',
 	);
 
 	$google = trim( newera_google_business_profile() );
@@ -182,23 +187,21 @@ function newera_social_links() {
 /**
  * Social profile URLs suitable for the `sameAs` array in structured data.
  *
- * The same list as newera_social_links(), minus Angi. The Angi listing is filed
- * under Austin and carries that city in its URL; the pre-launch audit asked
- * specifically that it not be published as one of this business's identities in
- * schema, where it would assert a location the business does not serve from.
- * The footer link is unaffected and still uses the full list.
+ * Now the same list as newera_social_links(). It used to strip the Angi listing
+ * out of schema while the footer still linked it; the listing has since been
+ * removed outright, so there is nothing left to subtract. The function stays as
+ * the seam between "profiles we link" and "profiles we claim as our identity",
+ * because those are different questions and the next one to diverge should not
+ * have to reintroduce the distinction.
  *
- * If the listing's location is ever corrected on Angi's side, drop the unset()
- * below and both places pick it up again.
+ * Note this is not the only path into sameAs. Yoast builds its own array from
+ * its own settings, which the theme does not control; newera_yoast_organization()
+ * filters that separately.
  *
  * @return array<string,string>
  */
 function newera_schema_profiles() {
-	$links = newera_social_links();
-
-	unset( $links['angi'] );
-
-	return (array) apply_filters( 'newera_schema_profiles', $links );
+	return (array) apply_filters( 'newera_schema_profiles', newera_social_links() );
 }
 
 /**

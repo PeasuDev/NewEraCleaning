@@ -251,11 +251,6 @@
         border-color: #d32323;
     }
 
-    .social-angi:hover {
-        background: #ff6153;
-        border-color: #ff6153;
-    }
-
     /*
      * In the hero card the icons ride in the rating row, pushed to the right so
      * they sit opposite the review count. margin-left:auto is what does that —
