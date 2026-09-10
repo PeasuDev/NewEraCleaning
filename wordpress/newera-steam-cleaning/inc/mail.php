@@ -22,10 +22,12 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Redirect quote notifications to a configured address.
  *
- * Defining NEWERA_QUOTE_RECIPIENT *replaces* the site admin address, which is
- * what a staging site wants and what production must not have: on a live site it
- * would divert real customer leads to whichever inbox is named here. Leave the
- * constant undefined in production.
+ * Defining NEWERA_QUOTE_RECIPIENT *replaces* the site admin address rather than
+ * adding to it. neweracleaning.com defines it deliberately, pinned to the business
+ * inbox, so that a later change to the admin email cannot quietly redirect leads —
+ * the trade being a destination wp-admin cannot see. The hazard is a staging value
+ * reaching production, where it would divert real customer leads to a personal
+ * inbox with the form still looking healthy. See the theme README.
  *
  * Accepts a comma-separated list. Addresses that are not valid are dropped, and
  * if none survive the default is left untouched rather than sending nowhere.
@@ -34,8 +36,25 @@ defined( 'ABSPATH' ) || exit;
  * @return string
  */
 function newera_quote_recipient_override( $recipient ) {
+	$configured = newera_configured_quote_recipient();
+
+	return '' !== $configured ? $configured : $recipient;
+}
+
+/**
+ * The usable addresses NEWERA_QUOTE_RECIPIENT names, if any.
+ *
+ * Split out so the Settings > General readout and the send path answer from the
+ * same code. The readout has to distinguish "pinned" from "pinned to something
+ * unusable and silently falling back", and a second copy of this parsing would
+ * be correct right up until one of the two was edited.
+ *
+ * @return string Comma-separated valid addresses, or '' when the constant is
+ *                absent, empty, or contains nothing that is an email address.
+ */
+function newera_configured_quote_recipient() {
 	if ( ! defined( 'NEWERA_QUOTE_RECIPIENT' ) || ! NEWERA_QUOTE_RECIPIENT ) {
-		return $recipient;
+		return '';
 	}
 
 	$configured = array_filter(
@@ -43,7 +62,7 @@ function newera_quote_recipient_override( $recipient ) {
 		'is_email'
 	);
 
-	return $configured ? implode( ',', $configured ) : $recipient;
+	return $configured ? implode( ',', $configured ) : '';
 }
 add_filter( 'newera_quote_recipient', 'newera_quote_recipient_override' );
 

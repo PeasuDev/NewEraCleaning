@@ -10,9 +10,10 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'NEWERA_VERSION', '1.2.0' );
+define( 'NEWERA_VERSION', '1.4.0' );
 
 require_once get_theme_file_path( 'inc/company.php' );
+require_once get_theme_file_path( 'inc/settings.php' );
 require_once get_theme_file_path( 'inc/services.php' );
 require_once get_theme_file_path( 'inc/testimonials.php' );
 require_once get_theme_file_path( 'inc/pricing.php' );
@@ -23,6 +24,7 @@ require_once get_theme_file_path( 'inc/mail.php' );
 require_once get_theme_file_path( 'inc/seo.php' );
 require_once get_theme_file_path( 'inc/schema.php' );
 require_once get_theme_file_path( 'inc/seo-audit.php' );
+require_once get_theme_file_path( 'inc/redirects.php' );
 
 /**
  * Theme supports and menu locations.

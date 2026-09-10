@@ -146,7 +146,16 @@ function newera_founded_year() {
  * @return string
  */
 function newera_google_business_profile() {
-	return (string) apply_filters( 'newera_google_business_profile', '' );
+	/*
+	 * Saved in wp-admin (Settings > General) so the owner can set it without
+	 * touching code. The filter still wins where one is registered, which keeps
+	 * any existing child theme or snippet working.
+	 */
+	$saved = ( defined( 'NEWERA_GBP_OPTION' ) && function_exists( 'get_option' ) )
+		? (string) get_option( NEWERA_GBP_OPTION, '' )
+		: '';
+
+	return (string) apply_filters( 'newera_google_business_profile', $saved );
 }
 
 /**
@@ -168,6 +177,28 @@ function newera_social_links() {
 	}
 
 	return (array) apply_filters( 'newera_social_links', $links );
+}
+
+/**
+ * Social profile URLs suitable for the `sameAs` array in structured data.
+ *
+ * The same list as newera_social_links(), minus Angi. The Angi listing is filed
+ * under Austin and carries that city in its URL; the pre-launch audit asked
+ * specifically that it not be published as one of this business's identities in
+ * schema, where it would assert a location the business does not serve from.
+ * The footer link is unaffected and still uses the full list.
+ *
+ * If the listing's location is ever corrected on Angi's side, drop the unset()
+ * below and both places pick it up again.
+ *
+ * @return array<string,string>
+ */
+function newera_schema_profiles() {
+	$links = newera_social_links();
+
+	unset( $links['angi'] );
+
+	return (array) apply_filters( 'newera_schema_profiles', $links );
 }
 
 /**
