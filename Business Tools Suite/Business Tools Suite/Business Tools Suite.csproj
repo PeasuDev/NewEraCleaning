@@ -13,7 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Business Tools Suite.Client\Business Tools Suite.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="10.0.8" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.13" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="10.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.8" />
