@@ -63,3 +63,6 @@ ScaffoldingReadMe.txt
 # OS files
 .DS_Store
 Thumbs.db
+
+# WordPress deploy connection details (never commit)
+wordpress/deploy.env

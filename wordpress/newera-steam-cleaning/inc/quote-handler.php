@@ -239,7 +239,8 @@ add_action( 'admin_post_newera_quote', 'newera_handle_quote_submission' );
  *
  * Reply-To is set to the customer so the owner can answer straight from the
  * notification. The From address stays on-domain so the message is not
- * rejected by SPF/DMARC.
+ * rejected by SPF/DMARC, and the sender name identifies the message rather than
+ * the business — see newera_quote_mail_from_name().
  *
  * @param array $fields  Sanitized submission.
  * @param int   $post_id The stored quote post.
@@ -271,12 +272,20 @@ function newera_send_quote_notification( $fields, $post_id ) {
 		'View in admin: ' . get_edit_post_link( $post_id, '' ),
 	);
 
+	// Send under a name that says what the message is rather than who the site is,
+	// then put the site-wide name back so this cannot leak into unrelated mail.
+	// Priority 20 lands after newera_mail_from_name(). The From *address* is left to
+	// inc/mail.php, which keeps it aligned with whatever is doing the sending.
+	add_filter( 'wp_mail_from_name', 'newera_quote_mail_from_name', 20 );
+
 	wp_mail(
 		$to,
 		$subject,
 		implode( "\n", $lines ),
 		array( 'Reply-To: ' . $fields['name'] . ' <' . $fields['email'] . '>' )
 	);
+
+	remove_filter( 'wp_mail_from_name', 'newera_quote_mail_from_name', 20 );
 }
 
 /**

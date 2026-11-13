@@ -12,7 +12,9 @@
  *    delivery observable.
  *
  * Every hook here is inert unless its constants are defined, so an install that
- * configures nothing keeps stock WordPress behaviour.
+ * configures nothing keeps stock WordPress behaviour — with one exception, the
+ * sender's display name (newera_mail_from_name), which needs no configuration to be
+ * right and applies always.
  *
  * @package newera
  */
@@ -135,17 +137,54 @@ add_filter( 'wp_mail_from', 'newera_mail_from' );
 /**
  * Use the site name as the sender name instead of the WordPress default.
  *
+ * Unlike the rest of this file, this is not conditional on the transport. A display
+ * name is free text carried in the From header; it is not authenticated, costs no
+ * setup, and has no bearing on SPF or DMARC, which look at the address. So there is
+ * no configuration to wait for — the business name is simply what a recipient should
+ * see in the sender column, whoever is carrying the message.
+ *
+ * This is the site-wide default. Quote notifications override it for the length of
+ * their own send; see newera_quote_mail_from_name() below.
+ *
+ * The address beside it is left alone: WordPress derives wordpress@<site domain>
+ * from the site URL, and without SMTP that is the only sender the host's mailer can
+ * be trusted to send as. See the theme README.
+ *
+ * The 'WordPress' check means only the core default is replaced — a plugin or filter
+ * that has already chosen a name keeps it.
+ *
  * @param string $name Default from name ("WordPress").
  * @return string
  */
 function newera_mail_from_name( $name ) {
-	if ( ! newera_smtp_configured() || 'WordPress' !== $name ) {
+	if ( 'WordPress' !== $name ) {
 		return $name;
 	}
 
-	return wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES );
+	$site_name = trim( wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES ) );
+
+	return '' !== $site_name ? $site_name : $name;
 }
 add_filter( 'wp_mail_from_name', 'newera_mail_from_name' );
+
+/**
+ * The sender name quote notifications go out under.
+ *
+ * Deliberately not the Site Title. A quote notification is a work item arriving in
+ * the owner's own inbox, not correspondence from the business, so the name is spent
+ * saying what the message *is*: the inbox list reads "Website Quote Request" against
+ * a subject naming the customer.
+ *
+ * Attached only around the send itself (newera_send_quote_notification), so password
+ * resets, comment mail and admin notices keep the business name above. It runs late
+ * enough to win over that default, and overrides any name a plugin has chosen too —
+ * this is the theme's own message and the theme decides how it is labelled.
+ *
+ * @return string
+ */
+function newera_quote_mail_from_name() {
+	return 'Website Quote Request';
+}
 
 /**
  * Record delivery failures.

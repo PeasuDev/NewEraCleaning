@@ -174,6 +174,45 @@ upsell panel still in the sidebar. There is no redirect manager. Use Option A or
 
 ---
 
+## 3b. What actually happened at launch — five more redirects
+
+**Section 1 above did not hold in practice.** It lists `/about-us/`, `/get-quote/`,
+`/pricing/`, `/guarantee/` and `/job-photos/` as URLs that stay exactly as they are. They
+did not. Recorded here because the plan and the outcome diverged, and the divergence is
+the interesting part.
+
+The five pages were created while the *old* pages still held those slugs, so WordPress
+appended a suffix to each new one and the site launched on addresses nobody chose:
+
+| Intended | Launched as | Live 3–11 Sep 2026 |
+| --- | --- | --- |
+| `/about-us/` | `/about-us-2/` | old URL 301'd to the suffixed one |
+| `/get-quote/` | `/get-quote-2/` | ” |
+| `/pricing/` | `/pricing-3/` | ” |
+| `/guarantee/` | `/guarantee-2/` | ” |
+| `/job-photos/` | `/job-photos-2/` | ” |
+
+Trashing the old pages renamed them to `about-us__trashed` and released the originals, so
+on **11 Sep 2026** the five live pages were renamed back over the REST API and now serve
+their intended URLs directly. The suffixed addresses were indexable for eight days, so
+they are redirected rather than left to 404 — the five new entries at the bottom of
+`newera_redirect_map()`.
+
+**Core will not do this for you.** `wp_old_slug_redirect()` keys off the `name` query var;
+a page request that misses sets `pagename` instead, so a renamed *page* 404s where a
+renamed *post* would redirect. Verified on the live site: with the cache bypassed,
+`/about-us-2/` returned `404` and not a redirect.
+
+Two traps if this is ever repeated:
+
+- **SiteGround's cache hides the result.** Immediately after the rename, `/about-us-2/`
+  still returned `200` from cache while a cache-busted request to the same URL returned
+  `404`. Purge SG cache before believing any check.
+- **Order matters.** Release the old slug *first* (trash or rename the old page), then
+  create or rename the new one. Doing it the other way round is what produced the suffixes.
+
+---
+
 ## 4. Verifying, after launch
 
 Run this from a machine with a **non-Chrome user agent** — the site's anti-bot rule returns

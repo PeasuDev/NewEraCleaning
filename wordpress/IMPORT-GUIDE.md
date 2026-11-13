@@ -329,18 +329,24 @@ rather than a blank page or a lost submission.
 ### 11. Make email reliable
 
 **Decided: pin the recipient, leave the transport unconfigured, and test it.**
-Notifications go out as `WordPress <wordpress@neweracleaning.com>` through SiteGround's own
-mailer. That is the WordPress default and it is an acceptable starting point — but it is
-unauthenticated mail, so confirm it before trusting it.
+Notifications go out as `Website Quote Request <wordpress@neweracleaning.com>` through
+SiteGround's own mailer. That is the WordPress default transport and it is an acceptable
+starting point — but it is unauthenticated mail, so confirm it before trusting it.
 
 Two settings, independent of each other — this is the part that gets conflated:
 
 | | Address | Set where |
 | --- | --- | --- |
-| **Sender** — what recipients see mail coming *from* | `WordPress <wordpress@neweracleaning.com>` | Nothing to set; WordPress's default |
+| **Sender** — what recipients see mail coming *from* | `Website Quote Request <wordpress@neweracleaning.com>` | Nothing to set; the name is the theme's, the address is WordPress's |
 | **Recipient** — where the lead lands | `newerasteamclean@gmail.com` | `wp-config.php` → `NEWERA_QUOTE_RECIPIENT` |
 
-The sender address is derived from the site URL at send time, so on a staging copy it
+The sender **name** is the theme's, replacing core's literal `WordPress`. Quote
+notifications use `Website Quote Request`, so they identify themselves in an inbox list;
+all other site mail (password resets, admin notices) uses Settings → General → Site Title.
+Neither depends on SMTP. If a quote notification arrives from "WordPress", something else
+on the site is filtering the sender name at a later priority.
+
+The sender **address** is derived from the site URL at send time, so on a staging copy it
 arrives as `wordpress@staging.neweracleaning.com`. Expected, not a fault.
 
 **The test that matters: check the spam folder, not just the inbox.** The recipient is a
@@ -354,9 +360,9 @@ does it natively with no plugin. `inc/mail.php` routes `wp_mail()` through authe
 SMTP as soon as `NEWERA_SMTP_HOST` is defined, and stands completely down when it is not.
 That needs `wordpress@neweracleaning.com` created as a real mailbox under Site Tools →
 Email → Accounts — it does not exist today; it is only the address WordPress *falls back
-to*, which makes it look like it does. The theme README has the full block. Note that
-configuring SMTP also changes the display name from "WordPress" to the Site Title, since
-`newera_mail_from_name()` stops standing down.
+to*, which makes it look like it does. The theme README has the full block. Configuring
+SMTP changes the sender **address** to that mailbox; the display name is the theme's
+either way and does not change.
 
 Either way, repeat the step 10 test afterwards and confirm delivery to an address you can
 actually check — ideally not on the same domain, so you are testing more than local

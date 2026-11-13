@@ -7,6 +7,9 @@
  * They are documented, with the Search Console figures behind each decision, in
  * REDIRECTS.md alongside this theme.
  *
+ * Five more were added after launch, to catch the suffixed slugs the site briefly
+ * shipped on. See the note against them below.
+ *
  * Matching is on the request path, not on what WordPress resolves the request
  * to. That matters: /pricing/specials/ is still a published page today, and a
  * rule that only fired on a 404 would never reach it. Matching the path means
@@ -46,6 +49,26 @@ function newera_redirect_map() {
 			'/testimonials/j-e-xxxx-texas-2' => '/#reviews',
 			'/testimonials/l-p-xxxx-texas'   => '/#reviews',
 			'/testimonials/m-f-xxxx-texas'   => '/#reviews',
+
+			/*
+			 * Suffixed slugs the launch shipped on, 2026-09-03 to 2026-09-11.
+			 *
+			 * These five pages were created while the old versions still held the
+			 * original slugs, so WordPress appended a suffix and the site launched
+			 * on addresses nobody chose. Trashing the old pages released the
+			 * originals and the live pages have been renamed back, which is why
+			 * every destination below is now a real page rather than a redirect.
+			 *
+			 * Core's own wp_old_slug_redirect() does not cover these: it keys off
+			 * the `name` query var, and a page request that misses sets `pagename`,
+			 * so the suffixed URLs 404 instead of redirecting. They were indexable
+			 * for eight days, which is long enough to be worth catching here.
+			 */
+			'/about-us-2'   => '/about-us/',
+			'/get-quote-2'  => '/get-quote/',
+			'/pricing-3'    => '/pricing/',
+			'/guarantee-2'  => '/guarantee/',
+			'/job-photos-2' => '/job-photos/',
 		)
 	);
 }

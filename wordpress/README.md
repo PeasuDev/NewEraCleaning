@@ -127,23 +127,47 @@ the site does another, and it calls out the case that would otherwise pass silen
 constant defined with a typo, which `is_email()` discards before falling back to the admin
 address.
 
-**The transport, by contrast, is deliberately left alone.** Notifications go out as
-`WordPress <wordpress@neweracleaning.com>` through the host's mailer, which is stock
-WordPress behaviour: core supplies the literal name `WordPress` and builds the address
-from the site URL, and both of the theme's sender filters stand down because
-`newera_smtp_configured()` is false.
+**The transport, by contrast, is deliberately left alone.** Notifications go out through
+the host's mailer as:
 
-The owner reviewed this and accepted it. Worth recording *why* it is a live decision
-rather than an oversight, so nobody "fixes" it without cause — and what would change it:
+```
+Website Quote Request <wordpress@neweracleaning.com>
+```
+
+The address is stock WordPress — core builds `wordpress@<site domain>` from the site URL,
+and `newera_mail_from()` stands down because `newera_smtp_configured()` is false. **The
+display name is the theme's**, and is the one piece here that does not wait on
+configuration. A display name is unauthenticated free text — it costs no setup and SPF and
+DMARC never look at it — so there was nothing to gain by shipping core's literal
+`WordPress`.
+
+Two names, because the two kinds of mail want different things:
+
+| Mail | Sender name | Set by |
+| --- | --- | --- |
+| Quote notifications | `Website Quote Request` | `newera_quote_mail_from_name()` |
+| Everything else — password resets, admin notices | Site Title | `newera_mail_from_name()` |
+
+A quote notification is a work item landing in the owner's own inbox rather than
+correspondence from the business, so the name is spent saying what the message *is*. The
+quote name is hooked at priority 20 for the length of that one `wp_mail()` call and
+removed immediately after (`newera_send_quote_notification()`), so it cannot leak into
+unrelated site mail. To change the wording, edit the single string in
+`newera_quote_mail_from_name()` — nothing reads it from the database.
+
+The owner reviewed the transport decision and accepted it. Worth recording *why* it is a
+live decision rather than an oversight, so nobody "fixes" it without cause — and what
+would change it:
 
 - **The sender address needs no setup.** `wordpress@neweracleaning.com` is what WordPress
   falls back to. There is no such mailbox and none is required while SMTP is off.
 - **The risk is deliverability, not identity.** Unauthenticated mail from a shared host
   to a Gmail recipient is the classic spam-file. It fails invisibly: the form works, the
   request is stored, and the absence of email looks like an absence of customers.
-- **The display name is coupled to SMTP.** `newera_mail_from_name()` swaps `WordPress`
-  for the Site Title only when SMTP is configured. Keeping "WordPress" and gaining
-  authenticated delivery are not both available without filtering the name back.
+- **A nicer address is not free the way the name was.** Anything other than
+  `wordpress@<site domain>` means either a real mailbox and SMTP, or a From the sending
+  host is not authorised for — which trades a cosmetic gain for the deliverability risk
+  above. Change the address as part of configuring SMTP below, not on its own.
 
 If quote mail starts landing in spam or stops arriving, this is the fix:
 

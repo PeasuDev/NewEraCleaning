@@ -1,0 +1,60 @@
+<!--
+  Google Ads conversion for the theme's quote form. INTERIM.
+
+  Lives in WPCode Lite (Code Snippets -> "Quote form - Google Ads conversion"),
+  site-wide footer, as an HTML snippet. This file is the source of record only;
+  editing it changes nothing on the site.
+
+  Why it exists: the conversion this replaces listened for `wpcf7mailsent` and
+  fired only for Contact Form 7 form IDs 497, 80 and 281. The theme's quote form
+  is not Contact Form 7 — it POSTs to admin-post.php and redirects — so that
+  listener could never run, and Google Ads recorded zero conversions against live
+  spend from launch (2026-09-03) until this went in (2026-09-11).
+
+  How it triggers: newera_quote_redirect() in the theme sends a successful
+  submission back to the form's page with `newera_quote=sent` plus a one-time
+  `newera_token` in the query string. That query string is the success signal.
+
+  The conversion label is carried over from the old CF7 script unchanged, so the
+  conversion action in Google Ads stays continuous rather than starting a new one.
+
+  Deliberately interim — this is a stopgap until the tracking rebuild, which
+  should also resolve the three competing gtag loaders (MonsterInsights G-,
+  Site Kit GT-, and the raw AW- snippet) rather than adding a fourth thing.
+-->
+<script>
+(function () {
+	var params = new URLSearchParams(window.location.search);
+
+	if (params.get('newera_quote') !== 'sent') {
+		return;
+	}
+
+	/*
+	 * newera_token is unique per submission, so a refresh, a back-button return
+	 * or a shared URL cannot book the same lead twice. sessionStorage rather
+	 * than localStorage: the guard should not outlive the browsing session.
+	 */
+	var key = 'newera_conversion_' + (params.get('newera_token') || 'untokened');
+
+	try {
+		if (window.sessionStorage.getItem(key)) {
+			return;
+		}
+		window.sessionStorage.setItem(key, '1');
+	} catch (e) {
+		// Private browsing can throw on sessionStorage. Firing once per page
+		// load is the better failure here than not firing at all.
+	}
+
+	if (typeof window.gtag !== 'function') {
+		return;
+	}
+
+	window.gtag('event', 'conversion', {
+		send_to: 'AW-16740913759/X56LCNDZzvIcEN-k2K4-',
+		value: 1.0,
+		currency: 'USD'
+	});
+})();
+</script>
